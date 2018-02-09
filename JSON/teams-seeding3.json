@@ -1,0 +1,164 @@
+{
+  "teams": [
+    {
+      "id": 16,
+      "teamName": "丹麦",
+      "continent": "欧洲",
+      "seading": 3,
+      "ranking": 19,
+      "flagUrl": "/static/nationalFlag/den.png",
+      "coach": "",
+      "keyPlayers": [
+        {
+          "playerId": 0,
+          "name": "",
+          "number": 9999,
+          "age": 9999,
+          "role": "",
+          "club": "",
+          "intro": ""
+        }
+      ]
+    },    
+    {
+      "id": 17,
+      "teamName": "冰岛",
+      "continent": "欧洲",
+      "seading": 3,
+      "ranking": 21,
+      "flagUrl": "/static/nationalFlag/isl.png",
+      "coach": "",
+      "keyPlayers": [
+        {
+          "playerId": 0,
+          "name": "",
+          "number": 9999,
+          "age": 9999,
+          "role": "",
+          "club": "",
+          "intro": ""
+        }
+      ]
+    },    
+    {
+      "id": 18,
+      "teamName": "哥斯达黎加",
+      "continent": "中北美及加勒比海地区",
+      "seading": 3,
+      "ranking": 22,
+      "flagUrl": "/static/nationalFlag/crc.png",
+      "coach": "",
+      "keyPlayers": [
+        {
+          "playerId": 0,
+          "name": "",
+          "number": 9999,
+          "age": 9999,
+          "role": "",
+          "club": "",
+          "intro": ""
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "teamName": "瑞典",
+      "continent": "欧洲",
+      "seading": 3,
+      "ranking": 25,
+      "flagUrl": "/static/nationalFlag/swe.png",
+      "coach": "",
+      "keyPlayers": [
+        {
+          "playerId": 0,
+          "name": "",
+          "number": 9999,
+          "age": 9999,
+          "role": "",
+          "club": "",
+          "intro": ""
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "teamName": "突尼斯",
+      "continent": "非洲",
+      "seading": 3,
+      "ranking": 28,
+      "flagUrl": "/static/nationalFlag/tun.png",
+      "coach": "",
+      "keyPlayers": [
+        {
+          "playerId": 0,
+          "name": "",
+          "number": 9999,
+          "age": 9999,
+          "role": "",
+          "club": "",
+          "intro": ""
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "teamName": "埃及",
+      "continent": "非洲",
+      "seading": 3,
+      "ranking": 30,
+      "flagUrl": "/static/nationalFlag/egy.png",
+      "coach": "",
+      "keyPlayers": [
+        {
+          "playerId": 0,
+          "name": "",
+          "number": 9999,
+          "age": 9999,
+          "role": "",
+          "club": "",
+          "intro": ""
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "teamName": "塞内加尔",
+      "continent": "非洲",
+      "seading": 3,
+      "ranking": 32,
+      "flagUrl": "/static/nationalFlag/sen.png",
+      "coach": "",
+      "keyPlayers": [
+        {
+          "playerId": 0,
+          "name": "",
+          "number": 9999,
+          "age": 9999,
+          "role": "",
+          "club": "",
+          "intro": ""
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "teamName": "伊朗",
+      "continent": "亚洲",
+      "seading": 3,
+      "ranking": 34,
+      "flagUrl": "/static/nationalFlag/irn.png",
+      "coach": "",
+      "keyPlayers": [
+        {
+          "playerId": 0,
+          "name": "",
+          "number": 9999,
+          "age": 9999,
+          "role": "",
+          "club": "",
+          "intro": ""
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,215 @@
+{
+  "teams": [
+    {
+      "id": 0,
+      "teamName": "俄罗斯",
+      "continent": "欧洲",
+      "seading": 1,
+      "ranking": 65,
+      "flagUrl": "/static/nationalFlag/rus.png",
+      "coach": "切尔切索夫",
+      "keyPlayers": [
+        {
+          "playerId": 0,
+          "name": "扎戈耶夫",
+          "number": 10,
+          "age": 27,
+          "role": "中场",
+          "club": "莫斯科中央陆军"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "teamName": "德国",
+      "continent": "欧洲",
+      "seading": 1,
+      "ranking": 1,
+      "flagUrl": "/static/nationalFlag/ger.png",
+      "coach": "勒夫",
+      "keyPlayers": [
+        {
+          "playerId": 0,
+          "name": "诺伊尔",
+          "number": 1,
+          "age": 31,
+          "role": "后卫",
+          "club": "拜仁慕尼黑",
+          "intro": "当今世界最佳门将"
+        },
+        {
+          "playerId": 1,
+          "name": "穆勒",
+          "number": 13,
+          "age": 28,
+          "role": "前锋",
+          "club": "拜仁慕尼黑",
+          "intro": "2010年世界杯最佳射手！"
+        },
+        {
+          "playerId": 2,
+          "name": "克罗斯",
+          "number": 8,
+          "age": 27,
+          "role": "中场",
+          "club": "皇家马德里"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "teamName": "巴西",
+      "continent": "南美洲",
+      "seading": 1,
+      "ranking": 2,
+      "flagUrl": "/static/nationalFlag/bra.png",
+      "coach": "蒂特",
+      "keyPlayers": [
+        {
+          "playerId": 0,
+          "name": "内马尔",
+          "number": 10,
+          "age": 25,
+          "role": "前锋",
+          "club": "巴黎圣日耳曼"
+        },
+        {
+          "playerId": 1,
+          "name": "保利尼奥",
+          "number": 15,
+          "age": 29,
+          "role": "中场",
+          "club": "巴塞罗那"
+        },
+        {
+          "name": "马塞洛",
+          "number": 12,
+          "age": 29,
+          "role": "后卫",
+          "club": "皇家马德里",
+          "birthDate": "1988-05-12",
+          "height": "174"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "teamName": "葡萄牙",
+      "continent": "欧洲",
+      "seading": 1,
+      "ranking": 3,
+      "flagUrl": "/static/nationalFlag/por.png",
+      "coach": "费尔南多·桑托斯",
+      "keyPlayers": [
+        {
+          "playerId": 0,
+          "name": "C·罗纳尔多",
+          "number": 7,
+          "age": 33,
+          "role": "前锋",
+          "club": "皇家马德里"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "teamName": "阿根廷",
+      "continent": "南美洲",
+      "seading": 1,
+      "ranking": 4,
+      "flagUrl": "/static/nationalFlag/arg.png",
+      "coach": "路易斯.桑保利",
+      "keyPlayers": [
+        {
+          "playerId": 0,
+          "name": "梅西",
+          "number": 10,
+          "age": 30,
+          "role": "前锋",
+          "club": "巴塞罗那"
+        },        
+        {
+          "playerId": 1,
+          "name": "阿圭罗",
+          "number": 9,
+          "age": 29,
+          "role": "前锋",
+          "club": "曼彻斯特城"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "teamName": "比利时",
+      "continent": "欧洲",
+      "seading": 1,
+      "ranking": 5,
+      "flagUrl": "/static/nationalFlag/bel.png",
+      "coach": "罗伯托.马丁内斯",
+      "keyPlayers": [
+        {
+          "playerId": 0,
+          "name": "德布劳内",
+          "number": 7,
+          "age": 26,
+          "role": "中场",
+          "club": "曼彻斯特城"
+        },        
+        {
+          "playerId": 1,
+          "name": "阿扎尔",
+          "number": 10,
+          "age": 26,
+          "role": "前锋",
+          "club": "切尔西"
+        }
+      ]
+    },    
+    {
+      "id": 6,
+      "teamName": "波兰",
+      "continent": "欧洲",
+      "seading": 1,
+      "ranking": 6,
+      "flagUrl": "/static/nationalFlag/pol.png",
+      "coach": "纳瓦卡",
+      "keyPlayers": [
+        {
+          "playerId": 0,
+          "name": "莱万多夫斯基",
+          "number": 9,
+          "age": 29,
+          "role": "前锋",
+          "club": "拜仁慕尼黑"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "teamName": "法国",
+      "continent": "欧洲",
+      "seading": 1,
+      "ranking": 7,
+      "flagUrl": "/static/nationalFlag/fra.png",
+      "coach": "德尚",
+      "keyPlayers": [
+        {
+          "playerId": 0,
+          "name": "格列兹曼",
+          "number": 7,
+          "age": 26,
+          "role": "前锋",
+          "club": "马德里竞技"
+        },        
+        {
+          "playerId": 1,
+          "name": "博格巴",
+          "number": 15,
+          "age": 24,
+          "role": "中场",
+          "club": "曼彻斯特联"
+        }
+      ]
+    }
+  ]
+}
