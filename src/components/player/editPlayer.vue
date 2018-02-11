@@ -2,6 +2,7 @@
     http://localhost:8080/teams/teamTable/:id/playerData/:playerId/edit 
 -->
 <!-- 基本copy自addPlayer.vue相同 -->
+<!-- todo: 用props获取球队数据 -->
 <template>
 	<div class="edit">
 		<h4 v-if="alert">{{ alert }}</h4>

@@ -23,7 +23,7 @@
         </header>
         <!-- 因为有更新数据，不能添加keep-alive,跳转到该路由后不能执行mounted中的内容 -->
         <!-- <keep-alive> -->
-        <router-view id="main" tag="div"></router-view>
+        <router-view id="main" tag="div" :teams="teamList"></router-view>
         <!-- </keep-alive> -->        
 	</div>
 </template>

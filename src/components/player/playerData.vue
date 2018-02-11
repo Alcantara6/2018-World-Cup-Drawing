@@ -3,6 +3,7 @@
 -->
 <!-- 不能直接通过axios.get获取player -->
 <!-- this.$route.params.id的id为{string}，做数组标号时可以不用转化为Number -->
+<!-- todo: 用props获取球队数据 -->
 <template>
 	<div class="playerData">
         <div class="content">

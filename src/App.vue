@@ -3,6 +3,7 @@
         <header id="app-header"></header>
         <router-link to="/">indexPage</router-link>
         <router-link to="/teams">teams</router-link>
+        <router-link to="/draw">draw</router-link>
         <keep-alive>  
             <router-view></router-view>
         </keep-alive>
@@ -45,7 +46,7 @@ a:visited {
 }
 a img, 
 div img {
-    display: block;
+    vertical-align: top;
 }
 input, select, label {
     display: inline-block;

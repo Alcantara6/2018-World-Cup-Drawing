@@ -3,7 +3,8 @@ import Router from 'vue-router'
 import axios from 'axios'
 import App from './App'
 import teamsPage from './components/teamsPage'
-import teamTable from './components/teamTable'
+import drawPage from './components/drawPage'
+import teamTable from './components/player/teamTable'
 import addPlayer from './components/player/addPlayer'
 import playerData from './components/player/playerData'
 import editPlayer from './components/player/editPlayer'
@@ -42,6 +43,10 @@ const router = new Router({
 					component: editPlayer
 				}
 			]
+		},
+		{
+			path: '/draw',
+			component: drawPage
 		}	
 	]
 })

@@ -3,6 +3,7 @@
 -->
 <!-- 使用$route.query通信 -->
 <!-- 利用动态路由$route.params中不同的键值 -->
+<!-- todo: 用props获取球队数据 -->
 <template>
 	<div class="add">
 		<h4 v-if="errorText">{{ errorText }}</h4>
