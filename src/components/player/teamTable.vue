@@ -6,7 +6,7 @@
 <!-- 2.10: 使用props传递teamsPage获取到的球队数据，不再每次切换球队都向后台获取 -->
 <!-- 包括beforeRouteUpdate -->
 <template>
-    <div id="team">
+    <div id="teamTable">
         <header v-if="alert">{{ alert }}</header>
         <section class="serach">
             <div class="searchRow">

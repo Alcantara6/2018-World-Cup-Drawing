@@ -1,39 +1,12 @@
 {
   "teams": [
     {
-      "id": 8,
-      "teamName": "西班牙",
+      "id": 24,
+      "teamName": "塞尔维亚",
       "continent": "欧洲",
-      "seading": 2,
-      "ranking": 8,
-      "flagUrl": "/static/nationalFlag/esp.png",
-      "coach": "洛佩特吉",
-      "keyPlayers": [
-        {
-          "playerId": 0,
-          "name": "伊涅斯塔",
-          "number": 6,
-          "age": 33,
-          "role": "中场",
-          "club": "巴塞罗那"
-        },
-        {
-          "playerId": 1,
-          "name": "拉莫斯",
-          "number": 15,
-          "age": 31,
-          "role": "后卫",
-          "club": "皇家马德里"
-        }        
-      ]
-    },
-    {
-      "id": 9,
-      "teamName": "秘鲁",
-      "continent": "南美洲",
-      "seading": 2,
-      "ranking": 10,
-      "flagUrl": "/static/nationalFlag/per.png",
+      "pot": 4,
+      "ranking": 38,
+      "flagUrl": "/static/nationalFlag/srb.png",
       "coach": "",
       "keyPlayers": [
         {
@@ -48,12 +21,32 @@
       ]
     },    
     {
-      "id": 10,
-      "teamName": "瑞士",
-      "continent": "欧洲",
-      "seading": 2,
-      "ranking": 11,
-      "flagUrl": "/static/nationalFlag/sui.png",
+      "id": 25,
+      "teamName": "尼日利亚",
+      "continent": "非洲",
+      "pot": 4,
+      "ranking": 41,
+      "flagUrl": "/static/nationalFlag/nga.png",
+      "coach": "",
+      "keyPlayers": [
+        {
+          "playerId": 0,
+          "name": "",
+          "number": 9999,
+          "age": 9999,
+          "role": "",
+          "club": "",
+          "intro": ""
+        }
+      ]
+    },    
+    {
+      "id": 26,
+      "teamName": "澳大利亚",
+      "continent": "亚洲",
+      "pot": 4,
+      "ranking": 43,
+      "flagUrl": "/static/nationalFlag/aus.png",
       "coach": "",
       "keyPlayers": [
         {
@@ -68,12 +61,12 @@
       ]
     },
     {
-      "id": 11,
-      "teamName": "英格兰",
-      "continent": "欧洲",
-      "seading": 2,
-      "ranking": 12,
-      "flagUrl": "/static/nationalFlag/eng.png",
+      "id": 27,
+      "teamName": "日本",
+      "continent": "亚洲",
+      "pot": 4,
+      "ranking": 44,
+      "flagUrl": "/static/nationalFlag/jpn.png",
       "coach": "",
       "keyPlayers": [
         {
@@ -88,12 +81,12 @@
       ]
     },
     {
-      "id": 12,
-      "teamName": "哥伦比亚",
-      "continent": "南美洲",
-      "seading": 2,
-      "ranking": 13,
-      "flagUrl": "/static/nationalFlag/col.png",
+      "id": 28,
+      "teamName": "摩洛哥",
+      "continent": "非洲",
+      "pot": 4,
+      "ranking": 48,
+      "flagUrl": "/static/nationalFlag/mar.png",
       "coach": "",
       "keyPlayers": [
         {
@@ -108,12 +101,12 @@
       ]
     },
     {
-      "id": 13,
-      "teamName": "墨西哥",
+      "id": 29,
+      "teamName": "巴拿马",
       "continent": "中北美及加勒比海地区",
-      "seading": 2,
-      "ranking": 16,
-      "flagUrl": "/static/nationalFlag/mex.png",
+      "pot": 4,
+      "ranking": 49,
+      "flagUrl": "/static/nationalFlag/pan.png",
       "coach": "",
       "keyPlayers": [
         {
@@ -128,12 +121,12 @@
       ]
     },
     {
-      "id": 14,
-      "teamName": "乌拉圭",
-      "continent": "南美洲",
-      "seading": 2,
-      "ranking": 17,
-      "flagUrl": "/static/nationalFlag/uru.png",
+      "id": 30,
+      "teamName": "韩国",
+      "continent": "亚洲",
+      "pot": 4,
+      "ranking": 62,
+      "flagUrl": "/static/nationalFlag/kor.png",
       "coach": "",
       "keyPlayers": [
         {
@@ -148,12 +141,12 @@
       ]
     },
     {
-      "id": 15,
-      "teamName": "克罗地亚",
-      "continent": "欧洲",
-      "seading": 2,
-      "ranking": 18,
-      "flagUrl": "/static/nationalFlag/cro.png",
+      "id": 31,
+      "teamName": "沙特阿拉伯",
+      "continent": "亚洲",
+      "pot": 4,
+      "ranking": 63,
+      "flagUrl": "/static/nationalFlag/ksa.png",
       "coach": "",
       "keyPlayers": [
         {

@@ -8,13 +8,15 @@
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "concurrently \"npm run mock\" \"npm run dev\"",
     "build": "node build/build.js",
-    "mock": "json-server --watch JSON/teams-all.json"
+    "mock": "json-server --watch JSON/teams-groups.json"
   },
   "dependencies": {
     "axios": "^0.17.1",
+    "element-ui": "^2.2.0",
     "json-server": "^0.12.1",
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

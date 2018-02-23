@@ -1,9 +1,12 @@
 <template>
     <div id="app">
-        <header id="app-header"></header>
-        <router-link to="/">indexPage</router-link>
-        <router-link to="/teams">teams</router-link>
-        <router-link to="/draw">draw</router-link>
+        <header id="app-header">
+        <!-- router-link不能直接绑定props，
+        一般用$routes传，所以App.vue不去获取teamList -->
+            <router-link to="/"><h1>indexPage</h1></router-link>
+            <router-link to="/teams"><h1>teams</h1></router-link>
+            <router-link to="/draw"><h1>draw</h1></router-link>
+        </header>
         <keep-alive>  
             <router-view></router-view>
         </keep-alive>
@@ -12,7 +15,7 @@
 
 <script>
 export default {
-  name: 'App'
+    name: 'App'
 }
 </script>
 
@@ -20,6 +23,11 @@ export default {
 #app-header {
     height: 30px;
     margin-bottom: 10px;
+}
+#app-header h1 {
+    display: inline-block;
+    padding: 10px;
+    font-size: 20px;
 }
 * {
     margin: 0; 

@@ -7,7 +7,7 @@
             <!-- 显示各个大洲球队 -->
             <div class="continent" v-for="teams in continentTeams">
                 <!-- 不使用v-if会报错 Cannot read property 'continent' of undefined -->
-                <h2 v-if="teams.length">{{ teams[0].continent }}</h2>
+                <h2 v-if="teams.length">{{ teams[0].continent }} （{{ teams.length }}支）</h2>
                 <ul>
                     <li class="team" v-for="team in teams">
                         <!-- 跳转到某只球队，由于是32支球队各一个路由，所以不用v-for的index -->
@@ -15,13 +15,13 @@
                             <img :src="team.flagUrl">
                         </router-link>
                         <router-link :to="'/teams/teamTable/' + team.id">
-                            {{ team.teamName }}({{ team.seading }})
+                            {{ team.teamName }}({{ team.pot }})
                         </router-link>    
                     </li>
                 </ul>
             </div>
         </header>
-        <!-- 因为有更新数据，不能添加keep-alive,跳转到该路由后不能执行mounted中的内容 -->
+        <!-- 因为有更新数据，不能添加keep-alive,跳转到该路由后不能执行mounted中的内容,如果执行activated中的呢？ -->
         <!-- <keep-alive> -->
         <router-view id="main" tag="div" :teams="teamList"></router-view>
         <!-- </keep-alive> -->        
@@ -94,6 +94,9 @@ export default {
     margin-right: 5px;
     display: inline-block;
     text-align: center;
+}
+.team a {
+    display: block;
 }
 .team img {
     border: 1px solid #000;

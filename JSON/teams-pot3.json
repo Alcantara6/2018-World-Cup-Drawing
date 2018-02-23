@@ -1,12 +1,12 @@
 {
   "teams": [
     {
-      "id": 24,
-      "teamName": "塞尔维亚",
+      "id": 16,
+      "teamName": "丹麦",
       "continent": "欧洲",
-      "seading": 4,
-      "ranking": 38,
-      "flagUrl": "/static/nationalFlag/srb.png",
+      "pot": 3,
+      "ranking": 19,
+      "flagUrl": "/static/nationalFlag/den.png",
       "coach": "",
       "keyPlayers": [
         {
@@ -21,12 +21,12 @@
       ]
     },    
     {
-      "id": 25,
-      "teamName": "尼日利亚",
-      "continent": "非洲",
-      "seading": 4,
-      "ranking": 41,
-      "flagUrl": "/static/nationalFlag/nga.png",
+      "id": 17,
+      "teamName": "冰岛",
+      "continent": "欧洲",
+      "pot": 3,
+      "ranking": 21,
+      "flagUrl": "/static/nationalFlag/isl.png",
       "coach": "",
       "keyPlayers": [
         {
@@ -41,72 +41,12 @@
       ]
     },    
     {
-      "id": 26,
-      "teamName": "澳大利亚",
-      "continent": "亚洲",
-      "seading": 4,
-      "ranking": 43,
-      "flagUrl": "/static/nationalFlag/aus.png",
-      "coach": "",
-      "keyPlayers": [
-        {
-          "playerId": 0,
-          "name": "",
-          "number": 9999,
-          "age": 9999,
-          "role": "",
-          "club": "",
-          "intro": ""
-        }
-      ]
-    },
-    {
-      "id": 27,
-      "teamName": "日本",
-      "continent": "亚洲",
-      "seading": 4,
-      "ranking": 44,
-      "flagUrl": "/static/nationalFlag/jpn.png",
-      "coach": "",
-      "keyPlayers": [
-        {
-          "playerId": 0,
-          "name": "",
-          "number": 9999,
-          "age": 9999,
-          "role": "",
-          "club": "",
-          "intro": ""
-        }
-      ]
-    },
-    {
-      "id": 28,
-      "teamName": "摩洛哥",
-      "continent": "非洲",
-      "seading": 4,
-      "ranking": 48,
-      "flagUrl": "/static/nationalFlag/mar.png",
-      "coach": "",
-      "keyPlayers": [
-        {
-          "playerId": 0,
-          "name": "",
-          "number": 9999,
-          "age": 9999,
-          "role": "",
-          "club": "",
-          "intro": ""
-        }
-      ]
-    },
-    {
-      "id": 29,
-      "teamName": "巴拿马",
+      "id": 18,
+      "teamName": "哥斯达黎加",
       "continent": "中北美及加勒比海地区",
-      "seading": 4,
-      "ranking": 49,
-      "flagUrl": "/static/nationalFlag/pan.png",
+      "pot": 3,
+      "ranking": 22,
+      "flagUrl": "/static/nationalFlag/crc.png",
       "coach": "",
       "keyPlayers": [
         {
@@ -121,12 +61,12 @@
       ]
     },
     {
-      "id": 30,
-      "teamName": "韩国",
-      "continent": "亚洲",
-      "seading": 4,
-      "ranking": 62,
-      "flagUrl": "/static/nationalFlag/kor.png",
+      "id": 19,
+      "teamName": "瑞典",
+      "continent": "欧洲",
+      "pot": 3,
+      "ranking": 25,
+      "flagUrl": "/static/nationalFlag/swe.png",
       "coach": "",
       "keyPlayers": [
         {
@@ -141,12 +81,72 @@
       ]
     },
     {
-      "id": 31,
-      "teamName": "沙特阿拉伯",
+      "id": 20,
+      "teamName": "突尼斯",
+      "continent": "非洲",
+      "pot": 3,
+      "ranking": 28,
+      "flagUrl": "/static/nationalFlag/tun.png",
+      "coach": "",
+      "keyPlayers": [
+        {
+          "playerId": 0,
+          "name": "",
+          "number": 9999,
+          "age": 9999,
+          "role": "",
+          "club": "",
+          "intro": ""
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "teamName": "埃及",
+      "continent": "非洲",
+      "pot": 3,
+      "ranking": 30,
+      "flagUrl": "/static/nationalFlag/egy.png",
+      "coach": "",
+      "keyPlayers": [
+        {
+          "playerId": 0,
+          "name": "",
+          "number": 9999,
+          "age": 9999,
+          "role": "",
+          "club": "",
+          "intro": ""
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "teamName": "塞内加尔",
+      "continent": "非洲",
+      "pot": 3,
+      "ranking": 32,
+      "flagUrl": "/static/nationalFlag/sen.png",
+      "coach": "",
+      "keyPlayers": [
+        {
+          "playerId": 0,
+          "name": "",
+          "number": 9999,
+          "age": 9999,
+          "role": "",
+          "club": "",
+          "intro": ""
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "teamName": "伊朗",
       "continent": "亚洲",
-      "seading": 4,
-      "ranking": 63,
-      "flagUrl": "/static/nationalFlag/ksa.png",
+      "pot": 3,
+      "ranking": 34,
+      "flagUrl": "/static/nationalFlag/irn.png",
       "coach": "",
       "keyPlayers": [
         {

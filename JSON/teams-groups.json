@@ -4,7 +4,7 @@
       "id": 0,
       "teamName": "俄罗斯",
       "continent": "欧洲",
-      "seading": 1,
+      "pot": 1,
       "ranking": 65,
       "flagUrl": "/static/nationalFlag/rus.png",
       "coach": "切尔切索夫",
@@ -23,7 +23,7 @@
       "id": 1,
       "teamName": "德国",
       "continent": "欧洲",
-      "seading": 1,
+      "pot": 1,
       "ranking": 1,
       "flagUrl": "/static/nationalFlag/ger.png",
       "coach": "勒夫",
@@ -35,7 +35,8 @@
           "age": 31,
           "role": "后卫",
           "club": "拜仁慕尼黑",
-          "intro": "当今世界最佳门将"
+          "intro": "世界最佳门将",
+          "height": "198"
         },
         {
           "playerId": 1,
@@ -60,7 +61,7 @@
       "id": 2,
       "teamName": "巴西",
       "continent": "南美洲",
-      "seading": 1,
+      "pot": 1,
       "ranking": 2,
       "flagUrl": "/static/nationalFlag/bra.png",
       "coach": "蒂特",
@@ -96,7 +97,7 @@
       "id": 3,
       "teamName": "葡萄牙",
       "continent": "欧洲",
-      "seading": 1,
+      "pot": 1,
       "ranking": 3,
       "flagUrl": "/static/nationalFlag/por.png",
       "coach": "费尔南多·桑托斯",
@@ -115,7 +116,7 @@
       "id": 4,
       "teamName": "阿根廷",
       "continent": "南美洲",
-      "seading": 1,
+      "pot": 1,
       "ranking": 4,
       "flagUrl": "/static/nationalFlag/arg.png",
       "coach": "路易斯.桑保利",
@@ -127,7 +128,7 @@
           "age": 30,
           "role": "前锋",
           "club": "巴塞罗那"
-        },        
+        },
         {
           "playerId": 1,
           "name": "阿圭罗",
@@ -142,7 +143,7 @@
       "id": 5,
       "teamName": "比利时",
       "continent": "欧洲",
-      "seading": 1,
+      "pot": 1,
       "ranking": 5,
       "flagUrl": "/static/nationalFlag/bel.png",
       "coach": "罗伯托.马丁内斯",
@@ -154,7 +155,7 @@
           "age": 26,
           "role": "中场",
           "club": "曼彻斯特城"
-        },        
+        },
         {
           "playerId": 1,
           "name": "阿扎尔",
@@ -164,12 +165,12 @@
           "club": "切尔西"
         }
       ]
-    },    
+    },
     {
       "id": 6,
       "teamName": "波兰",
       "continent": "欧洲",
-      "seading": 1,
+      "pot": 1,
       "ranking": 6,
       "flagUrl": "/static/nationalFlag/pol.png",
       "coach": "纳瓦卡",
@@ -188,7 +189,7 @@
       "id": 7,
       "teamName": "法国",
       "continent": "欧洲",
-      "seading": 1,
+      "pot": 1,
       "ranking": 7,
       "flagUrl": "/static/nationalFlag/fra.png",
       "coach": "德尚",
@@ -200,7 +201,7 @@
           "age": 26,
           "role": "前锋",
           "club": "马德里竞技"
-        },        
+        },
         {
           "playerId": 1,
           "name": "博格巴",
@@ -215,7 +216,7 @@
       "id": 8,
       "teamName": "西班牙",
       "continent": "欧洲",
-      "seading": 2,
+      "pot": 2,
       "ranking": 8,
       "flagUrl": "/static/nationalFlag/esp.png",
       "coach": "洛佩特吉",
@@ -235,14 +236,14 @@
           "age": 31,
           "role": "后卫",
           "club": "皇家马德里"
-        }        
+        }
       ]
     },
     {
       "id": 9,
       "teamName": "秘鲁",
       "continent": "南美洲",
-      "seading": 2,
+      "pot": 2,
       "ranking": 10,
       "flagUrl": "/static/nationalFlag/per.png",
       "coach": "",
@@ -257,12 +258,12 @@
           "intro": ""
         }
       ]
-    },    
+    },
     {
       "id": 10,
       "teamName": "瑞士",
       "continent": "欧洲",
-      "seading": 2,
+      "pot": 2,
       "ranking": 11,
       "flagUrl": "/static/nationalFlag/sui.png",
       "coach": "",
@@ -282,7 +283,7 @@
       "id": 11,
       "teamName": "英格兰",
       "continent": "欧洲",
-      "seading": 2,
+      "pot": 2,
       "ranking": 12,
       "flagUrl": "/static/nationalFlag/eng.png",
       "coach": "",
@@ -302,7 +303,7 @@
       "id": 12,
       "teamName": "哥伦比亚",
       "continent": "南美洲",
-      "seading": 2,
+      "pot": 2,
       "ranking": 13,
       "flagUrl": "/static/nationalFlag/col.png",
       "coach": "",
@@ -322,7 +323,7 @@
       "id": 13,
       "teamName": "墨西哥",
       "continent": "中北美及加勒比海地区",
-      "seading": 2,
+      "pot": 2,
       "ranking": 16,
       "flagUrl": "/static/nationalFlag/mex.png",
       "coach": "",
@@ -342,7 +343,7 @@
       "id": 14,
       "teamName": "乌拉圭",
       "continent": "南美洲",
-      "seading": 2,
+      "pot": 2,
       "ranking": 17,
       "flagUrl": "/static/nationalFlag/uru.png",
       "coach": "",
@@ -362,7 +363,7 @@
       "id": 15,
       "teamName": "克罗地亚",
       "continent": "欧洲",
-      "seading": 2,
+      "pot": 2,
       "ranking": 18,
       "flagUrl": "/static/nationalFlag/cro.png",
       "coach": "",
@@ -382,7 +383,7 @@
       "id": 16,
       "teamName": "丹麦",
       "continent": "欧洲",
-      "seading": 3,
+      "pot": 3,
       "ranking": 19,
       "flagUrl": "/static/nationalFlag/den.png",
       "coach": "",
@@ -397,12 +398,12 @@
           "intro": ""
         }
       ]
-    },    
+    },
     {
       "id": 17,
       "teamName": "冰岛",
       "continent": "欧洲",
-      "seading": 3,
+      "pot": 3,
       "ranking": 21,
       "flagUrl": "/static/nationalFlag/isl.png",
       "coach": "",
@@ -417,12 +418,12 @@
           "intro": ""
         }
       ]
-    },    
+    },
     {
       "id": 18,
       "teamName": "哥斯达黎加",
       "continent": "中北美及加勒比海地区",
-      "seading": 3,
+      "pot": 3,
       "ranking": 22,
       "flagUrl": "/static/nationalFlag/crc.png",
       "coach": "",
@@ -442,7 +443,7 @@
       "id": 19,
       "teamName": "瑞典",
       "continent": "欧洲",
-      "seading": 3,
+      "pot": 3,
       "ranking": 25,
       "flagUrl": "/static/nationalFlag/swe.png",
       "coach": "",
@@ -462,7 +463,7 @@
       "id": 20,
       "teamName": "突尼斯",
       "continent": "非洲",
-      "seading": 3,
+      "pot": 3,
       "ranking": 28,
       "flagUrl": "/static/nationalFlag/tun.png",
       "coach": "",
@@ -482,7 +483,7 @@
       "id": 21,
       "teamName": "埃及",
       "continent": "非洲",
-      "seading": 3,
+      "pot": 3,
       "ranking": 30,
       "flagUrl": "/static/nationalFlag/egy.png",
       "coach": "",
@@ -502,7 +503,7 @@
       "id": 22,
       "teamName": "塞内加尔",
       "continent": "非洲",
-      "seading": 3,
+      "pot": 3,
       "ranking": 32,
       "flagUrl": "/static/nationalFlag/sen.png",
       "coach": "",
@@ -522,7 +523,7 @@
       "id": 23,
       "teamName": "伊朗",
       "continent": "亚洲",
-      "seading": 3,
+      "pot": 3,
       "ranking": 34,
       "flagUrl": "/static/nationalFlag/irn.png",
       "coach": "",
@@ -542,7 +543,7 @@
       "id": 24,
       "teamName": "塞尔维亚",
       "continent": "欧洲",
-      "seading": 4,
+      "pot": 4,
       "ranking": 38,
       "flagUrl": "/static/nationalFlag/srb.png",
       "coach": "",
@@ -557,12 +558,12 @@
           "intro": ""
         }
       ]
-    },    
+    },
     {
       "id": 25,
       "teamName": "尼日利亚",
       "continent": "非洲",
-      "seading": 4,
+      "pot": 4,
       "ranking": 41,
       "flagUrl": "/static/nationalFlag/nga.png",
       "coach": "",
@@ -577,12 +578,12 @@
           "intro": ""
         }
       ]
-    },    
+    },
     {
       "id": 26,
       "teamName": "澳大利亚",
       "continent": "亚洲",
-      "seading": 4,
+      "pot": 4,
       "ranking": 43,
       "flagUrl": "/static/nationalFlag/aus.png",
       "coach": "",
@@ -602,7 +603,7 @@
       "id": 27,
       "teamName": "日本",
       "continent": "亚洲",
-      "seading": 4,
+      "pot": 4,
       "ranking": 44,
       "flagUrl": "/static/nationalFlag/jpn.png",
       "coach": "",
@@ -622,7 +623,7 @@
       "id": 28,
       "teamName": "摩洛哥",
       "continent": "非洲",
-      "seading": 4,
+      "pot": 4,
       "ranking": 48,
       "flagUrl": "/static/nationalFlag/mar.png",
       "coach": "",
@@ -642,7 +643,7 @@
       "id": 29,
       "teamName": "巴拿马",
       "continent": "中北美及加勒比海地区",
-      "seading": 4,
+      "pot": 4,
       "ranking": 49,
       "flagUrl": "/static/nationalFlag/pan.png",
       "coach": "",
@@ -662,7 +663,7 @@
       "id": 30,
       "teamName": "韩国",
       "continent": "亚洲",
-      "seading": 4,
+      "pot": 4,
       "ranking": 62,
       "flagUrl": "/static/nationalFlag/kor.png",
       "coach": "",
@@ -682,7 +683,7 @@
       "id": 31,
       "teamName": "沙特阿拉伯",
       "continent": "亚洲",
-      "seading": 4,
+      "pot": 4,
       "ranking": 63,
       "flagUrl": "/static/nationalFlag/ksa.png",
       "coach": "",
@@ -697,6 +698,168 @@
           "intro": ""
         }
       ]
+    }
+  ],
+  "groups": [
+    {
+      "id": 0,
+      "groupChar": "A",
+      "posNum": 1
+    },
+    {
+      "id": 1,
+      "groupChar": "A",
+      "posNum": 2
+    },
+    {
+      "id": 2,
+      "groupChar": "A",
+      "posNum": 3
+    },
+    {
+      "id": 3,
+      "groupChar": "A",
+      "posNum": 4
+    },
+    {
+      "id": 4,
+      "groupChar": "B",
+      "posNum": 1
+    },
+    {
+      "id": 5,
+      "groupChar": "B",
+      "posNum": 2
+    },
+    {
+      "id": 6,
+      "groupChar": "B",
+      "posNum": 3
+    },
+    {
+      "id": 7,
+      "groupChar": "B",
+      "posNum": 4
+    },
+    {
+      "id": 8,
+      "groupChar": "C",
+      "posNum": 1
+    },
+    {
+      "id": 9,
+      "groupChar": "C",
+      "posNum": 2
+    },
+    {
+      "id": 10,
+      "groupChar": "C",
+      "posNum": 3
+    },
+    {
+      "id": 11,
+      "groupChar": "C",
+      "posNum": 4
+    },
+    {
+      "id": 12,
+      "groupChar": "D",
+      "posNum": 1
+    },
+    {
+      "id": 13,
+      "groupChar": "D",
+      "posNum": 2
+    },
+    {
+      "id": 14,
+      "groupChar": "D",
+      "posNum": 3
+    },
+    {
+      "id": 15,
+      "groupChar": "D",
+      "posNum": 4
+    },
+    {
+      "id": 16,
+      "groupChar": "E",
+      "posNum": 1
+    },
+    {
+      "id": 17,
+      "groupChar": "E",
+      "posNum": 2
+    },
+    {
+      "id": 18,
+      "groupChar": "E",
+      "posNum": 3
+    },
+    {
+      "id": 19,
+      "groupChar": "E",
+      "posNum": 4
+    },
+    {
+      "id": 20,
+      "groupChar": "F",
+      "posNum": 1
+    },
+    {
+      "id": 21,
+      "groupChar": "F",
+      "posNum": 2
+    },
+    {
+      "id": 22,
+      "groupChar": "F",
+      "posNum": 3
+    },
+    {
+      "id": 23,
+      "groupChar": "F",
+      "posNum": 4
+    },
+    {
+      "id": 24,
+      "groupChar": "G",
+      "posNum": 1
+    },
+    {
+      "id": 25,
+      "groupChar": "G",
+      "posNum": 2
+    },
+    {
+      "id": 26,
+      "groupChar": "G",
+      "posNum": 3
+    },
+    {
+      "id": 27,
+      "groupChar": "G",
+      "posNum": 4
+    },
+    {
+      "id": 28,
+      "groupChar": "H",
+      "posNum": 1
+    },
+    {
+      "id": 29,
+      "groupChar": "H",
+      "posNum": 2
+    },
+    {
+      "id": 30,
+      "groupChar": "H",
+      "posNum": 3
+    },
+    {
+      "id": 31,
+      "groupChar": "H",
+      "posNum": 4
     }
   ]
 }

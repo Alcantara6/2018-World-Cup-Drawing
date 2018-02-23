@@ -19,10 +19,13 @@ const router = new Router({
 		{
 			path: '/teams',
 			component: teamsPage,
+			// redirect: '/teams/teamTable/0', 不能更新渲染，导航守卫不能用在跳转路由上
 			children: [
 				{
 					path: 'teamTable/:id',
-			        component: teamTable
+			        component: teamTable,
+			        props: true   
+			        //路由组件传参,通过 props 解耦，除了teams可以引用，其它地方也可以用
 				},
 				{
 					// path只是一个路径而已可任意设定

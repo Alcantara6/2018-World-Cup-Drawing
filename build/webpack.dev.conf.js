@@ -10,7 +10,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
 
-// var teamsData = require('../teams.json')
+// 配置JSON，引入
+// var teamsData = require('../JSON/teams-groups.json')
+// var teams = teamsData.teams
+// var groups = teamsData.groups
 
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
@@ -44,15 +47,28 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     quiet: true, // necessary for FriendlyErrorsPlugin
     watchOptions: {
       poll: config.dev.poll,
-    }/*,
-    before(app) {
-      app.get('/api/teamsData', (req,res) => {
-        res.json({
-          errno: 0,
-          data: teamsData
-        });
-      })
-    }*/
+    }
+    // before(app) {
+    //   app.get('/api/teams', (req,res) => {
+    //     res.json({
+    //       errno: 0,
+    //       data: teams
+    //     });
+    //   }),
+    //   app.post('/api/teams', (req,res) => {
+    //     res.json({
+    //       errno: 0,
+    //       data: teams
+    //     });
+    //   }),
+    //   // 不用errno
+    //   app.get('/api/groups', (req,res) => {
+    //     res.json(groups);
+    //   }),
+    //   app.post('/api/groups', (req,res) => {
+    //     res.json(groups);
+    //   })
+    // }
   },
   plugins: [
     new webpack.DefinePlugin({
