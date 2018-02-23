@@ -22,7 +22,7 @@
                         <div class="draw-ball">{{ pos.num }}</div>
                         <div :class="
                             ['frame',{'default-frame':pos.num.slice(1) == 1}]" 
-                            v-show="!pos.isDrew" 
+                            v-if="!pos.isDrew" 
                             @click="choosePos(pos,pIndex,group,gIndex)">
                         </div>
                     </li>
@@ -37,7 +37,7 @@ export default {
     name: 'group-region',
     props: {
         curPot: Number,
-        curGroup: Number,
+        curGroupNum: Number,
         drawPosFlag: {
             type: Boolean,
             default: false
@@ -60,35 +60,39 @@ export default {
     computed: {
         // 小组序号转换为小组名: fromCharCode
         groupName() {
-            return String.fromCharCode(this.curGroup+64);
+            return String.fromCharCode(this.curGroupNum+64);
         }
     },
     methods: {
         choosePos(pos,pIndex,group,gIndex) {
             // 抽取球队
-            if(!this.drawPosFlag) {
-                alert('该流程不能抽取小组位置');
-                return false;
+            switch(true) {
+                case !this.drawPosFlag:
+                    alert('该流程不能抽选球队');
+                    break;
+
+                // 须在当前小组选择
+                case gIndex !== this.curGroupNum - 1:
+                    alert(`请在${this.groupName}组选择`);
+                    break;
+
+                //第一支必须抽东道主俄罗斯 
+                case this.curPot === 1 && pos.num.slice(1) != 1:
+                    alert("选择红色小球-第一档球队默认进入第一顺");
+                    break;
+
+                default:
+                    pos.isDrew = true;
+                    this.$emit('choose',pos);
+                    break;
             }
-            // 须在当前小组选择
-            if(gIndex !== this.curGroup - 1) {
-                alert(`请在${this.groupName}组选择`);
-                return false;
-            }
-            // 第一档球队默认第一顺位
-            if(this.curPot === 1) {
-                if(pos.num.slice(1) != 1) {
-                    alert("选择红色小球-第一档球队默认进入第一顺位");
-                    return false;
-                }
-            }
-            pos.isDrew = true;
-            this.$emit('choose',pos);
         },
+
         shuffleGroup(idx) {
             // TODO: setInterval自动多次打乱            
             this.$set(this.positionContainer, idx, this.randomSort(this.positionContainer[idx])); 
         },
+
         // 随机排列数组项
         randomSort(arr) {
             // XXX: 后面的.splice()会改变原数组（data数据），所以要复制一个temp
