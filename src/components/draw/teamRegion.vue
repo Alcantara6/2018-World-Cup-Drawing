@@ -6,6 +6,8 @@
 <!--
     2-12:解决了随机排序的问题(操作data数据，data从后端引入)，抽签数据重复的问题（要第一层$set） 
 -->
+<!-- 2-23 多个if判断，换用switch;
+     组合分档球队，filter()改用slice()简化代码 -->
 <template>
     <div id="team-region">
         <h1>分档区</h1>
@@ -42,7 +44,7 @@ export default {
     name: 'team-region',
     props: {
         curPot: Number,
-        curGroup: Number,
+        curGroupNum: Number,
         drawTeamFlag: {
             type: Boolean,
             default: false
@@ -63,30 +65,26 @@ export default {
     methods: {
         chooseTeam(team,tIndex,potTeam,pIndex) {
             // 抽取球队
-            if(!this.drawTeamFlag) {
-                alert('该流程不能抽选球队');
-                return false;
-            }
-            // 只能在本档选择
-            if(pIndex !== this.curPot - 1) {
-                alert(`请在第${this.curPot}档选择`);
-                return false;
-            }
-            // 第一支必须抽东道主俄罗斯
-            if(this.curPot === 1 && this.curGroup === 0) {
-                if(team.id !== 0) {
+            switch(true) {
+                case !this.drawTeamFlag:
+                    alert('该流程不能抽选球队');
+                    break;
+
+                // 只能在本档选择
+                case pIndex !== this.curPot - 1:
+                    alert(`请在第${this.curPot}档选择`);
+                    break;
+
+                //第一支必须抽东道主俄罗斯 
+                case this.curPot === 1 && this.curGroupNum === 0 && team.id !== 0:
                     alert("选择红色小球-东道主俄罗斯自动进入A组");
-                    return false;
-                }
+                    break;
+
+                default:
+                    this.$set(team, 'isDrew', true);
+                    this.$emit('choose',team);
+                    break;
             }
-            // if(typeof team.isDrew === 'undefined') {
-            //     this.$set(team, 'isDrew', true);
-            // }
-            // else {
-            //     team.isDrew = true;
-            // }
-            team.isDrew = true;
-            this.$emit('choose',team);
         },
         shuffleTeam(idx) {
             // TODO: setInterval自动多次打乱
@@ -98,7 +96,11 @@ export default {
         fetchTeams() {
             this.$axios.get("http://localhost:3000/teams")
             .then(res => {
-                this.potTeams = [
+                for(let i = 0; i < 4; i++) {
+                    this.$set(this.potTeams, i, res.data.slice(i*8, i*8+8));
+                }
+                // 对于等长数组，用slice获取以简化代码
+                /* this.potTeams = [
                     res.data.filter(item => 
                         item.pot === 1
                     ),
@@ -111,16 +113,16 @@ export default {
                     res.data.filter(item => 
                         item.pot === 4
                     )
-                ];
-                // 可每次点选后设置
-                for(let i = this.potTeams.length - 1; i >= 0; i--) {
+                ];*/
+                // 改为每次点选后设置，精简代码
+                /* for(let i = this.potTeams.length - 1; i >= 0; i--) {
                     this.potTeams[i].forEach(item => {
                         if(typeof item.isDrew === 'undefined') {
                             // 注意不能直接加属性，注意'isDrew'要加引号  
                             this.$set(item, 'isDrew', false);
                         }
                     });
-                }
+                }*/
             })
             .catch(error => {
               console.log(error);
