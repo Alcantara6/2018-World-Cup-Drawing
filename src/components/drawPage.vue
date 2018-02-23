@@ -15,6 +15,8 @@
 <!-- 2.22 
     TODO: 避免某一档剩最后几只球队时无法满足回避原则
 -->
+<!-- 根据欧洲、非欧洲条件判断进行回避算法，覆盖所有球队的回避情况，alert内容用一个方法封装，代码简化20%以上 -->
+<!-- 程序的复杂性主要在于回避原则和alert提醒 -->
 <template>
     <div id="draw">
         <header class="alert">
@@ -26,13 +28,13 @@
         ref="r1" 
         @choose="setCurTeam" 
         :curPot="curPot" 
-        :curGroup="curGroup" 
+        :curGroupNum="curGroupNum" 
         :drawTeamFlag="drawTeamFlag"></team-Region>
         <group-Region 
         ref="r2" 
         @choose="setCurPos" 
         :curPot="curPot" 
-        :curGroup="curGroup" 
+        :curGroupNum="curGroupNum" 
         :drawPosFlag="drawPosFlag"></group-Region>
         <grouping-result 
         ref="r3"
@@ -61,9 +63,9 @@ export default {
         return {
             teamList: [],
             // groupContainer从JSON引入（因空数组不好渲染DOM），因此不能通过length区别，增加team属性，通过包含team属性的情况进行判定
-            groupContainer: [],  
+            groupContainer: [],
             curRound: 0,    // 1-32轮  抽取球队之前
-            curGroup: 0,    // 1-8组   抽取球队之后，抽取位次之前
+            curGroupNum: 0,    // 1-8组   抽取球队之后，抽取位次之前
             curTeam: {},    // 抽中的球队
             curPos: '',     // 抽中的位次。1-4位。如'A1','A2','A3','A4'
             alert: '请点击start开始抽签，并根据提示流程操作',
@@ -116,7 +118,7 @@ export default {
             return String.fromCharCode(this.sequence+64);
         },
         groupName() {
-            return String.fromCharCode(this.curGroup+64);
+            return String.fromCharCode(this.curGroupNum+64);
         }
     },
 
@@ -141,53 +143,75 @@ export default {
          * @event click
          * @param {Object} team 从子组件teamRegion.vue传入选取的team
          */
-        setCurTeam(team) {
-            this.curTeam = team;
+        setCurTeam(selectedTeam) {
             // 一般情况下
-            this.curGroup = this.sequence;
-            // 优化性能，分别在各个轮次判断是否回避
-            // 根据if条件，更改alert
-            // TODO: 最后两支都是南美洲的情况
-            if(this.curPot === 2) {
-                // 正常顺序待落位小组中第一位次的球队
-                let firstPotTeam = this.groupContainer[this.sequence - 1][0]
-                    .team;
-                if(team.continent !== '南美洲' 
-                    || firstPotTeam.continent !== '南美洲'
-                ) {
-                    this.alert = `
-                        ${this.curTeam.teamName}队进入
-                        ${this.groupName}组，请在
-                        ${this.groupName}组抽取位置`;
-                }
-                else {
-                    this.skipRoundTwo(team);
+            this.curTeam = selectedTeam;
+            this.curGroupNum = this.sequence;
+            // 抽第一档不涉及回避
+            if(this.curPot === 1) {
+                this.diffAlert(selectedTeam,this.sequence,this.curGroupNum);
+            }
+            // 针对非欧洲球队的回避
+            else if(selectedTeam.continent !== '欧洲') {
+                // 从顺位的当前小组开始检查
+                while(this.curGroupNum <= 8) {  
+                    let group = this.groupContainer[this.curGroupNum - 1];
+                    let teamsLen = group.filter(item => item.team).length;
+                    let isEncounter = group.some(item => item.team 
+                        && item.team.continent === selectedTeam.continent);
+                    // 如果该组本轮还没有落位球队，或同洲球队没相遇，curGroup确定
+                    if(teamsLen < this.curPot && !isEncounter) {
+                        this.diffAlert(selectedTeam,this.sequence,this.curGroupNum);
+                        break;
+                    }
+                    else {
+                        this.curGroupNum++;
+                    }
                 }
             }
-            else if(this.curPot === 3) {
-                // 正常顺序待落位小组中的欧洲球队
-                let euro = this.groupContainer[this.sequence - 1]
-                    .filter(item => item.team 
-                        && item.team.continent === '欧洲');
-                // TODO: 调用非欧洲队同洲回避(包括中北美洲哥斯达黎加墨西哥)
-                if(team.continent !== '欧洲' || euro.length < 2) {
-                    this.alert = `
-                        ${this.curTeam.teamName}队进入
-                        ${this.groupName}组，请在
-                        ${this.groupName}组抽取位置`;
-                }
-                else {
-                    this.skipRoundThree(team);
-                }
-            }
+            // 针对欧洲球队的回避
             else {
+                // 从顺位的当前小组开始检查
+                while(this.curGroupNum <= 8) {  
+                    let group = this.groupContainer[this.curGroupNum - 1];
+                    let teamsLen = group.filter(item => item.team).length;
+                    let euroTeams = group.filter(item => item.team 
+                        && item.team.continent === "欧洲");
+                    // 如果该组本轮还没有落位球队，或小于两支欧洲球队
+                    if(teamsLen < this.curPot && euroTeams.length < 2) {
+                        this.diffAlert(selectedTeam,this.sequence,this.curGroupNum);
+                        break;
+                    }
+                    else {
+                        this.curGroupNum++;
+                    }
+                }
+
+            }
+            this.drawTeamFlag = false;
+            this.drawPosFlag = true;
+        },
+        diffAlert(team,cur,seq) {
+            if(cur === seq) {
                 this.alert = `
                     ${this.curTeam.teamName}队进入
                     ${this.groupName}组，请在
                     ${this.groupName}组抽取位置`;
             }
-            this.drawTeamFlag = false;
-            this.drawPosFlag = true;
+            else if(team.continent !== "欧洲"){
+                this.alert = `
+                    同一小组不能有相同大洲的球队（欧洲除外），
+                    ${this.curTeam.teamName}队顺延进入
+                    ${this.groupName}组。请在
+                    ${this.groupName}组抽取位置`;
+            }
+            else {
+                this.alert = `
+                    同大洲不能有两支以上欧洲球队，
+                    ${this.curTeam.teamName}队顺延进入
+                    ${this.groupName}组。请在
+                    ${this.groupName}组抽取位置`;
+            }
         },
         /**
          * 设置当前抽取的位置
@@ -209,7 +233,7 @@ export default {
             // 开始之前或正在抽取球队、抽取位次时点击无效
             if(this.curRound && !this.drawTeamFlag && !this.drawPosFlag) {
                 let position = this.curPos.slice(1);
-                this.$set(this.groupContainer[this.curGroup - 1][position - 1],
+                this.$set(this.groupContainer[this.curGroupNum - 1][position - 1],
                     'team', this.curTeam);
                 /* 抽签结果传入后端
                     let targetId = targetPos.id; 
@@ -228,59 +252,6 @@ export default {
             this.curRound ++;
             this.alert = `请从第${this.curPot}档抽取一支球队`;
             this.drawTeamFlag = true;
-            }
-        },
-
-        // 第二轮非欧洲队（即南美洲）回避
-        skipRoundTwo(team) {
-            // XXX: 首先给curGroup赋值，跳入下一组
-            // XXX: 不能使用++this.sequece，相当于改变sequece，但它没有setter
-            this.curGroup = this.sequence + 1;
-            // 从下一组开始循环查看
-            let i = this.sequence;
-            while(i < 8) {
-                let firstPotTeam = this.groupContainer[i][0].team;
-                // 都不是欧洲队，如果没有遇到同大洲的球队，进入当前curGroup
-                // HACK: 跳入的小组不能是已选的
-                if(this.groupContainer[i].filter(item => item.team).length 
-                    < this.curPot 
-                    && firstPotTeam.continent 
-                    !== '南美洲') {
-                    this.alert = `同大洲不能有两支或以上相同大洲球队（欧洲除外），
-                        ${this.curTeam.teamName}队顺延进入
-                        ${this.groupName}组。请在
-                        ${this.groupName}组抽取位置`;
-                    return true;
-                }
-                else {
-                    // XXX: 正常顺序sequence不变，实际待落位组curGroup再往后推进
-                    this.curGroup++;
-                    i++;
-                }
-            }
-        },
-        skipRoundThree(team) {
-            this.curGroup = this.sequence + 1;
-            let i = this.sequence;
-            while(i < 8) {
-                let euro = this.groupContainer[i]
-                    .filter(item => item.team 
-                        && item.team.continent === '欧洲');
-                // 如果没有遇到两支欧洲的球队，进入当前curGroup
-                if(this.groupContainer[i].filter(item => item.team).length 
-                    < this.curPot
-                    && euro.length < 2) {
-                    this.alert = `
-                        同大洲不能有两支以上欧洲球队，
-                        ${this.curTeam.teamName}队顺延进入
-                        ${this.groupName}组。请在
-                        ${this.groupName}组抽取位置`;
-                    return true;
-                }
-                else {
-                    this.curGroup++;
-                    i++;
-                }
             }
         },
         
