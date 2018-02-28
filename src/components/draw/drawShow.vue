@@ -5,18 +5,24 @@
 -->
 <template>
     <div id="draw-show">
-        <div class="individual-pot" v-for="pot in potTeams">
-            <h2 v-if="pot.length">{{ `第${pot[0].pot}档` }}</h2>
-            <ul>
-                <li 
-                :class="['team',{'drewTeam':drewTeams.indexOf(team.teamName) !== -1}]" 
-                v-for="team in pot" 
-                :key="team.id">
-                    <img :src="team.flagUrl">
-                    <div>{{ team.teamName }}</div>
-                </li>
-            </ul>
-        </div>
+        <transition-group name="pot" tag="div" class="teamsContainer">
+            <div 
+                class="individual-pot" 
+                v-for="(pot,index) in potTeams"
+                v-if="index == potNum - 1"
+                :key="index">
+                <h2 v-if="pot.length">{{ `第${pot[0].pot}档` }}</h2>
+                <ul class = 'teams'>
+                    <li 
+                    :class="['team',{'drewTeam':drewTeams.indexOf(team.teamName) !== -1}]" 
+                    v-for="team in pot" 
+                    :key="team.id">
+                        <img :src="team.flagUrl">
+                        <div>{{ team.teamName }}</div>
+                    </li>
+                </ul>
+            </div>
+        </transition-group>
     </div>
 </template>
 
@@ -25,7 +31,8 @@ export default {
     name: 'draw-show',
     props: {
         teams: Array,
-        curTeamName: String
+        curTeamName: String,
+        potNum: Number
     },
     data() {
         return {
@@ -34,20 +41,11 @@ export default {
     },
     computed: {
         potTeams() {
-            return  [
-                        this.teams.filter(item => 
-                            item.pot === 1
-                        ),
-                        this.teams.filter(item => 
-                            item.pot === 2
-                        ),
-                        this.teams.filter(item => 
-                            item.pot === 3
-                        ),
-                        this.teams.filter(item => 
-                            item.pot === 4
-                        )
-                    ]
+            let pot = [];
+            for(let i = 0; i < 4; i++) {
+                pot.push(this.teams.slice(8*i, 8*i+8));
+            }
+            return pot;
         },
         // 不能放在data，一直保持props的初始值
         selectedTeam() {
@@ -60,30 +58,56 @@ export default {
             this.drewTeams.push(val);
         }
     }
-} 
+}
 </script>
 
 <style scoped>
+.pot-enter-active,
+.pot-leave-active {
+    transition: all .5s;
+}
+.pot-enter {
+    opacity: 0;
+    transform: translateX(100px);
+}
+.pot-leave-to {
+    opacity: 0;
+    transform: translateX(-100px);
+}
+
 #draw-show {
-    width: 780px;
-    margin: 50px auto;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin-right: 20px;
+    color: #fff;
+    border: 3px solid #ffc;
+    background: #728fce;
 }
-.individual-pot>h2 {
-    float: left;
+.teamsContainer {
+    display: flex;
+    width: 100px;
+    margin: 0 auto;
+    overflow: hidden;
 }
-.individual-pot>ul {
-    margin: 0 0 20px 40px;    
+.individual-pot {
+    flex: none;
+    margin-right: 10px;
+}
+
+.teams {
+    display: flex;
+    flex-direction: column;
 }
 .team {
-    display: inline-block;
-    width: 60px;
-    margin-right: 20px;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    margin: 20px 40px 0 0;
 }
 .team img {
-    border: 1px solid #000;
     width: 40px;
+    margin-right: 15px;
 }
 .drewTeam {
     opacity: 0.2;

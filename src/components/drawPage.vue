@@ -3,7 +3,7 @@
 
 <!-- 程序的复杂性主要在于回避原则和alert提醒 -->
 <!-- 2-17 
-1.打乱签的顺序，使用v-move过渡；2.使用props和$emit传递状态，暂不用bus和vuex 
+    1.打乱签的顺序，使用v-move过渡；2.使用props和$emit传递状态，暂不用bus和vuex 
 -->
 <!-- 2-21 
     groupContainer创建JSON文件，把选中的Object{team}加入，
@@ -18,68 +18,82 @@
 <!-- 2.22 
     TODO: 避免某一档剩最后几只球队时无法满足回避原则
 -->
-<!-- 2.23 根据欧洲、非欧洲条件判断进行回避算法，覆盖所有球队的回避情况，alert内容用一个方法封装，代码简化20%以上 -->
+<!-- 2.23 
+    根据欧洲、非欧洲条件判断进行回避算法，覆盖所有球队的回避情况，
+    alert内容用一个方法封装，代码简化20%以上
+    TODO: 用mixin混入通用方法 
+-->
 
-<template>
+<template>  
     <div id="draw">
-        <header class="alert">
-            <div class="procedure" v-if="curRound >= 0">{{ alert }}</div>
-            <div class="current-mark" v-if="curRound > 0">第<strong>{{ curPot }}</strong>档，从<strong>{{ orderGroupName }}</strong>组开始落位</div>
-            <button v-if="curRound === 0" @click.once="start">
-                请点击开始抽签
-            </button>
-            <button v-else-if="curRound === -1" @click.once="createResult">
-                请确认抽签结果
-            </button>            
-            <button v-else>
-                抽签进行中…………
-            </button>
-        </header>
-
-        <!-- 分组结果展示 -->
-        <grouping-result 
-            ref="r3"
-            @enter="enterGroup" 
-            :groupContainer="groupContainer" >
-        </grouping-result>
-
-        <!-- 球队抽选区 -->
-        <team-Region
-            ref="r1" 
-            @choose="setCurTeam" 
-            :curPot="curPot" 
-            :curGroupNum="curGroupNum" 
-            :drawTeamFlag="drawTeamFlag">
-        </team-Region>
-
-        <!-- 小组位次抽选区 -->
-        <group-Region 
-            ref="r2" 
-            @choose="setCurPos" 
-            :curPot="curPot" 
-            :curGroupNum="curGroupNum" 
-            :drawPosFlag="drawPosFlag">
-        </group-Region>
-
-        <!-- 已选待选球队 -->
-        <draw-show 
-            :teams="teamList" 
-            :curTeamName="curTeam.teamName">
-        </draw-show>
+        <div id="main">
+            <div id="live">
+                <!-- 抽签流程提示 -->
+                <div class="alert">
+                    <div class="procedure" v-if="curRound >= 0">{{ alert }}</div>
+                    <div class="current-mark" v-if="curRound > 0">
+                        第<strong>{{ curPot }}</strong>档，
+                        从<strong>{{ orderGroupName }}</strong>组开始落位
+                    </div>
+                    <button class="statusBtn" v-if="curRound === 0" @click.once="start">
+                        请点击开始抽签
+                    </button>
+                    <button class="statusBtn" v-else-if="curRound === -1" @click.once="createResult">
+                        请确认抽签结果
+                    </button>            
+                    <button class="statusBtn" v-else>
+                        抽签进行中…………
+                    </button>
+                    <button @click="enterGroup">确认落位</button>
+                </div>
+                <!-- 球队抽选区 -->
+                <team-Area
+                    ref="r1" 
+                    @choose="setCurTeam" 
+                    :curPot="curPot" 
+                    :curGroupNum="curGroupNum" 
+                    :drawTeamFlag="drawTeamFlag">
+                </team-Area>
+                <!-- 小组位次抽选区 -->
+                <group-Area 
+                    ref="r2" 
+                    @choose="setCurPos" 
+                    :curPot="curPot" 
+                    :curGroupNum="curGroupNum" 
+                    :drawPosFlag="drawPosFlag">
+                </group-Area>
+            </div>
+            <!-- 已选待选球队 -->
+            <aside id="left-teams">
+                <draw-show
+                    :teams="teamList" 
+                    :curTeamName="curTeam.teamName"
+                    :potNum="curPot">
+                </draw-show>
+            </aside>   
+        </div>
+        <!-- id="main"结束 -->
+        
+        <!--分组结果展示 -->
+        <footer class="result">
+            <grouping-result 
+                :groupContainer="groupContainer">
+            </grouping-result>
+        </footer>
     </div>
 </template>
 
 <script>
 import Qs from 'qs';
-import teamRegion from './draw/teamRegion';
-import groupRegion from './draw/groupRegion';
+import teamArea from './draw/teamArea';
+import groupArea from './draw/groupArea';
 import groupingResult from './draw/groupingResult';
 import drawShow from './draw/drawShow';
 export default {
     name: 'draw',
     components: {
-        teamRegion,
-        groupRegion,
+        teamArea,
+        groupArea,
         groupingResult,
         drawShow
     },
@@ -132,7 +146,7 @@ export default {
                     break;
                     // XXX: continue是全部循环，会遍历所有，应该用break
                 }
-                groupIdx++;
+                groupIdx++; 
             }
             // 如果8个组全都跳过，返回第1组
             return groupIdx === 9?1:groupIdx;
@@ -151,10 +165,10 @@ export default {
         // 开始抽签
         start() {
             for(let i = 0; i < 4; i++) {
-                this.$refs.r1.shuffleTeam(i);
+                this.$refs.r1.shuffleOrder(i);
             }            
             for(let i = 0; i < 8; i++) {
-                this.$refs.r2.shuffleGroup(i);
+                this.$refs.r2.shuffleOrder(i);
             }
             this.curRound = 1;
             this.alert = "请从第一档红色小球抽取东道主俄罗斯队";
@@ -164,9 +178,9 @@ export default {
 
         /**
          * 设置当前抽取的球队
-         * 自定义事件 from teamRegion.vue
+         * 自定义事件 from teamArea.vue
          * @event click
-         * @param {Object} team 从子组件teamRegion.vue传入选取的team
+         * @param {Object} team 从子组件teamArea.vue传入选取的team
          */
         setCurTeam(selectedTeam) {
             // 一般情况下
@@ -250,9 +264,9 @@ export default {
 
         /**
          * 设置当前抽取的位置
-         * 自定义事件 from groupRegion.vue
+         * 自定义事件 from groupArea.vue
          * @event click
-         * @param {Object} team 从子组件groupRegion.vue传入选取的pos
+         * @param {Object} team 从子组件groupArea.vue传入选取的pos
          */
         setCurPos(pos) {
             this.curPos = pos.num;
@@ -334,25 +348,56 @@ export default {
 </script>
 
 <style scoped>
-#draw {
-    min-width: 320px;
-    overflow: hidden;
+/*总体布局*/
+#main {
+    display: flex;
 }
+#live {
+    flex: 1;
+    display: flex;
+    position: relative;
+}
+#left-teams {
+    flex: 0 0 15%;
+    order: -1;
+}
+/* .live */
+#team-area {
+    flex: 0 0 60%;
+}
+#group-area {
+    flex: 0 0 40%;
+}
+
+/*alert*/
 .alert {
-    width: 600px;
-    margin: 0 auto 10px;
+    position: absolute;
+    bottom: 10%;
+    right: 10%;
     text-align: center;
-    font-size: 18px;
+    font-size: 14px;
 }
 .procedure {
+    margin-bottom: 10px;
     padding: 10px 20px;
     color: #fff;
     background: #6698ff;
+}
+.statusBtn {
+    height: 30px;
+    background: #f0f8ff;
+    border-radius: 8px;
+    outline-width: 0;
 }
 .current-mark {
     width: 200px;
     margin: 0 auto;
     color: #000;
     background: #ff0;
+}
+
+/*footer*/
+.result {
+    margin-top: 10px;
 }
 </style>

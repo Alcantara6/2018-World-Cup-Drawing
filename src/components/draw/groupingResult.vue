@@ -6,8 +6,7 @@
 <!-- 如何使用非响应式数据？定义局部变量，使其等于data（props）中的数据，例如需要分组落位的球队 -->
 <template>
     <div id="grouping-result">
-        <button type="button" @click="confirmEnter">确认落位</button>
-        <h1>分组结果</h1>
+        <h3>分组结果</h3>
         <!-- 每一档的球队 -->
         <div class="grouping" v-for="group in groupContainer">
             <h2>{{ group[0].groupChar }}</h2>
@@ -27,20 +26,17 @@ export default {
     name: 'grouping-result',
     props: {
         groupContainer: Array
-    },
-    methods: {
-        confirmEnter() {
-            this.$emit('enter');
-        }
     }
 }
 </script>
 
 <style scoped>
 #grouping-result {
-    width: 800px;
-    margin: 0 auto;
     text-align: center;
+}
+#grouping-result>button {
+    display: block;
+    margin: 0 auto;
 }
 .grouping {
     display: inline-block;

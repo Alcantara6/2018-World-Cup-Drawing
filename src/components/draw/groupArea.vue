@@ -4,8 +4,8 @@
     component: groups-area
 -->
 <template>
-    <div id="group-region">
-        <h1>分组区</h1>
+    <div id="group-area">
+        <h2>分组区</h2>
         <!-- 每一档的球队 -->
         <div class="group" v-for="(group,gIndex) in positionContainer">
             <!-- 获取小组名 -->
@@ -34,7 +34,7 @@
 
 <script>
 export default {
-    name: 'group-region',
+    name: 'group-area',
     props: {
         curPot: Number,
         curGroupNum: Number,
@@ -110,9 +110,8 @@ export default {
 </script>
 
 <style scoped>
-#group-region {
-    float: right;
-    width: 25%;
+#group-area {
+
 }
 .group {
     display: inline-block;

@@ -20,6 +20,9 @@ export default {
 </script>
 
 <style>
+#app {
+    margin: 0 20px;
+}
 #app-header {
     height: 30px;
     margin-bottom: 10px;
@@ -27,7 +30,7 @@ export default {
 #app-header h1 {
     display: inline-block;
     padding: 10px;
-    font-size: 20px;
+    font-size: 16px;
 }
 * {
     margin: 0; 

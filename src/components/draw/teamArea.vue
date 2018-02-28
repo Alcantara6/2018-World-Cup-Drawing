@@ -8,40 +8,53 @@
 -->
 <!-- 2-23 多个if判断，换用switch;
      组合分档球队，filter()改用slice()简化代码 -->
+<!-- 新的一种乱序方法 -->
+<!-- 计算属性不能传参 -->
+<!-- XXX: 2-28 球队区球队用CSS3 transform: rotate + positon: absolute做环形排列。
+随机打乱球队时，过渡出现问题，会聚集到一起，可能是列表渲染机制造成的问题。
+将随机排列算法与transform属性绑定，用v-bind:style内联方式，对每一档绑定。
+order不能用全局变量，否则点击每一档的随机打乱按钮所有档都会变化；给每一档每支球队
+分别添加order属性，注意必须使用$Set添加才能是响应式的。 -->
 <template>
-    <div id="team-region">
-        <h1>分档区</h1>
-        <!-- 每一档的球队 -->
-        <div class="individual-pot" v-for="(potTeam,pIndex) in potTeams">
-            <h2 v-if="potTeam.length">{{ `第${potTeam[0].pot}档`}}</h2>
-            <!-- 开始抽签-->
-            <button 
-            class="shuffleBtn" 
-            type="button" 
-            @click="shuffleTeam(pIndex)">shuffle the teams</button>
-            <transition-group tag="ul" name="flip-list">
-                <!-- 每一档的每只球队，随机排列 -->
-                <li 
-                class="team" 
-                v-for="(team,tIndex) in potTeam" 
-                :key="team.id">
-                    <span>{{ team.id }}</span>
-                    <img :src="team.flagUrl">
-                    <div>{{ team.teamName }}</div>
-                    <div 
-                    :class="['frame',{'default-frame':team.id === 0}]" 
-                    v-if="!team.isDrew" 
-                    @click="chooseTeam(team,tIndex,potTeam,pIndex)">
-                    </div>
-                </li>
-            </transition-group>
+    <div id="team-area">
+        <h2>分档区</h2>
+        <div class="pots">
+            <!-- 每一档的球队 -->
+            <div class="individual-pot" v-for="(potTeam,pIndex) in potTeams">
+                <h2 v-if="potTeam.length">{{ `第${potTeam[0].pot}档`}}</h2>
+                <!-- 开始抽签-->
+                <div class="draw-teams">
+                    <transition-group appear class="teams" tag="ul">
+                        <!-- 每一档的每只球队，随机排列 -->
+                        <!-- style: [{},{},{}...] -->
+                        <li 
+                            class="team" 
+                            v-for="(team,tIndex) in potTeam" 
+                            :key="team.id"
+                            :style="{transform: `translateX(-50%) rotate(${team.order*45}deg)`}">
+                            <div>{{ team.teamName }}</div>
+                            <img :src="team.flagUrl">
+    <!--                         <div 
+                                :class="['frame',{'default-frame':team.id === 0}]" 
+                                v-if="!team.isDrew" 
+                                @click="chooseTeam(team,tIndex,potTeam,pIndex)">
+                            </div> -->
+                        </li>
+                    </transition-group>
+                    <button 
+                        class="shuffleBtn" 
+                        type="button" 
+                        @click="shuffleOrder(pIndex)">shuffle
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
 export default {
-    name: 'team-region',
+    name: 'team-area',
     props: {
         curPot: Number,
         curGroupNum: Number,
@@ -59,10 +72,28 @@ export default {
          * 4. 所以要操作data数据，但初始要有potTeams,因此axios获取，
          */
         return {
-            potTeams: [],
+            potTeams: []
+            // randomArr: [
+            //     [0,1,2,3,4,5,6,7],
+            //     [0,1,2,3,4,5,6,7],
+            //     [0,1,2,3,4,5,6,7],
+            //     [0,1,2,3,4,5,6,7]
+            // ]
         }
     },
     methods: {
+        shuffleOrder(pIndex) {
+            // TODO: setInterval自动多次打乱
+            // 之前是将球队顺序打乱
+            // *this.$set(
+            //     this.potTeams, idx, this.randomSort(this.potTeams[idx])
+            // );
+            let randomOrder = this.randomSort([0,1,2,3,4,5,6,7]);
+            for(let i = 0; i < 8; i++) {
+                this.potTeams[pIndex][i].order = randomOrder[i];
+            }
+            // this.$set(this.randomArr, pIndex, this.randomSort([0,1,2,3,4,5,6,7]));
+        },
         chooseTeam(team,tIndex,potTeam,pIndex) {
             // 抽取球队
             switch(true) {
@@ -86,18 +117,14 @@ export default {
                     break;
             }
         },
-        shuffleTeam(idx) {
-            // TODO: setInterval自动多次打乱
-            this.$set(
-                this.potTeams, idx, this.randomSort(this.potTeams[idx])
-            );
-            // this.$set(this.potTeams[idx],…) 错误！这相当于直接给数组项赋值
-        },
         fetchTeams() {
             this.$axios.get("http://localhost:3000/teams")
             .then(res => {
                 for(let i = 0; i < 4; i++) {
                     this.$set(this.potTeams, i, res.data.slice(i*8, i*8+8));
+                    for(let j = 0; j < 8; j++) {
+                        this.$set(this.potTeams[i][j], 'order', j);
+                    }
                 }
                 // 对于等长数组，用slice获取以简化代码
                 /* this.potTeams = [
@@ -145,24 +172,53 @@ export default {
             this.fetchTeams();
         });
     }
-} 
+}
 </script>
 
 <style scoped>
-#team-region {
+#team-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+}
+.pots {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: space-between;
+}
+.individual-pot {
+    width: 250px;
+    height: 250px;
+    margin: 10px 20px 0 0;
+    padding: 5px;
+    position: relative;
+    border: 1px solid #0020c2;
+}
+.individual-pot>h2 {
     float: left;
 }
 .team {
-    display: inline-block;
+    position: absolute;
+    top: 2px;
+    left: 50%;
     width: 60px;
-    margin-right: 2px;
+    height: 60px;
     border: 1px solid #0020c2;
-    text-align: center;
-    position: relative;  /*key*/
+    border-radius: 50%;
+    transform-origin: center 125px;
+    transition: all 1s;    /* 不能用v-move*/
 }
 .team img {
     border: 1px solid #000;
-    width: 40px;
+    width: 35px;
+}
+.shuffleBtn {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
 }
 /*key*/
 .frame {
@@ -171,12 +227,10 @@ export default {
     left: 0;
     width: 100%;
     height: 100%;
+    border-radius: 50%;
     background-color: #ffc;
 }
 .default-frame {
     background-color: #f00;
-}
-.flip-list-move {
-    transition: all .1s;
 }
 </style>
