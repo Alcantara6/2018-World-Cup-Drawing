@@ -14,13 +14,17 @@
 随机打乱球队时，过渡出现问题，会聚集到一起，可能是列表渲染机制造成的问题。
 将随机排列算法与transform属性绑定，用v-bind:style内联方式，对每一档绑定。
 order不能用全局变量，否则点击每一档的随机打乱按钮所有档都会变化；给每一档每支球队
-分别添加order属性，注意必须使用$Set添加才能是响应式的。 -->
+分别添加order属性，注意必须使用$Set添加才能是响应式的。 
+-->
+<!-- 2.29 国旗与队名保持水平方向：绕自身中心点rotate与外圆相反的角度 -->
 <template>
     <div id="team-area">
         <h2>分档区</h2>
         <div class="pots">
             <!-- 每一档的球队 -->
-            <div class="individual-pot" v-for="(potTeam,pIndex) in potTeams">
+            <div 
+                :class="['individual-pot', {'current-pot': pIndex === curPot - 1}]" 
+                v-for="(potTeam,pIndex) in potTeams">
                 <h2 v-if="potTeam.length">{{ `第${potTeam[0].pot}档`}}</h2>
                 <!-- 开始抽签-->
                 <div class="draw-teams">
@@ -32,17 +36,22 @@ order不能用全局变量，否则点击每一档的随机打乱按钮所有档
                             v-for="(team,tIndex) in potTeam" 
                             :key="team.id"
                             :style="{transform: `translateX(-50%) rotate(${team.order*45}deg)`}">
-                            <div>{{ team.teamName }}</div>
-                            <img :src="team.flagUrl">
-    <!--                         <div 
-                                :class="['frame',{'default-frame':team.id === 0}]" 
-                                v-if="!team.isDrew" 
-                                @click="chooseTeam(team,tIndex,potTeam,pIndex)">
-                            </div> -->
+                            <div class="team-content" :style="{transform: `rotate(${team.order*(-45)}deg)`}">
+                                <div>{{ team.teamName }}</div>
+                                <img :src="team.flagUrl">                             
+                            </div>
+                            <transition name="frame">
+								<div 
+								    name="frame"
+									:class="['frame',{'default-frame':team.id === 0}]"
+									v-if="!team.isDrew" 
+									@click="chooseTeam(team,tIndex,potTeam,pIndex)">
+								</div>
+                            </transition>
                         </li>
                     </transition-group>
                     <button 
-                        class="shuffleBtn" 
+                        :class="['shuffleBtn', {'curpot-shuffle': pIndex === curPot - 1}]" 
                         type="button" 
                         @click="shuffleOrder(pIndex)">shuffle
                     </button>
@@ -73,26 +82,24 @@ export default {
          */
         return {
             potTeams: []
-            // randomArr: [
-            //     [0,1,2,3,4,5,6,7],
-            //     [0,1,2,3,4,5,6,7],
-            //     [0,1,2,3,4,5,6,7],
-            //     [0,1,2,3,4,5,6,7]
-            // ]
         }
     },
     methods: {
         shuffleOrder(pIndex) {
             // TODO: setInterval自动多次打乱
             // 之前是将球队顺序打乱
-            // *this.$set(
+            // this.$set(
             //     this.potTeams, idx, this.randomSort(this.potTeams[idx])
             // );
-            let randomOrder = this.randomSort([0,1,2,3,4,5,6,7]);
-            for(let i = 0; i < 8; i++) {
-                this.potTeams[pIndex][i].order = randomOrder[i];
+            if(pIndex !== this.curPot - 1) {
+                return false;
             }
-            // this.$set(this.randomArr, pIndex, this.randomSort([0,1,2,3,4,5,6,7]));
+            else {
+                let randomOrder = this.randomSort([0,1,2,3,4,5,6,7]);
+                for(let i = 0; i < 8; i++) {
+                    this.potTeams[pIndex][i].order = randomOrder[i];
+                }
+            }
         },
         chooseTeam(team,tIndex,potTeam,pIndex) {
             // 抽取球队
@@ -126,22 +133,9 @@ export default {
                         this.$set(this.potTeams[i][j], 'order', j);
                     }
                 }
-                // 对于等长数组，用slice获取以简化代码
-                /* this.potTeams = [
-                    res.data.filter(item => 
-                        item.pot === 1
-                    ),
-                    res.data.filter(item => 
-                        item.pot === 2
-                    ),
-                    res.data.filter(item => 
-                        item.pot === 3
-                    ),
-                    res.data.filter(item => 
-                        item.pot === 4
-                    )
-                ];*/
-                // 改为每次点选后设置，精简代码
+                // 对于等长数组，用slice获取以简化代码；非等长数组，用filter,例如获取各大洲球队
+                
+                // isDrew属性改为每次点选后设置，精简代码。以下为统一设置。
                 /* for(let i = this.potTeams.length - 1; i >= 0; i--) {
                     this.potTeams[i].forEach(item => {
                         if(typeof item.isDrew === 'undefined') {
@@ -177,10 +171,16 @@ export default {
 
 <style scoped>
 #team-area {
-    display: flex;
+    display: flex;  /*标题与抽签栏垂直排满*/
     flex-direction: column;
     justify-content: space-between;
-    text-align: center;
+}
+#team-area>h2 {
+    margin: 0 50px;
+    font-size: 20px;
+    color: #3090c7;
+    font-weight: 700;
+    border-bottom: 1px solid #ccc;
 }
 .pots {
     display: flex;
@@ -189,36 +189,74 @@ export default {
     align-content: space-between;
 }
 .individual-pot {
-    width: 250px;
-    height: 250px;
-    margin: 10px 20px 0 0;
+    width: 200px;
+    height: 200px;
+    margin: 10px 30px 0px 0;
     padding: 5px;
     position: relative;
     border: 1px solid #0020c2;
+    border-radius: 20px;
 }
 .individual-pot>h2 {
     float: left;
+    font: 16px/1 "Hiragino GB";
+    font-style: italic;
 }
+.current-pot {
+    background-color: #ffebcd;
+    box-shadow: 0px 10px 20px 10px #6698ff inset;
+}
+.invidual-pot {
+    transition: background-color .5s;
+}
+
+
 .team {
+    /*国旗和队名居中*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /*设置旋转排列的起始 */
     position: absolute;
     top: 2px;
     left: 50%;
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
+    transform-origin: center 100px;
+    /*外观*/
     border: 1px solid #0020c2;
     border-radius: 50%;
-    transform-origin: center 125px;
-    transition: all 1s;    /* 不能用v-move*/
+    background: #fff;
+    /*队名太长时隐藏*/
+    overflow: hidden;
+    /* 旋转移动过渡，不能用v-move*/
+    transition: all .5s;    
+}
+.team-content {
+    text-align: center;
 }
 .team img {
     border: 1px solid #000;
-    width: 35px;
+    width: 25px;
+    vertical-align: top;
 }
 .shuffleBtn {
     position: absolute;
     left: 50%;
     top: 50%;
+    padding: 5px;
     transform: translate(-50%,-50%);
+    background-color: #306eff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: #fff;
+    cursor: default;   /*非本档情况下默认光标*/
+    line-height: 2;
+    outline-width: 0;
+}
+.curpot-shuffle:hover {
+    background-color: #4e8cff;
+    cursor: pointer;
 }
 /*key*/
 .frame {
@@ -228,9 +266,25 @@ export default {
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    background-color: #ffc;
+    background-image: url(../../assets/football.jpg);
+    background-size: 100% 100%;
+    background-position: center;
+    cursor: pointer;
+    transition: all .5s;
+}
+.frame:hover {
+	transform: rotate(270deg);
 }
 .default-frame {
-    background-color: #f00;
+    background: #ff2400;
+    box-shadow: 5px 5px 5px #ffc inset;
+}
+.frame-enter,
+.frame-leave-to {
+	opacity: 0;
+}
+.frame-enter,
+.frame-leave-to {
+	transition: all .5s;
 }
 </style>

@@ -47,7 +47,7 @@ export default {
             }
             return pot;
         },
-        // 不能放在data，一直保持props的初始值
+        // 不能放在data，data中会一直保持props的初始值
         selectedTeam() {
             return this.curTeamName;
         }
@@ -68,21 +68,20 @@ export default {
 }
 .pot-enter {
     opacity: 0;
-    transform: translateX(100px);
+    transform: translateX(150px);
 }
 .pot-leave-to {
     opacity: 0;
-    transform: translateX(-100px);
+    transform: translateX(-150px);
 }
 
 #draw-show {
     display: flex;
-    justify-content: center;
     align-items: center;
     height: 100%;
     margin-right: 20px;
     color: #fff;
-    border: 3px solid #ffc;
+    border: 2px solid #ede275;
     background: #728fce;
 }
 .teamsContainer {
@@ -91,24 +90,30 @@ export default {
     margin: 0 auto;
     overflow: hidden;
 }
+
+/*每一档*/
 .individual-pot {
     flex: none;
     margin-right: 10px;
 }
 
+/*每档球队list*/
 .teams {
     display: flex;
     flex-direction: column;
+    margin-top: 25px;
 }
 .team {
     display: flex;
-    align-items: center;
+    align-items: center;  /*国旗与国名垂直对齐*/
     margin: 20px 40px 0 0;
 }
 .team img {
     width: 40px;
     margin-right: 15px;
 }
+
+/*已抽球队*/
 .drewTeam {
     opacity: 0.2;
 }

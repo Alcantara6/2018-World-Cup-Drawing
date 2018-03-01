@@ -21,7 +21,7 @@ export default {
 
 <style>
 #app {
-    margin: 0 20px;
+    margin: 0px 20px;
 }
 #app-header {
     height: 30px;
@@ -63,6 +63,9 @@ input, select, label {
     display: inline-block;
     box-sizing: border-box;
 }
+button {
+    cursor: pointer;
+}
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section {
@@ -73,7 +76,6 @@ footer, header, hgroup, menu, nav, section {
     box-sizing: border-box;
 }
 * {
-    transition: background-color .5s;
-    transition: opacity .5s;
+    transition: background-color .3s;
 }
 </style>

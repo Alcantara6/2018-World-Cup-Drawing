@@ -30,13 +30,8 @@
             <div id="live">
                 <!-- 抽签流程提示 -->
                 <div class="alert">
-                    <div class="procedure" v-if="curRound >= 0">{{ alert }}</div>
-                    <div class="current-mark" v-if="curRound > 0">
-                        第<strong>{{ curPot }}</strong>档，
-                        从<strong>{{ orderGroupName }}</strong>组开始落位
-                    </div>
                     <button class="statusBtn" v-if="curRound === 0" @click.once="start">
-                        请点击开始抽签
+                        START
                     </button>
                     <button class="statusBtn" v-else-if="curRound === -1" @click.once="createResult">
                         请确认抽签结果
@@ -44,7 +39,12 @@
                     <button class="statusBtn" v-else>
                         抽签进行中…………
                     </button>
+                    <div class="procedure" v-if="curRound >= 0">{{ alert }}</div>
                     <button @click="enterGroup">确认落位</button>
+                    <div class="current-mark" v-if="curRound > 0">
+                        当前第<strong>{{ curPot }}</strong>档，
+                        从<strong>{{ orderGroupName }}</strong>组开始落位
+                    </div>
                 </div>
                 <!-- 球队抽选区 -->
                 <team-Area
@@ -64,7 +64,7 @@
                 </group-Area>
             </div>
             <!-- 已选待选球队 -->
-            <aside id="left-teams">
+            <aside id="teams-status">
                 <draw-show
                     :teams="teamList" 
                     :curTeamName="curTeam.teamName"
@@ -168,7 +168,7 @@ export default {
                 this.$refs.r1.shuffleOrder(i);
             }            
             for(let i = 0; i < 8; i++) {
-                this.$refs.r2.shuffleOrder(i);
+                this.$refs.r2.shuffleGroup(i);
             }
             this.curRound = 1;
             this.alert = "请从第一档红色小球抽取东道主俄罗斯队";
@@ -355,49 +355,65 @@ export default {
 #live {
     flex: 1;
     display: flex;
-    position: relative;
 }
-#left-teams {
+#teams-status {
     flex: 0 0 15%;
     order: -1;
 }
 /* .live */
 #team-area {
-    flex: 0 0 60%;
+    flex: 60%;
 }
 #group-area {
-    flex: 0 0 40%;
+    flex: 40%;
 }
 
 /*alert*/
 .alert {
+    display: flex;
+    justify-content: space-between;
     position: absolute;
-    bottom: 10%;
-    right: 10%;
+    bottom: 0;
+}
+.alert>* {
+    margin-right: 50px;
     text-align: center;
     font-size: 14px;
 }
-.procedure {
-    margin-bottom: 10px;
+/*操作流程提示*/
+.procedure,
+.current-mark {
+    width: 280px;
     padding: 10px 20px;
     color: #fff;
+    background: #7f525d;
+}
+/*当前抽签信息*/
+.current-mark {
     background: #6698ff;
 }
+/*进行状态按钮*/
 .statusBtn {
-    height: 30px;
+    width: 150px;
     background: #f0f8ff;
     border-radius: 8px;
     outline-width: 0;
-}
-.current-mark {
-    width: 200px;
-    margin: 0 auto;
-    color: #000;
-    background: #ff0;
 }
 
 /*footer*/
 .result {
     margin-top: 10px;
 }
+/* Color Variables
+
+@colordef #6960EC;hover
+@colordef #2B65EC;Ocean Blue
+@colordef #1589FF;dodger Blue(宝蓝)
+@colordef #FFC;cream(米黄冰淇淋)
+@colordef #F5F5F5;white-smoke(淘宝导航tab背景)
+@colordef #FEFCFF;Milk White
+@colordef #e7e8e1;www.bbc.com背景
+@colordef #f0f8ff;AliceBlue(浅蓝白btn按钮)
+@colordef #c2dfff;seaBlue
+*/
 </style>

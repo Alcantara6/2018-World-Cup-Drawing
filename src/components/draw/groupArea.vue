@@ -6,27 +6,29 @@
 <template>
     <div id="group-area">
         <h2>分组区</h2>
-        <!-- 每一档的球队 -->
-        <div class="group" v-for="(group,gIndex) in positionContainer">
-            <!-- 获取小组名 -->
-            <h2>{{ group[0].num.slice(0,1) }}组</h2>
-            <button 
-            class="shuffleBtn" 
-            type="button" 
-            @click="shuffleGroup(gIndex)">
-            shuffle the groups
-            </button>
-            <div class="position">
-                <transition-group tag="ul" name="flip-list">
-                    <li class="group-pos" v-for="(pos,pIndex) in group" :key="pos.num">
-                        <div class="draw-ball">{{ pos.num }}</div>
-                        <div :class="
-                            ['frame',{'default-frame':pos.num.slice(1) == 1}]" 
-                            v-if="!pos.isDrew" 
-                            @click="choosePos(pos,pIndex,group,gIndex)">
-                        </div>
-                    </li>
-                </transition-group>
+        <div class="groups">
+            <!-- 每一档的球队 -->
+            <div class="group" v-for="(group,gIndex) in positionContainer">
+                <!-- 获取小组名 -->
+                <h2>{{ group[0].num.slice(0,1) }}组</h2>
+                <button 
+                    class="shuffleBtn" 
+                    type="button" 
+                    @click="shuffleGroup(gIndex)">
+                    shuffle
+                </button>
+                <div class="position">
+                    <transition-group class="pos-box" tag="ul" name="flip-list">
+                        <li class="pos" v-for="(pos,pIndex) in group" :key="pos.num">
+                            <div>{{ pos.num }}</div>
+                            <div :class="
+                                ['frame',{'default-frame':pos.num.slice(1) == 1}]" 
+                                v-if="!pos.isDrew" 
+                                @click="choosePos(pos,pIndex,group,gIndex)">
+                            </div>
+                        </li>
+                    </transition-group>
+                </div>
             </div>
         </div>
     </div>
@@ -110,23 +112,45 @@ export default {
 </script>
 
 <style scoped>
-#group-area {
-
+#group-area>h2 {
+    margin-bottom: 10px;
+    font-size: 20px;
+    color: #3090c7;
+    font-weight: 700;
+    border-bottom: 1px solid #ccc;
+}
+.groups {
+    display: flex;
+    flex-wrap: wrap;
 }
 .group {
-    display: inline-block;
-    margin: 0 20px 20px 0;
-}
-.group-pos {
-    display: inline-block;
-    position: relative;
-    margin-right: 5px;
+    flex: 0 0 40%;
+    margin: 0 30px 30px 0;
     padding: 5px;
+    position: relative;
     border: 1px solid #0020c2;
 }
-.draw-ball {
+.shuffleBtn {
+    width: 50px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+.pos-box {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+}
+.pos {
+    flex: none;
+    width: 30px;
+    height: 30px;
+    position: relative;
     border: 1px solid #0020c2;
-    border-radius: 30%;
+    text-align: center;
+    font: 14px/30px 'Arial';
+    font-weight: 700;
+    cursor: pointer;
 }
 /*key*/
 .frame {
@@ -135,7 +159,7 @@ export default {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #ffc;
+    background-color: #e3e4fa;
 }
 .default-frame {
     background-color: #f00;
