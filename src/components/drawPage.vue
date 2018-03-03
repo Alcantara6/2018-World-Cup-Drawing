@@ -23,29 +23,35 @@
     alert内容用一个方法封装，代码简化20%以上
     TODO: 用mixin混入通用方法 
 -->
+<!-- 3.2
+    优化页面样式，分区块
+    增加多个逻辑，在不同阶段对应元素显示高亮样式
+-->
 
 <template>  
     <div id="draw">
-        <div id="main">
+        <!-- 抽签流程提示 -->
+        <div class="alert">
+            <button class="statusBtn" v-if="curRound === 0" @click.once="start">
+                START
+            </button>
+            <button class="statusBtn" v-else-if="curRound === -1" @click.once="createResult">
+                请确认抽签结果
+            </button>            
+            <button class="statusBtn" v-else>
+                抽签进行中…………
+            </button>
+            <div class="procedure" v-if="curRound >= 0">{{ alert }}</div>
+            <button @click="enterGroup">确认落位</button>
+            <div class="current-mark" v-if="curRound > 0">
+                当前第<strong>{{ curPot }}</strong>档，
+                从<strong>{{ orderGroupName }}</strong>组开始落位
+            </div>
+        </div>
+
+        <!-- 抽签操作区域 -->
+        <section id="main">
             <div id="live">
-                <!-- 抽签流程提示 -->
-                <div class="alert">
-                    <button class="statusBtn" v-if="curRound === 0" @click.once="start">
-                        START
-                    </button>
-                    <button class="statusBtn" v-else-if="curRound === -1" @click.once="createResult">
-                        请确认抽签结果
-                    </button>            
-                    <button class="statusBtn" v-else>
-                        抽签进行中…………
-                    </button>
-                    <div class="procedure" v-if="curRound >= 0">{{ alert }}</div>
-                    <button @click="enterGroup">确认落位</button>
-                    <div class="current-mark" v-if="curRound > 0">
-                        当前第<strong>{{ curPot }}</strong>档，
-                        从<strong>{{ orderGroupName }}</strong>组开始落位
-                    </div>
-                </div>
                 <!-- 球队抽选区 -->
                 <team-Area
                     ref="r1" 
@@ -66,18 +72,20 @@
             <!-- 已选待选球队 -->
             <aside id="teams-status">
                 <draw-show
-                    :teams="teamList" 
-                    :curTeamName="curTeam.teamName"
-                    :potNum="curPot">
+                    :teams="teamList"
+                    :potNum="curPot"
+                    :groupContainer="groupContainer"
+                    :curTeamName="curTeam.teamName">
                 </draw-show>
             </aside>   
-        </div>
+        </section>
         <!-- id="main"结束 -->
         
         <!--分组结果展示 -->
         <footer class="result">
             <grouping-result 
-                :groupContainer="groupContainer">
+                :groupContainer="groupContainer"
+                :curGroupNum="curGroupNum">
             </grouping-result>
         </footer>
     </div>
@@ -130,8 +138,12 @@ export default {
                     return 2;
                     break;
 
-                default:
+                case this.curRound > 0 && this.curRound <= 8:
                     return 1;
+                    break;
+
+                default:
+                    return 0;
                     break;
             }
         },
@@ -349,6 +361,11 @@ export default {
 
 <style scoped>
 /*总体布局*/
+#draw {
+    min-width: 784px;
+    position: relative;
+    border: 2px solid #0020c2;
+}
 #main {
     display: flex;
 }
@@ -360,20 +377,21 @@ export default {
     flex: 0 0 15%;
     order: -1;
 }
-/* .live */
+/* live */
 #team-area {
-    flex: 60%;
+    flex: 55%;
 }
 #group-area {
-    flex: 40%;
+    flex: 45%;
 }
 
 /*alert*/
 .alert {
     display: flex;
-    justify-content: space-between;
-    position: absolute;
-    bottom: 0;
+    justify-content: space-around;
+    position: absolute; 
+    width: 100%;     /*绝对定位后，宽度等于内容实际宽度*/
+    bottom: -50px;  /*始终位于内容区下方*/
 }
 .alert>* {
     margin-right: 50px;
@@ -398,11 +416,6 @@ export default {
     background: #f0f8ff;
     border-radius: 8px;
     outline-width: 0;
-}
-
-/*footer*/
-.result {
-    margin-top: 10px;
 }
 /* Color Variables
 
