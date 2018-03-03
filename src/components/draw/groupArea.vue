@@ -8,12 +8,13 @@
         <h2>分组区</h2>
         <div class="groups">
             <!-- 每一档的球队 -->
-            <div class="group" v-for="(group,gIndex) in positionContainer">
+            <div 
+                :class="['group', {'current-group': gIndex == curGroupNum - 1}]" 
+                v-for="(group,gIndex) in positionContainer">
                 <!-- 获取小组名 -->
                 <h2>{{ group[0].num.slice(0,1) }}组</h2>
                 <button 
-                    class="shuffleBtn" 
-                    type="button" 
+                    :class="['shuffleBtn', {'current-group-shuffle': gIndex == curGroupNum - 1 && drawPosFlag}]" 
                     @click="shuffleGroup(gIndex)">
                     shuffle
                 </button>
@@ -68,31 +69,39 @@ export default {
     methods: {
         choosePos(pos,pIndex,group,gIndex) {
             // 抽取球队
-            switch(true) {
-                case !this.drawPosFlag:
-                    alert('该流程不能抽选球队');
-                    break;
+            if(!this.curGroupNum) {
+                alert('请点击start开始');
+            }
+            else {
+                switch(true) {
+                    case !this.drawPosFlag:
+                        alert('该流程不能抽选球队');
+                        break;
 
-                // 须在当前小组选择
-                case gIndex !== this.curGroupNum - 1:
-                    alert(`请在${this.groupName}组选择`);
-                    break;
+                    // 须在当前小组选择
+                    case gIndex !== this.curGroupNum - 1:
+                        alert(`请在${this.groupName}组选择`);
+                        break;
 
-                //第一支必须抽东道主俄罗斯 
-                case this.curPot === 1 && pos.num.slice(1) != 1:
-                    alert("选择红色小球-第一档球队默认进入第一顺");
-                    break;
+                    //第一支必须抽东道主俄罗斯 
+                    case this.curPot === 1 && pos.num.slice(1) != 1:
+                        alert("选择红色小球-第一档球队默认进入第一位次");
+                        break;
 
-                default:
-                    pos.isDrew = true;
-                    this.$emit('choose',pos);
-                    break;
+                    default:
+                        pos.isDrew = true;
+                        this.$emit('choose',pos);
+                        break;
+                }
             }
         },
 
         shuffleGroup(idx) {
             // TODO: setInterval自动多次打乱            
-            this.$set(this.positionContainer, idx, this.randomSort(this.positionContainer[idx])); 
+            if(!this.curGroupNum || idx === this.curGroupNum - 1) {
+                this.$set(this.positionContainer, idx, 
+                        this.randomSort(this.positionContainer[idx]));
+            }
         },
 
         // 随机排列数组项
@@ -129,13 +138,29 @@ export default {
     padding: 5px;
     position: relative;
     border: 1px solid #0020c2;
+    transition: background-color .5s; /* 切换当前小组的过渡*/
 }
+.current-group {
+    background-color: #ffebcd;
+}
+
 .shuffleBtn {
     width: 50px;
     position: absolute;
     top: 5px;
     right: 5px;
+    padding: 3px;
+    background-color: #306eff;
+    border: none;
+    color: #fff;
+    cursor: default;
+    outline-width: 0;
 }
+.current-group-shuffle:hover {
+    background-color: #4e8cff;
+    cursor: pointer;  /*可选时的光标*/
+}
+
 .pos-box {
     display: flex;
     justify-content: space-between;
@@ -147,6 +172,7 @@ export default {
     height: 30px;
     position: relative;
     border: 1px solid #0020c2;
+    background: #fff;
     text-align: center;
     font: 14px/30px 'Arial';
     font-weight: 700;
@@ -162,7 +188,7 @@ export default {
     background-color: #e3e4fa;
 }
 .default-frame {
-    background-color: #f00;
+    background-color: #f70d1a;
 }
 .flip-list-move {
     transition: all .1s;
