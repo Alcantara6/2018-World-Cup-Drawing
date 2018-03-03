@@ -17,6 +17,7 @@ order不能用全局变量，否则点击每一档的随机打乱按钮所有档
 分别添加order属性，注意必须使用$Set添加才能是响应式的。 
 -->
 <!-- 2.29 国旗与队名保持水平方向：绕自身中心点rotate与外圆相反的角度 -->
+<!-- 3.2 设置不同阶段是否可点击打乱球队 -->
 <template>
     <div id="team-area">
         <h2>分档区</h2>
@@ -27,19 +28,20 @@ order不能用全局变量，否则点击每一档的随机打乱按钮所有档
                 v-for="(potTeam,pIndex) in potTeams">
                 <h2 v-if="potTeam.length">{{ `第${potTeam[0].pot}档`}}</h2>
                 <!-- 开始抽签-->
-                <div class="draw-teams">
+                <div class="teams-container">
                     <transition-group appear class="teams" tag="ul">
-                        <!-- 每一档的每只球队，随机排列 -->
-                        <!-- style: [{},{},{}...] -->
+                        <!-- 每一档的每只球队，随机顺序排列 -->
                         <li 
                             class="team" 
-                            v-for="(team,tIndex) in potTeam" 
+                            v-for="(team,tIndex) in potTeam"
                             :key="team.id"
                             :style="{transform: `translateX(-50%) rotate(${team.order*45}deg)`}">
+                            <!-- 球队国旗+队名 -->
                             <div class="team-content" :style="{transform: `rotate(${team.order*(-45)}deg)`}">
                                 <div>{{ team.teamName }}</div>
                                 <img :src="team.flagUrl">                             
                             </div>
+                            <!-- 球队签遮盖 -->
                             <transition name="frame">
 								<div 
 								    name="frame"
@@ -50,8 +52,9 @@ order不能用全局变量，否则点击每一档的随机打乱按钮所有档
                             </transition>
                         </li>
                     </transition-group>
+                    <!-- 点击打乱顺序 -->
                     <button 
-                        :class="['shuffleBtn', {'curpot-shuffle': pIndex === curPot - 1}]" 
+                        :class="['shuffleBtn', {'curpot-shuffle': drawTeamFlag && pIndex === curPot - 1}]" 
                         type="button" 
                         @click="shuffleOrder(pIndex)">shuffle
                     </button>
@@ -74,61 +77,69 @@ export default {
     },
     data() {
         /**
-         * 因为有事件打乱球队顺序。
+         * v-for获取打乱后的球队，因为有事件打乱球队顺序。
          * 1. 计算属性？不能用方法改变计算属性即要操作原始数据，
          * 2. v-for methods获取？多次渲染问题
          * 3. 从父组件获取，不能更改子组件数据，也不能把引用类型赋给data
          * 4. 所以要操作data数据，但初始要有potTeams,因此axios获取，
          */
+        // rev:打乱球队改为动态绑定style，要操作数据加入order属性，因此还是需要axios获取
         return {
             potTeams: []
         }
     },
+
+
     methods: {
         shuffleOrder(pIndex) {
-            // TODO: setInterval自动多次打乱
-            // 之前是将球队顺序打乱
+            // 之前方法是将球队数据打乱顺序
             // this.$set(
             //     this.potTeams, idx, this.randomSort(this.potTeams[idx])
             // );
-            if(pIndex !== this.curPot - 1) {
-                return false;
-            }
-            else {
-                let randomOrder = this.randomSort([0,1,2,3,4,5,6,7]);
-                for(let i = 0; i < 8; i++) {
-                    this.potTeams[pIndex][i].order = randomOrder[i];
-                }
+            // 抽签开始之前可以全部打乱，或者抽签开始后只能打乱当前档的球队
+            if(!this.curPot || (pIndex === this.curPot - 1)) {
+	            let randomOrder = this.randomSort([0,1,2,3,4,5,6,7]);
+	            for(let i = 0; i < 8; i++) {
+	                this.potTeams[pIndex][i].order = randomOrder[i];
+	            }
             }
         },
         chooseTeam(team,tIndex,potTeam,pIndex) {
             // 抽取球队
-            switch(true) {
-                case !this.drawTeamFlag:
-                    alert('该流程不能抽选球队');
-                    break;
-
-                // 只能在本档选择
-                case pIndex !== this.curPot - 1:
-                    alert(`请在第${this.curPot}档选择`);
-                    break;
-
-                //第一支必须抽东道主俄罗斯 
-                case this.curPot === 1 && this.curGroupNum === 0 && team.id !== 0:
-                    alert("选择红色小球-东道主俄罗斯自动进入A组");
-                    break;
-
-                default:
-                    this.$set(team, 'isDrew', true);
-                    this.$emit('choose',team);
-                    break;
+            if(!this.curPot) {
+            	alert('请点击start开始');
             }
+            else {
+	            switch(true) {
+	                case !this.drawTeamFlag:
+	                    alert('该流程不能抽选球队');
+	                    break;
+
+	                // 只能在本档选择
+	                case pIndex !== this.curPot - 1:
+	                    alert(`请在第${this.curPot}档选择`);
+	                    break;
+
+	                //第一支必须抽东道主俄罗斯 
+	                case this.curPot === 1 && this.curGroupNum === 0 && team.id !== 0:
+	                    alert("选择红色小球-东道主俄罗斯自动进入A组");
+	                    break;
+
+	                default:
+	                    this.$set(team, 'isDrew', true);
+	                    this.$emit('choose',team);
+	                    break;
+	            }
+	        }
         },
+
         fetchTeams() {
             this.$axios.get("http://localhost:3000/teams")
             .then(res => {
                 for(let i = 0; i < 4; i++) {
+                    // 获取分档的球队数组
                     this.$set(this.potTeams, i, res.data.slice(i*8, i*8+8));
+                    //为每支球队设置初始排列顺序
                     for(let j = 0; j < 8; j++) {
                         this.$set(this.potTeams[i][j], 'order', j);
                     }
@@ -136,7 +147,7 @@ export default {
                 // 对于等长数组，用slice获取以简化代码；非等长数组，用filter,例如获取各大洲球队
                 
                 // isDrew属性改为每次点选后设置，精简代码。以下为统一设置。
-                /* for(let i = this.potTeams.length - 1; i >= 0; i--) {
+                /*for(let i = this.potTeams.length - 1; i >= 0; i--) {
                     this.potTeams[i].forEach(item => {
                         if(typeof item.isDrew === 'undefined') {
                             // 注意不能直接加属性，注意'isDrew'要加引号  
@@ -161,6 +172,8 @@ export default {
             return result;
         }
     },
+
+
     mounted() {
         this.$nextTick(function () {
             this.fetchTeams();
@@ -171,31 +184,37 @@ export default {
 
 <style scoped>
 #team-area {
-    display: flex;  /*标题与抽签栏垂直排满*/
+    /*标题与抽签栏垂直排满*/
+    display: flex;  
     flex-direction: column;
     justify-content: space-between;
+    margin: 0 50px;   /*左右留出间隔*/
 }
+/*标题：分档区*/
 #team-area>h2 {
-    margin: 0 50px;
     font-size: 20px;
     color: #3090c7;
     font-weight: 700;
     border-bottom: 1px solid #ccc;
+    text-align: center;
 }
+/*所有的分档球队*/
 .pots {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-around;
     align-content: space-between;
 }
+/*每一档球队*/
 .individual-pot {
     width: 200px;
     height: 200px;
-    margin: 10px 30px 0px 0;
+    margin: 10px 30px 10px 0;
     padding: 5px;
     position: relative;
     border: 1px solid #0020c2;
     border-radius: 20px;
+    transition: background-color 1s; /* 切换当前档的过渡*/
 }
 .individual-pot>h2 {
     float: left;
@@ -206,31 +225,28 @@ export default {
     background-color: #ffebcd;
     box-shadow: 0px 10px 20px 10px #6698ff inset;
 }
-.invidual-pot {
-    transition: background-color .5s;
-}
 
-
+/*球队签*/
 .team {
     /*国旗和队名居中*/
     display: flex;
     flex-direction: column;
     justify-content: center;
-    /*设置旋转排列的起始 */
+    /*设置所有球队签旋转排列的起始 */
     position: absolute;
-    top: 2px;
+    top: 5px;
     left: 50%;
     width: 50px;
     height: 50px;
-    transform-origin: center 100px;
+    transform-origin: center 100px;   /*设置旋转中心，.individual-pot的中心*/
     /*外观*/
     border: 1px solid #0020c2;
     border-radius: 50%;
-    background: #fff;
-    /*队名太长时隐藏*/
+    background: #fff;     /*抽中后显示的背景颜色为白色*/
+    /*队名太长溢出时隐藏*/
     overflow: hidden;
     /* 旋转移动过渡，不能用v-move*/
-    transition: all .5s;    
+    transition: all 1s;    
 }
 .team-content {
     text-align: center;
@@ -245,7 +261,7 @@ export default {
     left: 50%;
     top: 50%;
     padding: 5px;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);  /*居中*/
     background-color: #306eff;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -256,9 +272,10 @@ export default {
 }
 .curpot-shuffle:hover {
     background-color: #4e8cff;
-    cursor: pointer;
+    cursor: pointer;  /*可选时的光标*/
 }
-/*key*/
+
+/*球队签遮盖*/
 .frame {
     position: absolute;
     top: 0;
@@ -270,14 +287,14 @@ export default {
     background-size: 100% 100%;
     background-position: center;
     cursor: pointer;
-    transition: all .5s;
+    transition: all 1s;   /*旋转过渡*/
 }
 .frame:hover {
 	transform: rotate(270deg);
 }
 .default-frame {
-    background: #ff2400;
-    box-shadow: 5px 5px 5px #ffc inset;
+    background: #fff;
+    box-shadow: 20px 0px 2px 20px #f70d1a inset;
 }
 .frame-enter,
 .frame-leave-to {
@@ -285,6 +302,6 @@ export default {
 }
 .frame-enter,
 .frame-leave-to {
-	transition: all .5s;
+	transition: all 1s;
 }
 </style>
