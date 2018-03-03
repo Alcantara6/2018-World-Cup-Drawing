@@ -3,26 +3,40 @@
     http://localhost:8000/draw
     component: draw-show
 -->
+
+<!-- 3-2 增加不同档切换时的进入离开过渡、增加抽中球队的点亮和变暗状态效果，
+    主要运用transform: scaleX和z-index
+    增加开始抽签之前的显示内容
+    XXX: 调试bug，过渡时撑开容器破坏页面结构，必须在enter-active和leave-actieve节点设置过渡元素positon: absolute(父容器永久设置position: relative) -->
 <template>
     <div id="draw-show">
-        <transition-group name="pot" tag="div" class="teamsContainer">
+        <transition-group name="pot" tag="div" class="teamsContainer" v-if="potNum">
             <div 
                 class="individual-pot" 
                 v-for="(pot,index) in potTeams"
-                v-if="index == potNum - 1"
+                v-if="index === potNum - 1"
                 :key="index">
                 <h2 v-if="pot.length">{{ `第${pot[0].pot}档` }}</h2>
                 <ul class = 'teams'>
                     <li 
-                    :class="['team',{'drewTeam':drewTeams.indexOf(team.teamName) !== -1}]" 
+                    :class="['team', {'drew': drewTeams.indexOf(team.teamName) !== -1}]"
                     v-for="team in pot" 
                     :key="team.id">
                         <img :src="team.flagUrl">
-                        <div>{{ team.teamName }}</div>
+                        <div class="teamName">{{ team.teamName }}</div>
+                        <!-- 当前选中球队高亮 -->
+                        <transition name="curTeam">
+                            <div class="frame" v-if="team.teamName === curTeamName">
+                            </div>
+                        </transition>
                     </li>
                 </ul>
             </div>
         </transition-group>
+        <!-- 开始抽签之前显示 -->
+        <div class="pre-draw" v-else>
+            <h2 v-for='n in 4'>{{ `第${n}档` }}</h2>
+        </div>
     </div>
 </template>
 
@@ -31,15 +45,12 @@ export default {
     name: 'draw-show',
     props: {
         teams: Array,
-        curTeamName: String,
-        potNum: Number
-    },
-    data() {
-        return {
-            drewTeams:[]
-        }
+        potNum: Number,
+        groupContainer: Array,
+        curTeamName: String, 
     },
     computed: {
+        // 从父组件teams计算而得
         potTeams() {
             let pot = [];
             for(let i = 0; i < 4; i++) {
@@ -48,23 +59,39 @@ export default {
             return pot;
         },
         // 不能放在data，data中会一直保持props的初始值
-        selectedTeam() {
-            return this.curTeamName;
+        drewTeams() {
+            let results = [];
+            // 扩展运算符，ES6
+            let places = [].concat(...this.groupContainer);
+            // apply(),ES5
+            // [].concat.apply([],this.groupContainer); 
+            for(let i = places.length - 1; i >= 0; i--) {
+                if(typeof places[i].team !== 'undefined') {
+                    results.push(places[i].team.teamName);
+                }
+            }
+            return results;
         }
-    },
-    // 多次操作计算属性，用watch。目前来看计算属性setter不能侦听。
-    watch: {
-        selectedTeam(val) {
-            this.drewTeams.push(val);
-        }
+        // 之前是监听curTeamName,加入一个新数组
+        // selectedTeam() {
+        //    return this.curTeamName;
+        // }
     }
+    // 多次操作计算属性，用watch。目前来看计算属性setter不能侦听。
+    // watch: {
+    //     selectedTeam(val) {
+    //         this.drewTeams.push(val);
+    //     }
+    // }
 }
 </script>
 
 <style scoped>
 .pot-enter-active,
 .pot-leave-active {
-    transition: all .5s;
+    transition: all 1s;
+    /*必须设置positon：absolute，否则会撑开容器，破坏页面结构*/
+    position: absolute;
 }
 .pot-enter {
     opacity: 0;
@@ -76,45 +103,84 @@ export default {
 }
 
 #draw-show {
-    display: flex;
-    align-items: center;
     height: 100%;
-    margin-right: 20px;
     color: #fff;
-    border: 2px solid #ede275;
-    background: #728fce;
+    background: #5471b0;
+    border-right: 3px solid #ede275;
+    /*.teamsContainer过渡时需要设置positon: absolute; 在#draw-show内进入和移开，以免破坏页面结构*/
+    position: relative;   
 }
 .teamsContainer {
     display: flex;
-    width: 100px;
-    margin: 0 auto;
-    overflow: hidden;
+    text-align: center;
+}
+/*开始之前的显示*/
+.pre-draw {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    line-height: 4;
 }
 
 /*每一档*/
 .individual-pot {
     flex: none;
-    margin-right: 10px;
+    width: 100%;
 }
 
 /*每档球队list*/
 .teams {
     display: flex;
     flex-direction: column;
-    margin-top: 25px;
+    margin-top: 15px;
 }
 .team {
     display: flex;
     align-items: center;  /*国旗与国名垂直对齐*/
-    margin: 20px 40px 0 0;
+    padding: 10px 40px;
+    position: relative;  /*用于.frame的100%大小*/
 }
+
+/*img和.teamName需要设置index最上，用于高亮scale()过渡*/
 .team img {
     width: 40px;
     margin-right: 15px;
+    position: relative;
+    z-index: 99;
+}
+.teamName {
+    position: relative;
+    z-index: 99;
 }
 
-/*已抽球队*/
-.drewTeam {
-    opacity: 0.2;
+/*球队已抽选后状态*/
+.drew {
+    opacity: 0.3;  
+}
+/*当前被抽中*/
+.frame {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #e55451;
+    transform-origin: 0;
+}
+
+/*当前抽中球队标记的动画*/
+.curTeam-enter {
+    transform: scaleX(0);
+}
+.curTeam-leave-to {
+    transform: scaleX(0);
+}
+.curTeam-enter-active,
+.curTeam-leave-active {
+    transition: transform 1s;
+    /*必须设置positon：absolute，否则会撑开容器，破坏页面结构*/
+    position: absolute;
 }
 </style>
