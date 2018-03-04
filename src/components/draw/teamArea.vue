@@ -24,7 +24,7 @@ order不能用全局变量，否则点击每一档的随机打乱按钮所有档
         <div class="pots">
             <!-- 每一档的球队 -->
             <div 
-                :class="['individual-pot', {'current-pot': pIndex === curPot - 1}]" 
+                :class="['individual-pot', {'current-pot': drawTeamFlag && pIndex === curPot - 1}]" 
                 v-for="(potTeam,pIndex) in potTeams">
                 <h2 v-if="potTeam.length">{{ `第${potTeam[0].pot}档`}}</h2>
                 <!-- 开始抽签-->
@@ -39,7 +39,7 @@ order不能用全局变量，否则点击每一档的随机打乱按钮所有档
                             <!-- 球队国旗+队名 -->
                             <div class="team-content" :style="{transform: `rotate(${team.order*(-45)}deg)`}">
                                 <div>{{ team.teamName }}</div>
-                                <img :src="team.flagUrl">                             
+                                <img :src="team.flagUrl">                    
                             </div>
                             <!-- 球队签遮盖 -->
                             <transition name="frame">
@@ -91,6 +91,7 @@ export default {
 
 
     methods: {
+        // 打乱待抽签球队的顺序
         shuffleOrder(pIndex) {
             // 之前方法是将球队数据打乱顺序
             // this.$set(
@@ -104,14 +105,15 @@ export default {
 	            }
             }
         },
+        // 抽取一支球队
         chooseTeam(team,tIndex,potTeam,pIndex) {
-            // 抽取球队
             if(!this.curPot) {
             	alert('请点击start开始');
             }
             else {
 	            switch(true) {
-	                case !this.drawTeamFlag:
+	                // 本流程之外不能抽取
+                    case !this.drawTeamFlag:
 	                    alert('该流程不能抽选球队');
 	                    break;
 
@@ -266,7 +268,6 @@ export default {
     border: 1px solid #ccc;
     border-radius: 5px;
     color: #fff;
-    cursor: default;   /*非本档情况下默认光标*/
     line-height: 2;
     outline-width: 0;
 }
@@ -293,15 +294,14 @@ export default {
 	transform: rotate(270deg);
 }
 .default-frame {
-    background: #fff;
-    box-shadow: 20px 0px 2px 20px #f70d1a inset;
+    background-image: url(../../assets/football-red.jpg);
 }
 .frame-enter,
 .frame-leave-to {
 	opacity: 0;
 }
-.frame-enter,
-.frame-leave-to {
+.frame-enter-active,
+.frame-leave-active {
 	transition: all 1s;
 }
 </style>

@@ -1,12 +1,12 @@
 <!-- 1.25
-修改dialog的css 
+    修改dialog的css 
 -->
 <!-- 1.26 
-.box-top span:hover 
-关闭dialog通过父传子props，原为事件传递
+	.box-top span:hover 
+	关闭dialog通过父传子props，原为事件传递
 -->
 <!-- 1.31 
-对话框增加淡入淡出过渡
+	对话框增加淡入淡出过渡
 -->
 <template>
 <transition name="dialog">

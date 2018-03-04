@@ -69,6 +69,7 @@ export default {
             let places = [].concat(...this.groupContainer);
             // apply(),ES5
             // [].concat.apply([],this.groupContainer); 
+            // XXX: 注意是length - 1
             for(let i = places.length - 1; i >= 0; i--) {
                 if(typeof places[i].team !== 'undefined') {
                     results.push(places[i].team.teamName);

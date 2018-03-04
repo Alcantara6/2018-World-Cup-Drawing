@@ -22,11 +22,13 @@
                     <transition-group class="pos-box" tag="ul" name="flip-list">
                         <li class="pos" v-for="(pos,pIndex) in group" :key="pos.num">
                             <div>{{ pos.num }}</div>
-                            <div :class="
-                                ['frame',{'default-frame':pos.num.slice(1) == 1}]" 
-                                v-if="!pos.isDrew" 
-                                @click="choosePos(pos,pIndex,group,gIndex)">
-                            </div>
+                            <transition> 
+                                <div name="frame" 
+                                    :class="['frame',{'default-frame':pos.num.slice(1) == 1}]"
+                                    v-if="!pos.isDrew"
+                                    @click="choosePos(pos,pIndex,group,gIndex)">
+                                </div>
+                            </transition>
                         </li>
                     </transition-group>
                 </div>
@@ -153,7 +155,6 @@ export default {
     background-color: #306eff;
     border: none;
     color: #fff;
-    cursor: default;
     outline-width: 0;
 }
 .current-group-shuffle:hover {
@@ -176,7 +177,6 @@ export default {
     text-align: center;
     font: 14px/30px 'Arial';
     font-weight: 700;
-    cursor: pointer;
 }
 /*key*/
 .frame {
@@ -186,11 +186,20 @@ export default {
     width: 100%;
     height: 100%;
     background-color: #e3e4fa;
+    cursor: pointer;
 }
 .default-frame {
     background-color: #f70d1a;
 }
+.frame-enter,
+.frame-leave-to {
+    opacity: 0;
+}
+.frame-enter-active,
+.frame-leave-active {
+    transition: all 2s;
+}
 .flip-list-move {
-    transition: all .1s;
+    transition: all .5s;
 }
 </style>
