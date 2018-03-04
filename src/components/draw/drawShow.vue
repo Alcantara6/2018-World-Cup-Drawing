@@ -3,14 +3,17 @@
     http://localhost:8000/draw
     component: draw-show
 -->
-
-<!-- 3-2 增加不同档切换时的进入离开过渡、增加抽中球队的点亮和变暗状态效果，
-    主要运用transform: scaleX和z-index
+<!-- 如何使用非响应式数据？定义局部变量，使其等于data（props）中的数据 -->
+<!-- 
+    增加不同档切换时的进入离开过渡、增加抽中球队的点亮和变暗状态效果，
+    主要运用transform: scaleX和z-index，ES6的扩展运运算符...
     增加开始抽签之前的显示内容
-    XXX: 调试bug，过渡时撑开容器破坏页面结构，必须在enter-active和leave-actieve节点设置过渡元素positon: absolute(父容器永久设置position: relative) -->
+    XXX: 调试bug，过渡元素必须设为定位元素，否则会撑开容器破坏页面结构
+-->
 <template>
     <div id="draw-show">
         <transition-group name="pot" tag="div" class="teamsContainer" v-if="potNum">
+            <!-- 每一档 -->
             <div 
                 class="individual-pot" 
                 v-for="(pot,index) in potTeams"
@@ -18,6 +21,7 @@
                 :key="index">
                 <h2 v-if="pot.length">{{ `第${pot[0].pot}档` }}</h2>
                 <ul class = 'teams'>
+                    <!-- 每支球队 -->
                     <li 
                     :class="['team', {'drew': drewTeams.indexOf(team.teamName) !== -1}]"
                     v-for="team in pot" 
@@ -25,7 +29,7 @@
                         <img :src="team.flagUrl">
                         <div class="teamName">{{ team.teamName }}</div>
                         <!-- 当前选中球队高亮 -->
-                        <transition name="curTeam">
+                        <transition name="frame">
                             <div class="frame" v-if="team.teamName === curTeamName">
                             </div>
                         </transition>
@@ -143,21 +147,21 @@ export default {
     position: relative;  /*用于.frame的100%大小*/
 }
 
-/*img和.teamName需要设置index最上，用于高亮scale()过渡*/
+/*img和.teamName需要设置positon：relative和index最上，用于高亮scale()过渡*/
 .team img {
     width: 40px;
     margin-right: 15px;
     position: relative;
-    z-index: 99;
+    z-index: 9;
 }
 .teamName {
     position: relative;
-    z-index: 99;
+    z-index: 9;
 }
 
 /*球队已抽选后状态*/
 .drew {
-    opacity: 0.3;  
+    opacity: 0.3;
 }
 /*当前被抽中*/
 .frame {
@@ -171,16 +175,14 @@ export default {
 }
 
 /*当前抽中球队标记的动画*/
-.curTeam-enter {
+.frame-enter {
     transform: scaleX(0);
 }
-.curTeam-leave-to {
-    transform: scaleX(0);
+.frame-leave-to {
+   opacity: 0;
 }
-.curTeam-enter-active,
-.curTeam-leave-active {
-    transition: transform 1s;
-    /*必须设置positon：absolute，否则会撑开容器，破坏页面结构*/
-    position: absolute;
+.frame-enter-active,
+.frame-leave-active {
+    transition: all 1.5s;
 }
 </style>
