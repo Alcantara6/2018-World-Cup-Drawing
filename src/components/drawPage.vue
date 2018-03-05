@@ -20,39 +20,48 @@
     3.2
         优化页面样式，分区块
         增加多个逻辑，在不同阶段对应元素显示高亮样式
-    3.5 增加draw-popup组件作为应用进入界面和抽签球队确认落位时的弹窗
+    3.5 增加draw-dialog组件作为应用进入界面和抽签球队确认落位时的弹窗
+    3.5 优化状态按钮样式，使用iconfont
 -->
 
 <template>  
     <div id="draw">
-        <!-- 抽签流程提示 -->
-        <draw-popup :isShow="isShowPopup" v-if="curRound === 0" @next="gotoNext">
-            <img class="popup-logo" slot="image" src="../assets/WorldCupLogo.jpg">
+        <!-- 欢迎对话框 -->
+        <draw-dialog :isShow="isShowDialog" v-if="curRound === 0" @next="gotoNext">
+            <img class="dialog-logo" slot="image" src="../assets/WorldCupLogo.jpg">
             <p slot="text">欢迎来到俄罗斯世界杯抽签仪式现场</p>
             <span slot="buttonTxt">开始抽签</span>
-        </draw-popup>
-        <draw-popup :isShow="isShowPopup" v-if="curRound > 0" @next="gotoNext">
-            <img class="popup-team" slot="image" :src="curTeam.flagUrl">
+        </draw-dialog>
+        <!-- 抽中球队确认落位对话框 -->
+        <draw-dialog :isShow="isShowDialog" v-if="curRound > 0" @next="gotoNext">
+            <img class="dialog-team" slot="image" :src="curTeam.flagUrl">
             <p slot="text">{{ curTeam.teamName }} - {{ curPos }}</p>
             <span slot="buttonTxt">确认落位</span>
-        </draw-popup>
-
+        </draw-dialog>
+        
+        <!-- 提示标签 -->
         <div id="draw-notice">
+            <!-- 进行状态标签 -->
             <div id="status">
                 <button class="statusBtn" v-if="curRound === 0" @click.once="start">
                     START
                 </button>
                 <button class="statusBtn" v-else-if="curRound === -1" @click.once="createResult">
                     请确认抽签结果
-                </button>          
-                <button class="statusBtn" v-else>
-                    抽签进行中…………
-                </button>
+                </button>         
+                <div class="statusBtn" v-else @click="return false">
+                    <span>抽签进行中…………</span>
+                    <!-- 显示当前状态信息 -->
+                    <span v-if="curPot > 0">
+                        当前第<strong>{{ curPot }}</strong>档，
+                        从<strong>{{ orderGroupName }}</strong>组开始落位
+                    </span>
+                </div>
             </div>
-            <div class="step" v-if="curRound >= 0">{{ step }}</div>
-            <div class="current" v-if="curRound > 0">
-                当前第<strong>{{ curPot }}</strong>档，
-                从<strong>{{ orderGroupName }}</strong>组开始落位
+            <!-- 操作步骤提示 -->
+            <div class="step" v-if="curRound >= 0">
+                <i class="iconfont icon-pointer-right"></i>
+                {{ step }}
             </div>
         </div>
 
@@ -80,7 +89,7 @@
             <aside id="teams-status">
                 <draw-show
                     :teams="teamList"
-                    :potNum="curPot"
+                    :curPot="curPot"
                     :groupContainer="groupContainer"
                     :curTeamName="curTeam.teamName">
                 </draw-show>
@@ -104,7 +113,7 @@ import teamArea from './draw/teamArea';
 import groupArea from './draw/groupArea';
 import groupingResult from './draw/groupingResult';
 import drawShow from './draw/drawShow';
-import drawPopup from './draw/drawPopup';
+import drawDialog from './draw/drawDialog';
 export default {
     name: 'draw',
     components: {
@@ -112,7 +121,7 @@ export default {
         groupArea,
         groupingResult,
         drawShow,
-        drawPopup
+        drawDialog
     },
     data() {
         return {
@@ -123,10 +132,10 @@ export default {
             curGroupNum: 0, // 1-8组   抽取球队之后，抽取位次之前
             curTeam: {},    // 抽中的球队
             curPos: '',     // 抽中的位次。1-4位。如'A1','A2','A3','A4'
-            step: '请点击start开始抽签，并根据提示流程操作',
+            step: '请点击左下角start开始抽签，并根据提示流程操作',
             drawTeamFlag: false,
             drawPosFlag: false,
-            isShowPopup: true
+            isShowDialog: true
         }
     },
 
@@ -186,10 +195,10 @@ export default {
     methods: {   
         gotoNext() {
             if(this.curRound === 0) {
-                this.isShowPopup = false;
+                this.isShowDialog = false;
             }
             else if(this.curRound > 0) {
-                this.isShowPopup = false;
+                this.isShowDialog = false;
                 this.enterGroup();
             }
         },
@@ -205,7 +214,7 @@ export default {
             this.curRound = 1;
             this.step = "请从第一档红色小球抽取东道主俄罗斯队";
             this.drawTeamFlag = true;
-            this.isShowPopup = false;
+            this.isShowDialog = false;
         },
 
 
@@ -274,23 +283,20 @@ export default {
         diffAlert(team,cur,seq) {
             if(cur === seq) {
                 this.step = `
-                    ${this.curTeam.teamName}队进入
-                    ${this.curGroupName}组，请在
-                    ${this.curGroupName}组抽取位置`;
+                    ${this.curTeam.teamName}队进入${this.curGroupName}组，
+                    请在${this.curGroupName}组抽取位置`;
             }
             else if(team.continent !== "欧洲"){
                 this.step = `
                     同一小组不能有相同大洲的球队（欧洲除外），
-                    ${this.curTeam.teamName}队顺延进入
-                    ${this.curGroupName}组。请在
-                    ${this.curGroupName}组抽取位置`;
+                    ${this.curTeam.teamName}队顺延进入${this.curGroupName}组。
+                    请在${this.curGroupName}组抽取位置`;
             }
             else {
                 this.step = `
                     同大洲不能有两支以上欧洲球队，
-                    ${this.curTeam.teamName}队顺延进入
-                    ${this.curGroupName}组。请在
-                    ${this.curGroupName}组抽取位置`;
+                    ${this.curTeam.teamName}队顺延进入${this.curGroupName}组。
+                    请在${this.curGroupName}组抽取位置`;
             }
         },
 
@@ -306,7 +312,7 @@ export default {
             this.step = `
                 ${this.curTeam.teamName}队进入${this.curPos}位`;
             this.drawPosFlag = false;
-            this.isShowPopup = true;
+            this.isShowDialog = true;
         },
 
         // 将抽取的球队落位至小组
@@ -372,7 +378,7 @@ export default {
         this.$nextTick(function () {
             this.fetchTeams();
             this.fetchGroups();
-            this.isShowPopup = true;
+            this.isShowDialog = true;
         });
     }
 } 
@@ -381,7 +387,6 @@ export default {
 <style scoped>
 /*总体布局*/
 #draw {
-    min-width: 784px;
     position: relative;
     border: 2px solid #0020c2;
 }
@@ -408,46 +413,53 @@ export default {
 
 /*#notice*/
 #draw-notice {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
     position: absolute;
     width: 100%;     /*绝对定位后，宽度等于内容实际宽度*/
-    bottom: -50px;  /*始终位于内容区下方*/
+    bottom: -40px;  /*始终位于内容区下方*/
+    text-align: center;
+}
+#status {
+    /*如果设为float: left，.step会按避开其之后的宽度居中*/
+    position: absolute; 
+    left: 0;
+}
+.statusBtn,
+.step {
+    border: 1px solid #000;
+    line-height: 30px;
 }
 /*进行状态按钮*/
-.statusBtn,
-.step,
-.current {
-    margin-right: 50px;
-    text-align: center;
-    font-size: 14px;
-}
 .statusBtn {
-    width: 150px;
+    min-width: 150px;    /*用min-width，有较长文字出现的情况*/
+    padding: 0 20px;
     height: 30px;
     background: #f0f8ff;
     border-radius: 8px;
+    font-family: 'Hiragino GB';
+    font-weight: 700;
     outline-width: 0;
 }
-/*操作流程提示*/
-.step,
-.current {
-    min-width: 280px;   /*用min-width，有较长文字出现的情况*/
-    padding: 10px 20px;
+button.statusBtn:hover {
+    background: #e67451;
     color: #fff;
-    background: #7f525d;
 }
-.current {
-    background: #348781;
+/*操作流程提示*/
+.step {
+    display: inline-block;
+    min-width: 280px;   /*用min-width，有较长文字出现的情况*/
+    min-height: 30px;
+    padding: 0 20px;
+    background: #ccfb5d;
+    font-size: 16px;
+    font-weight: 700;
+    align-self: center;
 }
 
-
-/*从父组件drawPage.vue分发的图片*/
-.popup-logo {
+/*从父组件drawPage.vue向drawDialog.vue分发的图片*/
+.dialog-logo {
     width: 150px;
 }
-.popup-team {
+.dialog-team {
     width: 100px;
     border: 1px solid #000;
 }
