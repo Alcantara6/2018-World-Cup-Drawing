@@ -5,10 +5,12 @@
 <!-- 动态路由Id VS v-for的index-->
 <!-- 2.10: 使用props传递teamsPage获取到的球队数据，不再每次切换球队都向后台获取 -->
 <!-- 包括beforeRouteUpdate -->
+<!-- 3.5 XXX: props解耦传递动态路径参数：id和playerId
+3.6 解决了props异步传输导致的渲染出错问题。teams是从父组件异步传输的数据，是父组件的teamList通过ajax请求的，teams.currentTeam初始为undefiend。通过vue-devtools检查出问题所在，解决方法：HTML模板中使用v-if（另一种方法是给props设定默认值default） -->
 <template>
     <div id="teamTable">
         <header v-if="alert">{{ alert }}</header>
-        <section class="serach">
+        <section class="search">
             <div class="searchRow">
                 <label for="name">姓名：</label> 
                 <input type="text" placeholder="搜索球员名" v-model="searchName">
@@ -30,9 +32,10 @@
         </section>
         
         <div class="table-team">
-            <!-- 之前不想每个队做一个组件，所以v-for所有+v-if="currentId"
-            用组件+动态路由方式，根据id获取数据，不用每个队做组件-->
-            <h2>{{ this.currentTeam.teamName }}队关键球员</h2>
+            <!-- 之前不想每个队做一个组件，所以v-for所有+v-if="currentId" -->
+            <!-- 用组件+动态路由方式，根据id获取数据，不用每个队做组件 -->
+            <!-- teams.currentTeam从父组件异步传输，currentTeam初始为undefiend -->
+            <h2 v-if="currentTeam">{{ currentTeam.teamName }}队关键球员</h2>
             <!-- title -->
             <ul class="table-title">
                 <li>姓名</li>
@@ -43,7 +46,8 @@
                 <li></li>
             </ul>
             <!-- 每个球员版块-->
-            <ul class="table-player" v-for="(keyPlayer,index) in filterPlayers">
+            <!-- filterPlayers可能为空数组，v-if判断 -->
+            <ul class="table-player" v-if="filterPlayers.length" v-for="(keyPlayer,index) in filterPlayers">
                 <li>{{keyPlayer.name}}</li>
                 <li>{{keyPlayer.number}}</li>
                 <li>{{keyPlayer.role}}</li>
@@ -61,11 +65,11 @@
                     </router-link></li> 
                 -->
             </ul>
-        </div>
-        <div class="addPlayer">
-            <!-- 跳转到查看球员页面 -->
-            <router-link to="addPlayer" append>添加球员</router-link>
-            <!-- <router-link :to="'/teams/teamTable/' + team.id + '/addPlayer'">添加球员</router-link> -->
+            <div class="addPlayer">
+                <!-- 跳转到查看球员页面 -->
+                <router-link to="addPlayer" append>添加球员</router-link>
+                <!-- <router-link :to="'/teams/teamTable/' + team.id + '/addPlayer'">添加球员</router-link> -->
+            </div>
         </div>
     </div>
 </template>
@@ -74,20 +78,23 @@
 export default {
     name: 'teamTable',
     props: {
-        teams: {
-            type: Array
-        }
+        teams: Array,
+        teamId: String
     },
     data() {
         return {
-            currentTeam: this.teams[this.$route.params.id],
+            // currentTeam: this.teams[this.$route.params.id],改用props：{teamId: route.params.id}
             alert: '',
             searchName: '',
             searchRole: '',
-            searchClub: ''
+            searchClub: '',
         }
     },
     computed: {
+        // XXX；注意使用route传递的props——teamId,不能放在data中
+        currentTeam() {
+            return this.teams[this.teamId];
+        },
         // 筛选球员,不输入或匹配正确则返回true；因为中文字符，不使用正则
         // XXX 首先要判断是否含有this.team.keyPlayers
         // 使用for循环不使用filter; 使用三元运算符
@@ -95,7 +102,10 @@ export default {
         // XXX 用push()不用result[i]=keyPlayers[i],否则有undefined数组项
         // XXX 注意indexOf判断项的前后顺序
         filterPlayers() {
-            if(Array.isArray(this.currentTeam.keyPlayers)) {
+            // props：currentTeam异步传输，初始为undefiend
+            // keyPlayer可能未定义
+            // 因此需要判断
+            if(this.currentTeam && Array.isArray(this.currentTeam.keyPlayers)) {
                 let keyPlayers = this.currentTeam.keyPlayers;
                 let result = [];
                 for(let i = keyPlayers.length - 1; i>-1; i--) {
@@ -119,7 +129,7 @@ export default {
                     }
                 }
                 return result;
-            } 
+            }
         }
     },
 
@@ -128,23 +138,24 @@ export default {
     },
 
     mounted() {
-        if(this.$route.query.alert) {
-            this.alert = this.$route.query.alert;
-        }
+        this.$nextTick(function () {
+            if(this.$route.query.alert) {
+                this.alert = this.$route.query.alert;
+            }
+        });
     },
 
     // 不能用watch，因为判断alert是刚进入该路由的时候
     // 不能用beforeRouteEnter,不能使用组件实例this
     // updated主要针对虚拟DOM重新渲染，所以alert放在created或mounted中
     updated() {
-
     },
 
     // 当有keep-alive时，只有在activated钩子中渲染。例如添加和编辑球员
     activated() {
     //     this.fetchTeam(this.$route.params.id);
     },
-    
+
     // 更改球队时，获取数据
     // 对于一个带有动态参数的路径 /foo/:id，
     // 在 /foo/1 和 /foo/2 之间跳转的时候，用watch $route或导航守卫监测变化 
@@ -153,6 +164,7 @@ export default {
         this.alert = '';
         next();
     },
+
     // 或者用watch
     // watch: {
     //     $route(to) {
@@ -169,9 +181,18 @@ export default {
 </script>
 
 <style>
+.search {
+    display: flex;
+    justify-content: center;
+}
+.searchRow {
+    margin-right: 30px;
+}
+
 .table-team {
     display: table;
     width: 600px;
+    margin: 20px auto;
     border: 1px solid #0041c2;
 }
 .table-team>h2 {
@@ -179,7 +200,8 @@ export default {
     text-align: center;
 }
 .table-title,
-.table-player {
+.table-player,
+.add-player {
     display: table-row;
 }
 .table-title>li,
