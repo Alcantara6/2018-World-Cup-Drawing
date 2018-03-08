@@ -321,8 +321,6 @@ export default {
             let position = this.curPos.slice(1);
             // 将抽取到的球队落入抽取到的小组位次
             this.$set(this.groupContainer[this.curGroupNum - 1][position - 1], 'team', this.curTeam);
-            this.step = `请从第${this.curPot}档抽取一支球队`;
-            this.drawTeamFlag = true;
             // 最后一轮之前，确认球队落位后，轮次增加1
             if(this.curRound < 32) {
                 this.curRound ++;
@@ -330,6 +328,8 @@ export default {
                 // 最后一支球队落位后，将轮次赋值为-1
                 this.curRound = -1;
             }
+            this.step = `请从第${this.curPot}档抽取一支球队`;
+            this.drawTeamFlag = true;
         },
 
         // 抽签结果传入后端

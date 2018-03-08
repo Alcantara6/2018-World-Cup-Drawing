@@ -9,14 +9,14 @@
         <div class="groups">
             <!-- 每一档的球队 -->
             <div 
-                :class="['group', {'current-group': gIndex == curGroupNum - 1}]" 
+                :class="['group', {'current-group': drawPosFlag && gIndex == curGroupNum - 1}]" 
                 v-for="(group,gIndex) in positionContainer">
                 <!-- 获取小组名 -->
                 <h2>{{ group[0].num.slice(0,1) }}组</h2>
                 <button 
                     :class="['shuffleBtn', {'current-group-shuffle': gIndex == curGroupNum - 1 && drawPosFlag}]" 
                     @click="shuffleGroup(gIndex)">
-                    shuffle
+                    打乱
                 </button>
                 <div class="position">
                     <transition-group class="pos-box" tag="ul" name="flip-list">
@@ -158,8 +158,7 @@ export default {
     outline-width: 0;
 }
 .current-group-shuffle:hover {
-    background-color: #4e8cff;
-    cursor: pointer;  /*可选时的光标*/
+    background-color: #43bfc7;
 }
 
 .pos-box {
@@ -178,6 +177,10 @@ export default {
     font: 14px/30px 'Arial';
     font-weight: 700;
 }
+.flip-list-move {
+    transition: all .1s;
+}
+
 /*key*/
 .frame {
     position: absolute;
@@ -198,8 +201,5 @@ export default {
 .frame-enter-active,
 .frame-leave-active {
     transition: all 2s;
-}
-.flip-list-move {
-    transition: all .5s;
 }
 </style>

@@ -3,13 +3,22 @@
         <header id="app-header">
         <!-- router-link不能直接绑定props，
         一般用$routes传，所以App.vue不去获取teamList -->
-            <router-link to="/"><h1>indexPage</h1></router-link>
-            <router-link to="/teams"><h1>teams</h1></router-link>
-            <router-link to="/draw"><h1>draw</h1></router-link>
+        <!-- 菜单栏当前页面项高亮 -->
+            <nav id="nav">
+                <!-- <router-link to="/" :class="{'curPage': $route.path === '/'}">
+                    <h1>主页</h1>
+                </router-link> -->
+                <router-link to="/teams" :class="{'curPage': $route.path === '/teams/teamTable/0'}">
+                    <h1>球队球员一览</h1>
+                </router-link>
+                <router-link to="/draw" :class="{'curPage': $route.path === '/draw'}">
+                    <h1>模拟抽签</h1>
+                </router-link>
+            </nav>
         </header>
-        <keep-alive>  
+        <!-- <keep-alive>   -->
             <router-view></router-view>
-        </keep-alive>
+        <!-- </keep-alive> -->
     </div>
 </template>
 
@@ -21,17 +30,33 @@ export default {
 
 <style>
 #app {
+    min-width: 784px;
     margin: 0px 20px;
 }
 #app-header {
-    height: 30px;
+    width: 100%;
+    height: 40px;
     margin-bottom: 10px;
+    background: #5471b0;
+    color: #fff;
 }
-#app-header h1 {
-    display: inline-block;
-    padding: 10px;
-    font-size: 16px;
+#nav {
+    display: flex;
 }
+#nav a {
+    display: block;
+    padding: 0 10px;
+    line-height: 40px;
+    color: #fff;
+}
+#nav a:hover,
+.curPage {
+    background-color: #9f000f;
+}
+#nav h1 {
+    font-size:16px;
+}
+
 * {
     margin: 0; 
     padding: 0;
@@ -48,12 +73,9 @@ a {
 a:link {
     color: #000;
 }
-a:hover {
-    color: #0000A0;
-}
 a:visited {
     text-decoration: underline;
-    color: #00F;
+    color: #000;
 }
 a img, 
 div img {
@@ -74,8 +96,5 @@ footer, header, hgroup, menu, nav, section {
 *:before,
 *:after {
     box-sizing: border-box;
-}
-* {
-    transition: background-color .3s;
 }
 </style>

@@ -56,7 +56,7 @@ order不能用全局变量，否则点击每一档的随机打乱按钮所有档
                     <button 
                         :class="['shuffleBtn', {'curpot-shuffle': drawTeamFlag && pIndex === curPot - 1}]" 
                         type="button" 
-                        @click="shuffleOrder(pIndex)">shuffle
+                        @click="shuffleOrder(pIndex)">打乱
                     </button>
                 </div>
             </div>
@@ -248,7 +248,7 @@ export default {
     /*队名太长溢出时隐藏*/
     overflow: hidden;
     /* 旋转移动过渡，不能用v-move*/
-    transition: all 1s;    
+    transition: all .3s;    
 }
 .team-content {
     text-align: center;
@@ -258,11 +258,13 @@ export default {
     width: 25px;
     vertical-align: top;
 }
+
+/*打乱按钮*/
 .shuffleBtn {
     position: absolute;
     left: 50%;
     top: 50%;
-    padding: 5px;
+    padding: 5px 10px;
     transform: translate(-50%,-50%);  /*居中*/
     background-color: #306eff;
     border: 1px solid #ccc;
@@ -272,8 +274,7 @@ export default {
     outline-width: 0;
 }
 .curpot-shuffle:hover {
-    background-color: #4e8cff;
-    cursor: pointer;  /*可选时的光标*/
+    background-color: #43bfc7;
 }
 
 /*球队签遮盖*/
@@ -291,7 +292,7 @@ export default {
     transition: all 1s;   /*旋转过渡*/
 }
 .frame:hover {
-	transform: rotate(270deg);
+    transform: rotate(270deg);
 }
 .default-frame {
     background-image: url(../../assets/football-red.jpg);

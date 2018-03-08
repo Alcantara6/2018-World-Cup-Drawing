@@ -10,12 +10,13 @@
       "coach": "切尔切索夫",
       "keyPlayers": [
         {
-          "playerId": 0,
           "name": "扎戈耶夫",
-          "number": 10,
-          "age": 27,
+          "number": 22,
+          "age": 28,
           "role": "中场",
-          "club": "莫斯科中央陆军"
+          "club": "圣彼得堡泽尼特",
+          "height": "177",
+          "playerId": 0
         }
       ]
     },
@@ -30,25 +31,6 @@
       "keyPlayers": [
         {
           "playerId": 0,
-          "name": "诺伊尔",
-          "number": 1,
-          "age": 31,
-          "role": "后卫",
-          "club": "拜仁慕尼黑",
-          "intro": "世界最佳门将",
-          "height": "198"
-        },
-        {
-          "playerId": 1,
-          "name": "穆勒",
-          "number": 13,
-          "age": 28,
-          "role": "前锋",
-          "club": "拜仁慕尼黑",
-          "intro": "2010年世界杯最佳射手！"
-        },
-        {
-          "playerId": 2,
           "name": "克罗斯",
           "number": 8,
           "age": 27,

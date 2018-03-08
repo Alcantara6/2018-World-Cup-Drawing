@@ -12,12 +12,12 @@
 -->
 <template>
     <div id="draw-show">
-        <transition-group name="pot" tag="div" class="teamsContainer" v-if="potNum">
+        <transition-group name="pot" tag="div" class="teamsContainer" v-if="curPot">
             <!-- 每一档 -->
             <div 
-                class="individual-pot" 
+                class="individual-pot"
                 v-for="(pot,index) in potTeams"
-                v-if="index === potNum - 1"
+                v-if="index === curPot - 1"
                 :key="index">
                 <h2 v-if="pot.length">{{ `第${pot[0].pot}档` }}</h2>
                 <ul class = 'teams'>
@@ -49,9 +49,9 @@ export default {
     name: 'draw-show',
     props: {
         teams: Array,
-        potNum: Number,
-        groupContainer: Array,
+        curPot: Number,
         curTeamName: String, 
+        groupContainer: Array,
     },
     computed: {
         // 从父组件teams计算而得
@@ -128,6 +128,10 @@ export default {
     text-align: center;
     line-height: 4;
 }
+.current {
+    position: absolute;
+    bottom: 20px;
+}
 
 /*每一档*/
 .individual-pot {
@@ -184,6 +188,6 @@ export default {
 }
 .frame-enter-active,
 .frame-leave-active {
-    transition: all 1.5s;
+    transition: all 1s;
 }
 </style>

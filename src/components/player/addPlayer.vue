@@ -3,32 +3,36 @@
 -->
 <!-- 使用$route.query通信 -->
 <!-- 利用动态路由$route.params中不同的键值 -->
-<!-- todo: 用props获取球队数据 -->
+<!-- 3-7 当前球队currentTeam根据父组件传递props和路径参数id获得，不再从后端请求 -->
+<!-- 3-7 put方法添加球员时，手动添加playerId -->
 <template>
 	<div class="add">
-		<h4 v-if="errorText">{{ errorText }}</h4>
+		<h4 class="error-text" v-if="errorText">{{ errorText }}</h4>
 		<!-- .prevent修饰符 -->
 		<form v-on:submit.prevent='addPlayer'>
-			<fieldset>
+			<fieldset class="player-info">
 				<legend>球员信息表</legend>
-				<!-- 姓名 必填-->
-				<div class="infoRow">
+				<!-- 姓名 必填。使用.trim-->
+				<div class="info-row">
 					<label for="name">姓名</label>
-				    <input id="name" type="text" required v-model.trim="addedPlayer.name" @blur="nameErrorFlag = true">         <!-- 使用.trim -->
-				    <span class="format-warn" v-if="nameErrorFlag === true">{{ nameError.errorText }}</span>
+				    <input id="name" type="text" required v-model.trim="addedPlayer.name" 
+				        @blur="nameErrorFlag = true">
+				    <span class="format-warn" v-if="nameErrorFlag === true">
+					    {{ nameError.errorText }}
+				    </span>
 				</div>
-				<!-- 号码 必填-->				
-				<div class="infoRow">
+				<!-- 号码 必填。使用.number-->				
+				<div class="info-row">
 					<label for="number">号码</label>
-				    <input id="number" type="number" required v-model.number="addedPlayer.number">  <!-- 使用.number -->
+				    <input id="number" type="number" required v-model.number="addedPlayer.number">
 				</div>
 				<!-- 年龄 必填-->				
-				<div class="infoRow">
+				<div class="info-row">
 					<label for="age">年龄</label>
 				    <input id="age" type="number" required v-model.number="addedPlayer.age">
 				</div>
 				<!-- 位置 必填-->				
-				<div class="infoRow">
+				<div class="info-row">
 					<label for="role">位置</label>
 				    <select id="role" required v-model="addedPlayer.role">
                         <option disabled value="">请选择</option>
@@ -39,31 +43,39 @@
 				    </select>
 				</div>
 				<!-- 俱乐部 必填-->				
-				<div class="infoRow">
+				<div class="info-row">
 					<label for="club">俱乐部</label>
 				    <input id="club" type="text" required v-model.trim="addedPlayer.club">
 				</div>
 				<!-- 出生日期 -->				
-				<div class="infoRow">
+				<div class="info-row">
 					<label for="birthDate">出生日期</label>
 				    <input id="birthDate" type="date" v-model="addedPlayer.birthDate">
 				</div>
 				<!-- 身高 -->
-				<div class="infoRow">
+				<div class="info-row">
 					<label for="height">身高(cm)</label>
-				    <input id="height" type="text" v-model="addedPlayer.height" @blur="heightErrorFlag=true">
-				    <span class="format-warn" v-if="heightErrorFlag === true">{{ heightError.errorText }}</span>
+				    <input id="height" type="text" v-model="addedPlayer.height" 
+				        @blur="heightErrorFlag=true">
+				    <span class="format-warn" v-if="heightErrorFlag === true">
+					    {{heightError.errorText }}
+					</span>
 				</div>
 				<!-- 简介 -->					
-				<div class="infoRow">
+				<div class="info-row">
 					<label for="intro">简介</label>
 				    <textarea id="intro" rows="10" cols="50" v-model="addedPlayer.intro"></textarea>
 				</div>
-				<div class="infoRow">
+				<div class="info-row">
 					<label for="button"></label>
 				  	<button type="submit">提交</button>
 				    <button type="reset">重置</button>
-			    </div>		
+			        <router-link 
+			    	    class="back"
+			    	    :to="`/teams/teamTable/${this.currentId}`">
+			    	    &lt;&lt; 返回
+			        </router-link>
+			    </div>
 			</fieldset>
 		</form>
 	</div>
@@ -72,60 +84,67 @@
 <script>
 export default {
 	name: 'addPlayer',
+	props: ['teams'],
 	data() {
 		return {
             addedPlayer: {},
-            currentTeam: {},
             currentId: this.$route.params.id,
             errorText: '',
+             // 首次进入时会显示error。定义flag，@blur和v-if控制显示隐藏/及控制text
             nameErrorFlag: false,
             heightErrorFlag: false
 		}
 	},
 	computed: {
+        // 不能放在data，否则初始curretnTeam为undefined
+        // 子组件是对父组件的引用，currentTeam没有更改，只是之后put到后台
+        currentTeam() {
+        	// 后面要更新currentTeam，不要修改引用类型的prop，拷贝一份
+        	// 如果要在HTML模板渲染，就不能对异步数据进行操作
+        	return JSON.parse(JSON.stringify(this.teams[this.currentId]));
+        },
         // 函数尽量封装，将nameError和heightError分开
-        // 首次进入时会显示error。定义flag，@blur和v-if控制显示隐藏/或控制text
         nameError() {
-        	let item = this.addedPlayer.name;
+        	// 如果没有输入，则为空字符串
+        	let item = this.addedPlayer.name?this.addedPlayer.name:'';  
         	let reg = /^[a-zA-Z\u4e00-\u9fa5]+((·[a-zA-Z\u4e00-\u9fa5]+)?)$/;
         	let text = '输入格式错误，样例：Lionel Messi, Messi, 里奥.梅西，梅西';
         	return this.inputError(item,reg,text);
         },
         heightError() {
-            let item = this.addedPlayer.height;
+            // 如果没有输入，则为空字符串
+            let item = this.addedPlayer.height?this.addedPlayer.height:'';
             let reg = /^\d{3}$/;
             let text = '输入格式错误，必须是三位数字';
             return this.inputError(item,reg,text);
         }
     },
-	mounted() {
-		this.$axios.get(`http://localhost:3000/teams/${this.currentId}`)
-		.then(res => {
-		    this.currentTeam = res.data;
-		});
-	},
+
 	methods: {
 		addPlayer() {
             if(this.nameError.status && this.heightError.status) {
-	            // HACK: 这里只能post到teams层，不能post到下一层
-	            let newKeyPlayer = JSON.parse(JSON.stringify(this.addedPlayer));
-	            this.currentTeam.keyPlayers.push(newKeyPlayer);
+	            // HACK: JSON-server,只能向teams层put，不能向keiyPlyers层post
+	            // 操作计算属性，不更改引用，只添加属性
+	            let playerId = this.currentTeam.keyPlayers.length;
+	            // 手动添加playerId
+	            this.$set(this.addedPlayer, 'playerId', playerId);
+	            this.currentTeam.keyPlayers.push(this.addedPlayer);
 	            this.$axios.put(`http://localhost:3000/teams/${this.currentId}`, this.currentTeam)
-	            .then(res => {
-	                // 跳转到teams/teamTable/:id页面
-	                // FIXME: 之前使用this.currentId,只能用bus非父子组件的通信
-	                // 教程也是在addPlayer.vue中直接post数据，通过router.push和query传递信息
-	                // XXX: 注意path的id没有冒号
-	                this.$router.push({
-	                    path: '/teams/teamTable/' + this.currentId,
-	                    query: {alert: '球员信息添加成功'}
-	                });
-	                // OTHER: 使用 this.$router.go(-1);
-	                // 要向teamTable页面传递alert信息,非父子组件通信
-	                // 按照教程里是在customers的create钩子里监听$routes.query,更新alert值
-	            });
+		            .then(res => {
+		                // 跳转到teams/teamTable/:id页面
+		                // FIXME: 之前使用this.currentId,只能用bus非父子组件的通信
+		                // XXX: 注意path的id没有冒号
+		                this.$router.push({
+		                    path: '/teams/teamTable/' + this.currentId,
+		                    query: {alert: '球员信息添加成功'}
+		                });
+		                // OTHER: 使用 this.$router.go(-1);
+		                // 要向teamTable页面传递alert信息,非父子组件通信,所以用route.query
+		                // 在teamTable的create或mounted钩子里监听$routes.query,更新alert值
+		            });
 	        }
 	        else {
+	        	// 如果html不加required才显示errorText
 	        	this.errorText = '球员信息不完整或不正确';
 	        }
 		},
@@ -153,36 +172,67 @@ export default {
 
 <style scoped>
 .add {
-	max-width: 800px;
+    width: 700px;
+	margin: 0 auto;
 }
-fieldset {
-	display: table;
+.player-info {
+	position: relative;
+	padding: 20px 0;
+	background: #3d3c3a;
+	border: none;
+	color: #fff;
 }
 legend {
-	display: table-caption;
+	margin-bottom: 10px;
 	text-align: center;
 	font-size: 16px;
-	font-weight: 700;
+	transform: translateY(70%);
+	color: #ff0;
 }
-.infoRow {
-	display: table-row;
+.info-row {
+	margin-bottom: 15px;
+	font: 14px/1.5 "STXiHei";
 }
-.infoRow>label,
-.infoRow>input,
-.infoRow>select {
-	display: table-cell;
-	height:25px;
-	width: 200px;
-	margin-bottom: 10px;
+.info-row>label,
+.info-row>input,
+.info-row>select {
+	height: 25px;
+	line-height: 25px;
+	width: 150px;
 	vertical-align: top;
 }
-.infoRow>label {
-	width:100px;
+.info-row>label {
+	width: 100px;
 	padding-right: 20px;
 	text-align: right;
+	color: #ff0;
 }
-.infoRow button {
+.info-row button {
 	width: 50px;
 	margin-right: 20px;
+	padding: 3px 5px;
+	border: none;
+	outline-width: 0;
+	color: #fff;
+}
+button[type='submit'] {
+	background: #d9534f;
+}
+button[type='reset'] {
+	background: #306eff;
+}
+.back {
+	position: absolute;
+	left: 0;
+	top: 0;
+	padding: 20px 10px;
+	font: 14px/1.5 "宋体";
+	color: #fff;
+}
+
+/*输入错误提示*/
+.format-warn {
+	color: #d9543f;
+	padding: 0 10px;
 }
 </style>

@@ -101,7 +101,7 @@ export default {
 	cursor: pointer;
 }
 .box-top span:hover {
-    background: #e56717;	
+    background: #306eff;	
 }
 .box-content {
 	text-align: center;
@@ -118,14 +118,13 @@ export default {
 }
 .btn-confirm {
 	margin: 0 5px;
-	border: 1px solid #e56717;
-	color: #faa;
+	border: 1px solid #306eff;
 	background: #fff;
 }
 .btn-cancel {
 	margin: 0 5px;
-	border: 1px solid #faa;
-	background: #e56717;
-	color: #000;
+	border: none;
+	background: #306eff;
+	color: #fff;
 }
 </style>

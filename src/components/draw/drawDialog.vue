@@ -1,22 +1,22 @@
 <!-- 3-4 插槽方式加入弹框组件，用于进入界面和抽中球队、位次落位的确认 -->
 <!-- 分发内容的CSS只能在父组件设置（可继承的属性除外，可以在子组件slot元素外层加一个标签，设置CSS，分发的内容会继承 -->
 <template>
-	<!-- 不能在#draw-popup总体使用transiton，对#draw-popup-box的过渡无效 -->
-	<div id="draw-popup">
+	<!-- 不能在#draw-dialog总体使用transiton，对#draw-dialog-box的过渡无效 -->
+	<div id="draw-dialog">
 	    <transition name="shade">
 		    <!-- 遮罩 注意top和left -->
 			<div id="shade" v-if="isShow"></div>
 		</transition>
 	    <transition name="box">
 		    <!-- 对话框 -->	
-			<div id="draw-popup-box" v-if="isShow">
+			<div id="draw-dialog-box" v-if="isShow">
 				<div class="box-top"></div>
 				<div class="box-content"> 
-				    <div class="popupInfo">
+				    <div class="dialogInfo">
 				        <slot name="image"></slot>
 				    	<slot name="text">球队名和分组位置</slot>
 				    </div>
-				    <button class="popupBtn" @click="confirm">
+				    <button class="dialogBtn" @click="confirm">
 				        <slot name="buttonTxt">确认按钮</slot>
 				    </button>
 				</div>
@@ -28,7 +28,7 @@
 
 <script>
 export default {
-	name:"draw-popup",
+	name:"draw-dialog",
 	props: {
 		isShow: {
 			type: Boolean,
@@ -48,16 +48,17 @@ export default {
 /* 遮罩 注意top和left*/
 .shade-enter-active,
 .shade-leave-active {
-	transition: opacity .3s;
+	transition: opacity .2s;
 	position: absolute;  /*必须加absoulute,否则会破坏页面结构*/
 }
 .shade-enter,
 .shade-leave-to {
 	opacity: 0;
 }
+
 .box-enter-active,
 .box-leave-active {
-	transition: opacity .8s;
+	transition: opacity .3s;
 }
 .box-enter,
 .box-leave-to {
@@ -75,7 +76,7 @@ export default {
 	z-index: 99;
 }
 /* 对话框 注意top和left*/
-#draw-popup-box {
+#draw-dialog-box {
 	position: absolute;
 	left: 50%;
 	top: 20%;
@@ -99,16 +100,21 @@ export default {
 	font: 24px/2 Helvetica, "Heiti SC";
 	font-weight: 700;
 }
-/*popup插槽*/
-.popupInfo {
+/*dialog插槽*/
+.dialogInfo {
     padding: 30px 0 20px;
 }
-.popupBtn {
+.dialogBtn {
     width: 150px;
     margin: 0 auto;
     padding: 10px;
     font-size: 16px;
     background: #306eff;
     color: #fff;
+    border: 1px solid #000;
+    outline-width: 0;
+}
+.dialogBtn:hover {
+    background: #43bfc7;
 }
 </style>

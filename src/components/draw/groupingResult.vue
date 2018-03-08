@@ -76,7 +76,7 @@ export default {
     display: inline-block;
     vertical-align: top;
     width: 100px;
-    margin: 5px 20px 0 0;
+    margin: 0px 20px 5px 0;
     border: 2px solid #483c32;
     background: #fff;
 }
