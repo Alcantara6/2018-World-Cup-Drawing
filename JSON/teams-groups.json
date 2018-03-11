@@ -10,13 +10,49 @@
       "coach": "切尔切索夫",
       "keyPlayers": [
         {
+          "name": "费尔南德斯",
+          "number": 2,
+          "age": 27,
+          "role": "边后卫",
+          "club": "莫斯科中央陆军",
+          "height": "187",
+          "playerId": 0
+        },
+        {
+          "name": "斯莫洛夫",
+          "number": 20,
+          "age": 27,
+          "role": "前锋",
+          "club": "克拉斯诺达尔",
+          "height": "187",
+          "playerId": 1
+        },        
+        {
           "name": "扎戈耶夫",
-          "number": 22,
-          "age": 28,
+          "number": 10,
+          "age": 27,
           "role": "中场",
           "club": "圣彼得堡泽尼特",
-          "height": "177",
-          "playerId": 0
+          "height": "179",
+          "playerId": 2
+        },        
+        {
+          "name": "阿金费耶夫",
+          "number": 1,
+          "age": 32,
+          "role": "守门员",
+          "club": "莫斯科中央陆军",
+          "height": "186",
+          "playerId": 3
+        },
+        {
+          "name": "戈洛温",
+          "number": 17,
+          "age": 21,
+          "role": "中场",
+          "club": "莫斯科中央陆军",
+          "height": "180",
+          "playerId": 4
         }
       ]
     },
@@ -33,9 +69,37 @@
           "playerId": 0,
           "name": "克罗斯",
           "number": 8,
-          "age": 27,
+          "age": "27",
           "role": "中场",
-          "club": "皇家马德里"
+          "club": "皇家马德里",
+          "height": "182"
+        },
+        {
+          "name": "诺伊尔",
+          "number": 1,
+          "age": 31,
+          "role": "守门员",
+          "club": "拜仁慕尼黑",
+          "height": "193",
+          "playerId": 1
+        },
+        {
+          "name": "穆勒",
+          "number": 13,
+          "age": 28,
+          "role": "前锋",
+          "club": "拜仁慕尼黑",
+          "height": "186",
+          "playerId": 2
+        },
+        {
+          "name": "德拉克斯勒",
+          "number": 7,
+          "age": 24,
+          "role": "前锋",
+          "club": "巴黎圣日耳曼",
+          "height": "187",
+          "playerId": 3
         }
       ]
     },
@@ -233,8 +297,8 @@
         {
           "playerId": 0,
           "name": "",
-          "number": 9999,
-          "age": 9999,
+          "number": 10,
+          "age": 10,
           "role": "",
           "club": "",
           "intro": ""
@@ -253,8 +317,8 @@
         {
           "playerId": 0,
           "name": "",
-          "number": 9999,
-          "age": 9999,
+          "number": 10,
+          "age": 10,
           "role": "",
           "club": "",
           "intro": ""
@@ -273,8 +337,8 @@
         {
           "playerId": 0,
           "name": "",
-          "number": 9999,
-          "age": 9999,
+          "number": 10,
+          "age": 10,
           "role": "",
           "club": "",
           "intro": ""
@@ -293,8 +357,8 @@
         {
           "playerId": 0,
           "name": "",
-          "number": 9999,
-          "age": 9999,
+          "number": 10,
+          "age": 10,
           "role": "",
           "club": "",
           "intro": ""
@@ -313,8 +377,8 @@
         {
           "playerId": 0,
           "name": "",
-          "number": 9999,
-          "age": 9999,
+          "number": 10,
+          "age": 10,
           "role": "",
           "club": "",
           "intro": ""
@@ -333,8 +397,8 @@
         {
           "playerId": 0,
           "name": "",
-          "number": 9999,
-          "age": 9999,
+          "number": 10,
+          "age": 10,
           "role": "",
           "club": "",
           "intro": ""
@@ -353,8 +417,8 @@
         {
           "playerId": 0,
           "name": "",
-          "number": 9999,
-          "age": 9999,
+          "number": 10,
+          "age": 10,
           "role": "",
           "club": "",
           "intro": ""
@@ -373,8 +437,8 @@
         {
           "playerId": 0,
           "name": "",
-          "number": 9999,
-          "age": 9999,
+          "number": 10,
+          "age": 10,
           "role": "",
           "club": "",
           "intro": ""
@@ -389,17 +453,7 @@
       "ranking": 21,
       "flagUrl": "/static/nationalFlag/isl.png",
       "coach": "",
-      "keyPlayers": [
-        {
-          "playerId": 0,
-          "name": "",
-          "number": 9999,
-          "age": 9999,
-          "role": "",
-          "club": "",
-          "intro": ""
-        }
-      ]
+      "keyPlayers": []
     },
     {
       "id": 18,
@@ -413,8 +467,8 @@
         {
           "playerId": 0,
           "name": "",
-          "number": 9999,
-          "age": 9999,
+          "number": 10,
+          "age": 10,
           "role": "",
           "club": "",
           "intro": ""
@@ -433,8 +487,8 @@
         {
           "playerId": 0,
           "name": "",
-          "number": 9999,
-          "age": 9999,
+          "number": 10,
+          "age": 10,
           "role": "",
           "club": "",
           "intro": ""
@@ -453,8 +507,8 @@
         {
           "playerId": 0,
           "name": "",
-          "number": 9999,
-          "age": 9999,
+          "number": 10,
+          "age": 10,
           "role": "",
           "club": "",
           "intro": ""
@@ -473,8 +527,8 @@
         {
           "playerId": 0,
           "name": "",
-          "number": 9999,
-          "age": 9999,
+          "number": 10,
+          "age": 10,
           "role": "",
           "club": "",
           "intro": ""
@@ -493,8 +547,8 @@
         {
           "playerId": 0,
           "name": "",
-          "number": 9999,
-          "age": 9999,
+          "number": 10,
+          "age": 10,
           "role": "",
           "club": "",
           "intro": ""
@@ -513,8 +567,8 @@
         {
           "playerId": 0,
           "name": "",
-          "number": 9999,
-          "age": 9999,
+          "number": 10,
+          "age": 10,
           "role": "",
           "club": "",
           "intro": ""
@@ -533,8 +587,8 @@
         {
           "playerId": 0,
           "name": "",
-          "number": 9999,
-          "age": 9999,
+          "number": 10,
+          "age": 10,
           "role": "",
           "club": "",
           "intro": ""
@@ -553,8 +607,8 @@
         {
           "playerId": 0,
           "name": "",
-          "number": 9999,
-          "age": 9999,
+          "number": 10,
+          "age": 10,
           "role": "",
           "club": "",
           "intro": ""
@@ -573,8 +627,8 @@
         {
           "playerId": 0,
           "name": "",
-          "number": 9999,
-          "age": 9999,
+          "number": 10,
+          "age": 10,
           "role": "",
           "club": "",
           "intro": ""
@@ -593,8 +647,8 @@
         {
           "playerId": 0,
           "name": "",
-          "number": 9999,
-          "age": 9999,
+          "number": 10,
+          "age": 10,
           "role": "",
           "club": "",
           "intro": ""
@@ -613,8 +667,8 @@
         {
           "playerId": 0,
           "name": "",
-          "number": 9999,
-          "age": 9999,
+          "number": 10,
+          "age": 10,
           "role": "",
           "club": "",
           "intro": ""
@@ -633,8 +687,8 @@
         {
           "playerId": 0,
           "name": "",
-          "number": 9999,
-          "age": 9999,
+          "number": 10,
+          "age": 10,
           "role": "",
           "club": "",
           "intro": ""
@@ -653,8 +707,8 @@
         {
           "playerId": 0,
           "name": "",
-          "number": 9999,
-          "age": 9999,
+          "number": 10,
+          "age": 10,
           "role": "",
           "club": "",
           "intro": ""
@@ -673,8 +727,8 @@
         {
           "playerId": 0,
           "name": "",
-          "number": 9999,
-          "age": 9999,
+          "number": 10,
+          "age": 10,
           "role": "",
           "club": "",
           "intro": ""
