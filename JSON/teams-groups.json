@@ -26,7 +26,7 @@
           "club": "克拉斯诺达尔",
           "height": "187",
           "playerId": 1
-        },        
+        },
         {
           "name": "扎戈耶夫",
           "number": 10,
@@ -35,7 +35,7 @@
           "club": "圣彼得堡泽尼特",
           "height": "179",
           "playerId": 2
-        },        
+        },
         {
           "name": "阿金费耶夫",
           "number": 1,
@@ -483,17 +483,7 @@
       "ranking": 25,
       "flagUrl": "/static/nationalFlag/swe.png",
       "coach": "",
-      "keyPlayers": [
-        {
-          "playerId": 0,
-          "name": "",
-          "number": 10,
-          "age": 10,
-          "role": "",
-          "club": "",
-          "intro": ""
-        }
-      ]
+      "keyPlayers": []
     },
     {
       "id": 20,

@@ -8,10 +8,10 @@
                 <!-- <router-link to="/" :class="{'curPage': $route.path === '/'}">
                     <h1>主页</h1>
                 </router-link> -->
-                <router-link to="/teams" :class="{'curPage': $route.path === '/teams/teamTable/0'}">
+                <router-link to="/teams" :class="{'curPage': $route.path.indexOf('teams') !== -1}">
                     <h1>球队球员一览</h1>
                 </router-link>
-                <router-link to="/draw" :class="{'curPage': $route.path === '/draw'}">
+                <router-link to="/draw" :class="{'curPage': $route.path.indexOf('draw') !== -1}">
                     <h1>模拟抽签</h1>
                 </router-link>
             </nav>

@@ -129,19 +129,8 @@ export default {
 	            // 手动添加playerId
 	            this.$set(this.addedPlayer, 'playerId', playerId);
 	            this.currentTeam.keyPlayers.push(this.addedPlayer);
-	            this.$axios.put(`http://localhost:3000/teams/${this.currentId}`, this.currentTeam)
-		            .then(res => {
-		                // 跳转到teams/teamTable/:id页面
-		                // FIXME: 之前使用this.currentId,只能用bus非父子组件的通信
-		                // XXX: 注意path的id没有冒号
-		                this.$router.push({
-		                    path: '/teams/teamTable/' + this.currentId,
-		                    query: {alert: '球员信息添加成功'}
-		                });
-		                // OTHER: 使用 this.$router.go(-1);
-		                // 要向teamTable页面传递alert信息,非父子组件通信,所以用route.query
-		                // 在teamTable的create或mounted钩子里监听$routes.query,更新alert值
-		            });
+	            var that = this;
+	            this.$emit('add', {'id': that.currentId, 'team': that.currentTeam});
 	        }
 	        else {
 	        	// 如果html不加required才显示errorText

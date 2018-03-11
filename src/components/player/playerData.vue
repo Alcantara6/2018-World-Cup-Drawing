@@ -14,13 +14,13 @@
             <!-- 异步从父组件获取teams，HTML必须检测team -->
             <!-- 因为要操作team数据，所以不采用从父组件获取数据，而是直接从后台请求 -->
             <!--  -->
-            <h2 v-if="team.keyPlayers">{{ player.name }}</h2>
+            <h2 v-if="currentTeam.keyPlayers">{{ player.name }}</h2>
             <dl>
                 <dt>{{ infoRefer.nation }}</dt>
-                <dd>{{ team.teamName }}</dd>
+                <dd>{{ currentTeam.teamName }}</dd>
             </dl>
             <!-- v-if和v-for的优先级，v-if在前作为整个列表的前提条件 这里从后台获取数据不存在异步，所以不需要template的if-->
-            <template v-if="team.keyPlayers">
+            <template v-if="currentTeam.keyPlayers">
                 <dl 
                     v-for="(value,key) in player"
                     v-if="key !== 'playerId' && key !== 'name'">
@@ -39,7 +39,7 @@
             </button>
             <!-- 返回按钮 -->
             <router-link class="back" :to="`/teams/teamTable/${this.currentId}`">
-                &lt;&lt;返回{{ team.teamName }}队球员列表
+                &lt;&lt;返回{{ currentTeam.teamName }}队球员列表
             </router-link>
         </div>
         <!-- 删除对话框 -->
@@ -59,6 +59,9 @@ export default {
     components: {
         dialogDelete
     },
+    props: {
+        teams: [Array]
+    },
 	data() {
 		return {
             infoRefer: {
@@ -70,7 +73,6 @@ export default {
                 'number': '号码',
                 'role': '场上位置',
             },
-            team: {},
             // @value {String}currentId,currentPlayerId
             currentId: this.$route.params.id,
             currentPlayerId: this.$route.params.playerId,
@@ -78,38 +80,21 @@ export default {
 		}
 	},
     computed: {
+        currentTeam() {
+            return this.teams[this.currentId];
+        },
         player() {
-            return this.team.keyPlayers[this.currentPlayerId];
+            return this.currentTeam.keyPlayers[this.currentPlayerId];
         }    
     },
     methods: {
-        // 获取该球员信息
-        fetchTeam(id) {
-            this.$axios.get('http://localhost:3000/teams/' + id)
-            .then(res => {
-              this.team = res.data;
-            })
-            .catch(error => {
-              console.log(error);
-            });
-        },
         // 删除该球员
         deletePlayer() {
-            this.team.keyPlayers.splice(this.currentPlayerId, 1);
-            this.$axios.put(`http://localhost:3000/teams/${this.currentId}`, this.team)
-            .then(res => {
-                this.$router.push({
-                    path: '/teams/teamTable/' + this.currentId,
-                    query: {alert: '球员删除成功'}   
-                });
-            });  
+            // 引用类型，更改属性不影响计算属性，计算属性是指向地址
+            this.currentTeam.keyPlayers.splice(this.currentPlayerId, 1);
+            this.$emit('delete', {id: this.currentId, team: this.currentTeam});
         }
-    },
-
-    mounted() {
-        // 不能直接获取内层keyPlayers
-        this.fetchTeam(this.currentId);
-    },
+    }
 } 
 </script>
 
