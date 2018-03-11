@@ -1,7 +1,11 @@
 2018俄罗斯世界杯球队球员数据和模拟抽签应用APP
 ===
 
-app-teams文件夹下运行npm start启动项目。
+
+[项目在线浏览](https://alcantara6.github.io/2018-World-Cup-Drawing/dist/index.html '世界杯')
+**克隆至本地浏览**：  
+1. $ git clone git@github.com:Alcantara6/2018-World-Cup-Drawing.git
+2. npm start启动项目
 
 简介
 ---
