@@ -28,7 +28,7 @@ Vue.prototype.$axios = axios
 // )
 
 const router = new Router({
-	mode: 'history',
+	mode: 'hash',
 	base: __dirname,
 	routes: [
 		{

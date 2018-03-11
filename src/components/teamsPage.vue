@@ -49,7 +49,7 @@ export default {
                 "continent": "欧洲",
                 "pot": 1,
                 "ranking": 65,
-                "flagUrl": "/static/nationalFlag/rus.png",
+                "flagUrl": require("../assets/nationalFlag/rus.png"),
                 "coach": "切尔切索夫",
                 "keyPlayers": [
                   {
@@ -105,7 +105,7 @@ export default {
                 "continent": "欧洲",
                 "pot": 1,
                 "ranking": 1,
-                "flagUrl": "/static/nationalFlag/ger.png",
+                "flagUrl": require("../assets/nationalFlag/ger.png"),
                 "coach": "勒夫",
                 "keyPlayers": [
                   {
@@ -152,7 +152,7 @@ export default {
                 "continent": "南美洲",
                 "pot": 1,
                 "ranking": 2,
-                "flagUrl": "/static/nationalFlag/bra.png",
+                "flagUrl": require("../assets/nationalFlag/bra.png"),
                 "coach": "蒂特",
                 "keyPlayers": [
                   {
@@ -188,7 +188,7 @@ export default {
                 "continent": "欧洲",
                 "pot": 1,
                 "ranking": 3,
-                "flagUrl": "/static/nationalFlag/por.png",
+                "flagUrl": require("../assets/nationalFlag/por.png"),
                 "coach": "费尔南多·桑托斯",
                 "keyPlayers": [
                   {
@@ -207,7 +207,7 @@ export default {
                 "continent": "南美洲",
                 "pot": 1,
                 "ranking": 4,
-                "flagUrl": "/static/nationalFlag/arg.png",
+                "flagUrl": require("../assets/nationalFlag/arg.png"),
                 "coach": "路易斯.桑保利",
                 "keyPlayers": [
                   {
@@ -234,7 +234,7 @@ export default {
                 "continent": "欧洲",
                 "pot": 1,
                 "ranking": 5,
-                "flagUrl": "/static/nationalFlag/bel.png",
+                "flagUrl": require("../assets/nationalFlag/bel.png"),
                 "coach": "罗伯托.马丁内斯",
                 "keyPlayers": [
                   {
@@ -261,7 +261,7 @@ export default {
                 "continent": "欧洲",
                 "pot": 1,
                 "ranking": 6,
-                "flagUrl": "/static/nationalFlag/pol.png",
+                "flagUrl": require("../assets/nationalFlag/pol.png"),
                 "coach": "纳瓦卡",
                 "keyPlayers": [
                   {
@@ -280,7 +280,7 @@ export default {
                 "continent": "欧洲",
                 "pot": 1,
                 "ranking": 7,
-                "flagUrl": "/static/nationalFlag/fra.png",
+                "flagUrl": require("../assets/nationalFlag/fra.png"),
                 "coach": "德尚",
                 "keyPlayers": [
                   {
@@ -307,7 +307,7 @@ export default {
                 "continent": "欧洲",
                 "pot": 2,
                 "ranking": 8,
-                "flagUrl": "/static/nationalFlag/esp.png",
+                "flagUrl": require("../assets/nationalFlag/esp.png"),
                 "coach": "洛佩特吉",
                 "keyPlayers": [
                   {
@@ -334,7 +334,7 @@ export default {
                 "continent": "南美洲",
                 "pot": 2,
                 "ranking": 10,
-                "flagUrl": "/static/nationalFlag/per.png",
+                "flagUrl": require("../assets/nationalFlag/per.png"),
                 "coach": "",
                 "keyPlayers": [
                   {
@@ -354,7 +354,7 @@ export default {
                 "continent": "欧洲",
                 "pot": 2,
                 "ranking": 11,
-                "flagUrl": "/static/nationalFlag/sui.png",
+                "flagUrl": require("../assets/nationalFlag/sui.png"),
                 "coach": "",
                 "keyPlayers": [
                   {
@@ -374,7 +374,7 @@ export default {
                 "continent": "欧洲",
                 "pot": 2,
                 "ranking": 12,
-                "flagUrl": "/static/nationalFlag/eng.png",
+                "flagUrl": require("../assets/nationalFlag/eng.png"),
                 "coach": "",
                 "keyPlayers": [
                   {
@@ -394,7 +394,7 @@ export default {
                 "continent": "南美洲",
                 "pot": 2,
                 "ranking": 13,
-                "flagUrl": "/static/nationalFlag/col.png",
+                "flagUrl": require("../assets/nationalFlag/col.png"),
                 "coach": "",
                 "keyPlayers": [
                   {
@@ -414,7 +414,7 @@ export default {
                 "continent": "中北美及加勒比海地区",
                 "pot": 2,
                 "ranking": 16,
-                "flagUrl": "/static/nationalFlag/mex.png",
+                "flagUrl": require("../assets/nationalFlag/mex.png"),
                 "coach": "",
                 "keyPlayers": [
                   {
@@ -434,7 +434,7 @@ export default {
                 "continent": "南美洲",
                 "pot": 2,
                 "ranking": 17,
-                "flagUrl": "/static/nationalFlag/uru.png",
+                "flagUrl": require("../assets/nationalFlag/uru.png"),
                 "coach": "",
                 "keyPlayers": [
                   {
@@ -454,7 +454,7 @@ export default {
                 "continent": "欧洲",
                 "pot": 2,
                 "ranking": 18,
-                "flagUrl": "/static/nationalFlag/cro.png",
+                "flagUrl": require("../assets/nationalFlag/cro.png"),
                 "coach": "",
                 "keyPlayers": [
                   {
@@ -474,7 +474,7 @@ export default {
                 "continent": "欧洲",
                 "pot": 3,
                 "ranking": 19,
-                "flagUrl": "/static/nationalFlag/den.png",
+                "flagUrl": require("../assets/nationalFlag/den.png"),
                 "coach": "",
                 "keyPlayers": [
                   {
@@ -494,7 +494,7 @@ export default {
                 "continent": "欧洲",
                 "pot": 3,
                 "ranking": 21,
-                "flagUrl": "/static/nationalFlag/isl.png",
+                "flagUrl": require("../assets/nationalFlag/isl.png"),
                 "coach": "",
                 "keyPlayers": []
               },
@@ -504,7 +504,7 @@ export default {
                 "continent": "中北美及加勒比海地区",
                 "pot": 3,
                 "ranking": 22,
-                "flagUrl": "/static/nationalFlag/crc.png",
+                "flagUrl": require("../assets/nationalFlag/crc.png"),
                 "coach": "",
                 "keyPlayers": [
                   {
@@ -524,7 +524,7 @@ export default {
                 "continent": "欧洲",
                 "pot": 3,
                 "ranking": 25,
-                "flagUrl": "/static/nationalFlag/swe.png",
+                "flagUrl": require("../assets/nationalFlag/swe.png"),
                 "coach": "",
                 "keyPlayers": [
                   {
@@ -544,7 +544,7 @@ export default {
                 "continent": "非洲",
                 "pot": 3,
                 "ranking": 28,
-                "flagUrl": "/static/nationalFlag/tun.png",
+                "flagUrl": require("../assets/nationalFlag/tun.png"),
                 "coach": "",
                 "keyPlayers": [
                   {
@@ -564,7 +564,7 @@ export default {
                 "continent": "非洲",
                 "pot": 3,
                 "ranking": 30,
-                "flagUrl": "/static/nationalFlag/egy.png",
+                "flagUrl": require("../assets/nationalFlag/egy.png"),
                 "coach": "",
                 "keyPlayers": [
                   {
@@ -584,7 +584,7 @@ export default {
                 "continent": "非洲",
                 "pot": 3,
                 "ranking": 32,
-                "flagUrl": "/static/nationalFlag/sen.png",
+                "flagUrl": require("../assets/nationalFlag/sen.png"),
                 "coach": "",
                 "keyPlayers": [
                   {
@@ -604,7 +604,7 @@ export default {
                 "continent": "亚洲",
                 "pot": 3,
                 "ranking": 34,
-                "flagUrl": "/static/nationalFlag/irn.png",
+                "flagUrl": require("../assets/nationalFlag/irn.png"),
                 "coach": "",
                 "keyPlayers": [
                   {
@@ -624,7 +624,7 @@ export default {
                 "continent": "欧洲",
                 "pot": 4,
                 "ranking": 38,
-                "flagUrl": "/static/nationalFlag/srb.png",
+                "flagUrl": require("../assets/nationalFlag/srb.png"),
                 "coach": "",
                 "keyPlayers": [
                   {
@@ -644,7 +644,7 @@ export default {
                 "continent": "非洲",
                 "pot": 4,
                 "ranking": 41,
-                "flagUrl": "/static/nationalFlag/nga.png",
+                "flagUrl": require("../assets/nationalFlag/nga.png"),
                 "coach": "",
                 "keyPlayers": [
                   {
@@ -664,7 +664,7 @@ export default {
                 "continent": "亚洲",
                 "pot": 4,
                 "ranking": 43,
-                "flagUrl": "/static/nationalFlag/aus.png",
+                "flagUrl": require("../assets/nationalFlag/aus.png"),
                 "coach": "",
                 "keyPlayers": [
                   {
@@ -684,7 +684,7 @@ export default {
                 "continent": "亚洲",
                 "pot": 4,
                 "ranking": 44,
-                "flagUrl": "/static/nationalFlag/jpn.png",
+                "flagUrl": require("../assets/nationalFlag/jpn.png"),
                 "coach": "",
                 "keyPlayers": [
                   {
@@ -704,7 +704,7 @@ export default {
                 "continent": "非洲",
                 "pot": 4,
                 "ranking": 48,
-                "flagUrl": "/static/nationalFlag/mar.png",
+                "flagUrl": require("../assets/nationalFlag/mar.png"),
                 "coach": "",
                 "keyPlayers": [
                   {
@@ -724,7 +724,7 @@ export default {
                 "continent": "中北美及加勒比海地区",
                 "pot": 4,
                 "ranking": 49,
-                "flagUrl": "/static/nationalFlag/pan.png",
+                "flagUrl": require("../assets/nationalFlag/pan.png"),
                 "coach": "",
                 "keyPlayers": [
                   {
@@ -744,7 +744,7 @@ export default {
                 "continent": "亚洲",
                 "pot": 4,
                 "ranking": 62,
-                "flagUrl": "/static/nationalFlag/kor.png",
+                "flagUrl": require("../assets/nationalFlag/kor.png"),
                 "coach": "",
                 "keyPlayers": [
                   {
@@ -764,7 +764,7 @@ export default {
                 "continent": "亚洲",
                 "pot": 4,
                 "ranking": 63,
-                "flagUrl": "/static/nationalFlag/ksa.png",
+                "flagUrl": require("../assets/nationalFlag/ksa.png"),
                 "coach": "",
                 "keyPlayers": [
                   {
