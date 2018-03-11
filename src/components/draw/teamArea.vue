@@ -995,7 +995,8 @@ export default {
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    background-image: url(../../assets/football.jpg);
+    background-color: #c6deff;
+    /*background-image: url(require('../../assets/football.jpg)');*/
     background-size: 100% 100%;
     background-position: center;
     cursor: pointer;
@@ -1005,7 +1006,8 @@ export default {
     transform: rotate(270deg);
 }
 .default-frame {
-    background-image: url(../../assets/football-red.jpg);
+    /*background-image: url(require('../../assets/football-red.jpg'));*/
+    background: #f70d1a;
 }
 .frame-enter,
 .frame-leave-to {

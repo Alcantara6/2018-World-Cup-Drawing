@@ -28,7 +28,7 @@
     <div id="draw">
         <!-- 欢迎对话框 -->
         <draw-dialog :isShow="isShowDialog" v-if="curRound === 0" @next="gotoNext">
-            <img class="dialog-logo" slot="image" src="../assets/WorldCupLogo.jpg">
+            <img class="dialog-logo" slot="image" :src="logo.url">
             <p slot="text">欢迎来到俄罗斯世界杯抽签仪式现场</p>
             <span slot="buttonTxt">开始抽签</span>
         </draw-dialog>
@@ -1022,7 +1022,8 @@ export default {
             step: '请点击左下角start开始抽签，并根据提示流程操作',
             drawTeamFlag: false,
             drawPosFlag: false,
-            isShowDialog: true
+            isShowDialog: true,
+            logo: {url: require('../assets/WorldCupLogo.jpg')}
         }
     },
 
