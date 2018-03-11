@@ -87,7 +87,7 @@ export default {
 	},
 	computed: {
         heightError() {
-            let item = this.teams[this.currentId].keyPlayers[this.currentPlayerId].height;
+            let item = this.currentTeam.keyPlayers[this.currentPlayerId].height;
             let reg = /^\d{3}$/;
             let text = '输入格式错误，必须是三位数字';
             return this.inputError(item,reg,text);
@@ -104,7 +104,7 @@ export default {
 		},		
 
 		editPlayer() {
-            // 引用类型，直接更新，无需在创建新的currentTeam
+            // 引用类型，直接更新，无需再创建新的currentTeam
             if(this.heightError.status) {
 	            this.$axios.put(`http://localhost:3000/teams/${this.currentId}`, this.currentTeam)
 	            .then(res => {

@@ -70,7 +70,7 @@ const router = new Router({
 		{
 			path: '/draw',
 			component: drawPage
-		}	
+		}
 	]
 })
 
