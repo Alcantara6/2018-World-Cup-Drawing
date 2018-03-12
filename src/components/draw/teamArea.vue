@@ -211,7 +211,7 @@ export default {
 .individual-pot {
     width: 200px;
     height: 200px;
-    margin: 10px 30px 10px 0;
+    margin: 10px 10px 5px 10px;
     padding: 5px;
     position: relative;
     border: 1px solid #0020c2;

@@ -2,6 +2,7 @@
     http://localhost:8000/teams
 -->
 <!-- 3-7 每次添加或删除球员数据后,用beforeRouteUpdate从后台获取更新后的数据 -->
+<!-- TODO: 子组件不从后端获取数据 -->
 
 <template>
 	<div class="teams-overview">

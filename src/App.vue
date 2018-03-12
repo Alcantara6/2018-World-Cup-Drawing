@@ -30,7 +30,7 @@ export default {
 
 <style>
 #app {
-    min-width: 784px;
+    min-width: 1024px;
     margin: 0px 20px;
 }
 #app-header {

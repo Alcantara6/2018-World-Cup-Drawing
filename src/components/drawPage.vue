@@ -88,7 +88,7 @@
                     START
                 </button>
                 <!-- 抽签完成确认结果 -->
-                <button class="statusBtn" v-else-if="curRound === -1" @click.once="createResult">
+                <button class="statusBtn" v-else-if="curRound === -1">
                     抽签完成
                 </button>       
                 <div class="statusBtn" v-else @click="return false">
@@ -434,14 +434,14 @@ export default {
     font-weight: 700;
     outline-width: 0;
 }
-button.statusBtn:hover {
+.statusBtn:hover {
     background: #e67451;
     color: #fff;
 }
 /*操作流程提示*/
 .step {
-    display: inline-block;
-    min-width: 280px;   /*用min-width，有较长文字出现的情况*/
+    display: inline-block;     /* 用于居中 */
+    min-width: 280px;          /*用min-width，有较长文字出现的情况*/
     min-height: 30px;
     padding: 0 20px;
     background: #ccfb5d;
