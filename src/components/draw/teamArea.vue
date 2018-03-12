@@ -31,7 +31,7 @@ order不能用全局变量，否则点击每一档的随机打乱按钮所有档
                 <div class="teams-container">
                     <transition-group appear class="teams" tag="ul">
                         <!-- 每一档的每只球队，随机顺序排列 -->
-                        <li 
+                        <li
                             class="team" 
                             v-for="(team,tIndex) in potTeam"
                             :key="team.id"
@@ -921,7 +921,7 @@ export default {
 .individual-pot {
     width: 200px;
     height: 200px;
-    margin: 10px 30px 10px 0;
+    margin: 10px 10px 5px;
     padding: 5px;
     position: relative;
     border: 1px solid #0020c2;
