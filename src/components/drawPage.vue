@@ -38,32 +38,6 @@
             <p slot="text">{{ curTeam.teamName }} - {{ curPos }}</p>
             <span slot="buttonTxt">确认落位</span>
         </draw-dialog>
-        
-        <!-- 提示标签 -->
-        <div id="draw-notice">
-            <!-- 进行状态标签 -->
-            <div id="status">
-                <button class="statusBtn" v-if="curRound === 0" @click.once="start">
-                    START
-                </button>
-                <button class="statusBtn" v-else-if="curRound === -1" @click.once="createResult">
-                    请确认抽签结果
-                </button>         
-                <div class="statusBtn" v-else @click="return false">
-                    <span>抽签进行中…………</span>
-                    <!-- 显示当前状态信息 -->
-                    <span v-if="curPot > 0">
-                        当前第<strong>{{ curPot }}</strong>档，
-                        从<strong>{{ orderGroupName }}</strong>组开始落位
-                    </span>
-                </div>
-            </div>
-            <!-- 操作步骤提示 -->
-            <div class="step" v-if="curRound >= 0">
-                <i class="iconfont icon-pointer-right"></i>
-                {{ step }}
-            </div>
-        </div>
 
         <!-- 抽签操作区域 -->
         <section id="main">
@@ -98,11 +72,39 @@
         <!-- id="main"结束 -->
         
         <!--分组结果展示 -->
-        <footer class="result">
+        <section class="result">
             <grouping-result 
                 :groupContainer="groupContainer"
                 :curGroupNum="curGroupNum">
             </grouping-result>
+        </section>
+
+        <!-- 提示标签 -->
+        <footer id="draw-notice">
+            <!-- 进行状态标签 -->
+            <div id="status">
+                <!-- 抽签之前点击开始 -->
+                <button class="statusBtn" v-if="curRound === 0" @click.once="start">
+                    START
+                </button>
+                <!-- 抽签完成确认结果 -->
+                <button class="statusBtn" v-else-if="curRound === -1">
+                    抽签完成
+                </button>       
+                <div class="statusBtn" v-else @click="return false">
+                    <span>抽签进行中…………</span>
+                    <!-- 显示当前状态信息 -->
+                    <span v-if="curPot > 0">
+                        当前第<strong>{{ curPot }}</strong>档，
+                        从<strong>{{ orderGroupName }}</strong>组开始落位
+                    </span>
+                </div>
+            </div>
+            <!-- 操作步骤提示 -->
+            <div class="step" v-if="curRound >= 0">
+                <i class="iconfont icon-pointer-right"></i>
+                {{ step }}
+            </div>
         </footer>
     </div>
 </template>
@@ -1224,24 +1226,6 @@ export default {
             }
             this.step = `请从第${this.curPot}档抽取一支球队`;
             this.drawTeamFlag = true;
-        },
-
-        // 抽签结果传入后端
-        createResult() {      
-            let len = this.groupContainer.length;
-            for(let i = 0; i < len; i++) {
-                this.$axios.post(
-                    `http://localhost:3000/result`,
-                    Qs.stringify(this.groupContainer[i]),
-                    {
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded'
-                        }
-                    })
-                .then(res => {
-                    console.log(res);
-                })
-            }
         }
     },
 
@@ -1280,18 +1264,18 @@ export default {
     flex: 45%;
 }
 
-
 /*#notice*/
 #draw-notice {
-    position: absolute;
     width: 100%;     /*绝对定位后，宽度等于内容实际宽度*/
-    bottom: -40px;  /*始终位于内容区下方*/
+    padding: 5px 0;
+    border-top: 2px solid #0020c2;
     text-align: center;
 }
 #status {
-    /*如果设为float: left，.step会按避开其之后的宽度居中*/
-    position: absolute; 
+    /* 如果float: left, .step作为inline-block, 按避开float其之后的宽度居中*/
+    position: absolute;
     left: 0;
+    margin-left: 10px;
 }
 .statusBtn,
 .step {
