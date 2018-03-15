@@ -1,28 +1,5 @@
 
 <!-- http://localhost:8000/draw -->
-<!--
-    程序的复杂性主要在于回避原则和step提醒
-    2-17 
-        1.打乱签的顺序，使用v-move过渡；2.使用props和$emit传递状态，暂不用bus和vuex 
-    2-21 
-        groupContainer创建JSON文件，把选中的Object{team}加入，
-        确认抽签结果传入JSON,json server不能用post
-    2.22 
-        1. 更改流程，先抽队，再确定小组，以显示回避原则，用计算属性表示正常顺序的小组落位，以此为基础得到实际的小组落位
-        2. 因为回避原则，设置当前分档时不能根据是否为第8组判断，curPot放在计算属性
-        : groupContainer先用空数组，就可用length判断，否则每次要查询team属性
-        3. TODO: 组件、方法复用，函数封装，例如如何复用回避原则的方法
-        4. TODO: 避免某一档剩最后几只球队时无法满足回避原则
-    2.23 
-        根据欧洲、非欧洲条件判断进行回避算法，覆盖所有球队的回避情况，
-        step内容用一个方法封装，代码简化20%以上
-        TODO: 用mixin混入通用方法 
-    3.2
-        优化页面样式，分区块
-        增加多个逻辑，在不同阶段对应元素显示高亮样式
-    3.5 增加draw-dialog组件作为应用进入界面和抽签球队确认落位时的弹窗
-    3.5 优化状态按钮样式，使用iconfont
--->
 
 <template>  
     <div id="draw">
@@ -50,6 +27,7 @@
                     :curGroupNum="curGroupNum" 
                     :drawTeamFlag="drawTeamFlag">
                 </team-Area>
+                <!-- 球队抽选区结束 -->
                 <!-- 小组位次抽选区 -->
                 <group-Area 
                     ref="r2" 
@@ -58,6 +36,7 @@
                     :curGroupNum="curGroupNum" 
                     :drawPosFlag="drawPosFlag">
                 </group-Area>
+                <!-- 小组位次抽选区结束 -->
             </div>
             <!-- 已选待选球队 -->
             <aside id="teams-status">
@@ -67,7 +46,8 @@
                     :groupContainer="groupContainer"
                     :curTeamName="curTeam.teamName">
                 </draw-show>
-            </aside>   
+            </aside>
+            <!-- 已选待选球队结束 -->   
         </section>
         <!-- id="main"结束 -->
         
@@ -78,6 +58,7 @@
                 :curGroupNum="curGroupNum">
             </grouping-result>
         </section>
+        <!--分组结果展示结束 -->
 
         <!-- 提示标签 -->
         <footer id="draw-notice">
@@ -110,7 +91,6 @@
 </template>
 
 <script>
-// import Qs from 'qs';
 import teamArea from './draw/teamArea';
 import groupArea from './draw/groupArea';
 import groupingResult from './draw/groupingResult';
@@ -127,16 +107,15 @@ export default {
     },
     data() {
         return {
-            teamList: [],   // 球队数据，从后端引入
-            // groupContainer从JSON引入（因空数组不好渲染DOM），因此不能通过length区别，增加team属性，通过包含team属性的情况进行判定
-            groupContainer: [],   // 最终抽签结果的容器
-            curRound: 0,    // 1-32轮  抽取球队之前
-            curGroupNum: 0, // 1-8组   抽取球队之后，抽取位次之前
-            curTeam: {},    // 抽中的球队
-            curPos: '',     // 抽中的位次。1-4位。如'A1','A2','A3','A4'
+            teamList: [],   // 球队数据，从JSON引入
+            groupContainer: [],   // 最终抽签结果的容器，从JSON引入，初始不含team属性
+            curRound: 0,    // 1-32轮  球队确认落位后改变
+            curGroupNum: 0, // 1-8组   抽取球队之后，抽取位次之前改变
+            curTeam: {},    // 当前抽中的球队
+            curPos: '',     // 当前抽中的位次。1-4位。如'A1','A2','A3','A4'
             step: '请点击左下角start开始抽签，并根据提示流程操作',
             drawTeamFlag: false,  // 此时应该抽球队
-            drawPosFlag: false,   // 此是应该抽小组位次
+            drawPosFlag: false,   // 此时应该抽小组位次
             isShowDialog: true    // 显示对话框
         }
     },
@@ -167,7 +146,7 @@ export default {
                     break;
             }
         },
-        // 抽取球队之前，正常顺序下待落位小组：总是从第一个已抽球队<轮次的组开始
+        // 抽取球队之前，正常顺序下待落位小组：总是从第一个“已抽球队<当前分档”的组开始
         orderGroupNum() {
             let groupIdx = 1;
             for(let i = 1; i <= 8; i++) {
@@ -176,7 +155,6 @@ export default {
                     .filter(item => item.team);
                 // 如果小于轮次数
                 if (occupy.length < this.curPot) {
-                    // XXX: continue是全部循环，会遍历所有，应该用break
                     break;
                 }
                 groupIdx++;
@@ -407,13 +385,12 @@ export default {
 
 /*#notice*/
 #draw-notice {
-    width: 100%;     /*绝对定位后，宽度等于内容实际宽度*/
+    width: 100%;     
     padding: 5px 0;
     border-top: 2px solid #0020c2;
     text-align: center;
 }
 #status {
-    /* 如果float: left, .step作为inline-block, 按避开float其之后的宽度居中*/
     position: absolute;
     left: 0;
     margin-left: 10px;

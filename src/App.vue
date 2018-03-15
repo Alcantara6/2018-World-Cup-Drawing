@@ -1,13 +1,8 @@
 <template>
     <div id="app">
         <header id="app-header">
-        <!-- router-link不能直接绑定props，
-        一般用$routes传，所以App.vue不去获取teamList -->
-        <!-- 菜单栏当前页面项高亮 -->
+        <!-- 导航栏 -->
             <nav id="nav">
-                <!-- <router-link to="/" :class="{'curPage': $route.path === '/'}">
-                    <h1>主页</h1>
-                </router-link> -->
                 <router-link to="/teams" :class="{'curPage': $route.path.indexOf('teams') !== -1}">
                     <h1>球队球员一览</h1>
                 </router-link>
@@ -16,9 +11,11 @@
                 </router-link>
             </nav>
         </header>
-        <!-- <keep-alive>   -->
-            <router-view></router-view>
-        <!-- </keep-alive> -->
+        <!-- 导航栏结束 -->
+
+        <!-- 主内容 -->
+        <router-view></router-view>
+        <!-- 主内容结束 -->
     </div>
 </template>
 

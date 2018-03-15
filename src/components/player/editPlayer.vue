@@ -1,9 +1,7 @@
 <!-- 
     http://localhost:8080/teams/teamTable/:id/playerData/:playerId/edit 
 -->
-<!-- 基本copy自addPlayer.vue相同 -->
-<!-- todo: 与addPlayer复用css-->
-<!-- 3-7 XXX: 因为要操作team数据，所以不采用从父组件获取数据，而是直接从后台请求 -->
+
 <template>
 	<div class="edit">
 		<h4 class="error-text" v-if="errorText">{{ errorText }}</h4>
@@ -104,7 +102,7 @@ export default {
 		},		
 
 		editPlayer() {
-            // 引用类型，直接更新，无需再创建新的currentTeam
+            // 引用类型，直接更新
             if(this.heightError.status) {
 	            this.$axios.put(`http://localhost:3000/teams/${this.currentId}`, this.currentTeam)
 	            .then(res => {

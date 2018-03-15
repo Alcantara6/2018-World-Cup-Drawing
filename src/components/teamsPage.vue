@@ -1,8 +1,6 @@
 <!-- 
     http://localhost:8000/teams
 -->
-<!-- 3-7 每次添加或删除球员数据后,用beforeRouteUpdate从后台获取更新后的数据 -->
-<!-- TODO: 子组件不从后端获取数据 -->
 
 <template>
 	<div class="teams-overview">
@@ -12,7 +10,6 @@
             <h2 class="teams-title">各大洲晋级决赛圈球队</h2>
             <!-- 显示各个大洲球队 -->
             <div class="continent" v-for="teams in continentTeams">
-                <!-- 不使用v-if会报错 Cannot read property 'continent' of undefined -->
                 <h2 v-if="teams.length">{{ teams[0].continent }} （{{ teams.length }}支）</h2>
                 <ul>
                     <li class="team" v-for="team in teams">
@@ -26,14 +23,13 @@
                     </li>
                 </ul>
             </div>
+            <!-- 大洲结束 -->
         </section>
 
         <section id="players-wrap">
             <h2 class="players-title">关键球员数据<span>点击球队标志查看、编辑各队关键球员</span></h2>
-            <!-- 因为有更新数据，不能添加keep-alive,跳转到该路由后不能执行mounted中的内容(从后台获取更新后的数据),如果执行activated中的呢？ -->
-            <!-- <keep-alive> -->
+            <!-- 因为有更新数据，不能添加keep-alive,跳转到该路由后不能执行mounted中的内容 -->
             <router-view tag="div" :teams="teamList"></router-view>
-            <!-- </keep-alive> -->
         </section> 
 	</div>
 </template>
@@ -69,11 +65,6 @@ export default {
 	},
     methods: {
         fetchTeams() {
-            // this.$axios.get("/api/teamsData").then(res => {
-            //     this.teamList = res.data.data;
-            // }).catch(error => {
-            //     console.log(error);
-            // });
             this.$axios.get("http://localhost:3000/teams")
             .then(res => {
               this.teamList = res.data;
@@ -84,8 +75,7 @@ export default {
         }
     },
     mounted() {
-        // 获取json数据,使用$nextTick先渲染DOM
-        this.$nextTick(function () {
+        // 获取json数据,使用$nextTick先渲染DOM        this.$nextTick(function () {
             this.fetchTeams();
         });
     },
@@ -125,7 +115,8 @@ header>h1 {
     background: #fff;
     z-index: 9;
 }
-header:after {        /*使用伪类添加横杠修饰*/
+/*使用伪类添加横杠修饰*/
+header:after {      
     content: '';
     width: 100%;
     height: 0;

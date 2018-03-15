@@ -1,10 +1,7 @@
 <!-- 
     http://localhost:8080/teams/teamTable/:id/addPlayer 
 -->
-<!-- 使用$route.query通信 -->
-<!-- 利用动态路由$route.params中不同的键值 -->
-<!-- 3-7 当前球队currentTeam根据父组件传递props和路径参数id获得，不再从后端请求 -->
-<!-- 3-7 put方法添加球员时，手动添加playerId -->
+
 <template>
 	<div class="add">
 		<h4 class="error-text" v-if="errorText">{{ errorText }}</h4>
@@ -21,7 +18,7 @@
 					    {{ nameError.errorText }}
 				    </span>
 				</div>
-				<!-- 号码 必填。使用.number-->				
+				<!-- 号码 必填。使用.number-->			
 				<div class="info-row">
 					<label for="number">号码</label>
 				    <input id="number" type="number" required v-model.number="addedPlayer.number">
@@ -31,7 +28,7 @@
 					<label for="age">年龄</label>
 				    <input id="age" type="number" required v-model.number="addedPlayer.age">
 				</div>
-				<!-- 位置 必填-->				
+				<!-- 位置 必填-->			
 				<div class="info-row">
 					<label for="role">位置</label>
 				    <select id="role" required v-model="addedPlayer.role">
@@ -96,14 +93,9 @@ export default {
 		}
 	},
 	computed: {
-        // 不能放在data，否则初始curretnTeam为undefined
-        // 子组件是对父组件的引用，currentTeam没有更改，只是之后put到后台
         currentTeam() {
-        	// 后面要更新currentTeam，不要修改引用类型的prop，拷贝一份
-        	// 如果要在HTML模板渲染，就不能对异步数据进行操作
         	return JSON.parse(JSON.stringify(this.teams[this.currentId]));
         },
-        // 函数尽量封装，将nameError和heightError分开
         nameError() {
         	// 如果没有输入，则为空字符串
         	let item = this.addedPlayer.name?this.addedPlayer.name:'';  
@@ -123,8 +115,7 @@ export default {
 	methods: {
 		addPlayer() {
             if(this.nameError.status && this.heightError.status) {
-	            // HACK: JSON-server,只能向teams层put，不能向keiyPlyers层post
-	            // 操作计算属性，不更改引用，只添加属性
+	            // HACK: JSON-server,只能向teams层put，不能向keyPlyers层post
 	            let playerId = this.currentTeam.keyPlayers.length;
 	            // 手动添加playerId
 	            this.$set(this.addedPlayer, 'playerId', playerId);
@@ -132,15 +123,11 @@ export default {
 	            this.$axios.put(`http://localhost:3000/teams/${this.currentId}`, this.currentTeam)
 		            .then(res => {
 		                // 跳转到teams/teamTable/:id页面
-		                // FIXME: 之前使用this.currentId,只能用bus非父子组件的通信
-		                // XXX: 注意path的id没有冒号
+		                // 在teamTable的create或mounted钩子里监听$routes.query,更新alert值
 		                this.$router.push({
 		                    path: '/teams/teamTable/' + this.currentId,
 		                    query: {alert: '球员信息添加成功'}
 		                });
-		                // OTHER: 使用 this.$router.go(-1);
-		                // 要向teamTable页面传递alert信息,非父子组件通信,所以用route.query
-		                // 在teamTable的create或mounted钩子里监听$routes.query,更新alert值
 		            });
 	        }
 	        else {
@@ -148,7 +135,6 @@ export default {
 	        	this.errorText = '球员信息不完整或不正确';
 	        }
 		},
-		// v-model不能用过滤器filters
 		// 封装错误提示函数
 		inputError(item,reg,text) {
             let status =false;

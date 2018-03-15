@@ -1,14 +1,11 @@
-<!-- 3-4 插槽方式加入弹框组件，用于进入界面和抽中球队、位次落位的确认 -->
-<!-- 分发内容的CSS只能在父组件设置（可继承的属性除外，可以在子组件slot元素外层加一个标签，设置CSS，分发的内容会继承 -->
 <template>
-	<!-- 不能在#draw-dialog总体使用transiton，对#draw-dialog-box的过渡无效 -->
 	<div id="draw-dialog">
-	    <transition name="shade">
-		    <!-- 遮罩 注意top和left -->
+	    <!-- 遮罩  -->
+	    <transition name="shade"> 
 			<div id="shade" v-if="isShow"></div>
 		</transition>
+		<!-- 对话框 -->	
 	    <transition name="box">
-		    <!-- 对话框 -->	
 			<div id="draw-dialog-box" v-if="isShow">
 				<div class="box-top"></div>
 				<div class="box-content"> 
@@ -45,11 +42,12 @@ export default {
 </script>
 
 <style scoped>
-/* 遮罩 注意top和left*/
+/* 遮罩*/
 .shade-enter-active,
 .shade-leave-active {
 	transition: opacity .2s;
-	position: absolute;  /*必须加absoulute,否则会破坏页面结构*/
+	/*必须加absoulute,否则会破坏页面结构*/
+	position: absolute;  
 }
 .shade-enter,
 .shade-leave-to {
@@ -75,14 +73,14 @@ export default {
 	background: #bbb;
 	z-index: 99;
 }
-/* 对话框 注意top和left*/
+/* 对话框 */
 #draw-dialog-box {
 	position: absolute;
 	left: 50%;
 	top: 20%;
 	margin-left: -25%;
 	z-index: 99;
-	/*height:最大屏幕高度的60%（margin的高度用100%表示则是基于父元素的宽度*/
+	/*height:最大屏幕高度的50%*/
 	width: 50%;
 	min-height: 300px;
 	max-height: 60%;    

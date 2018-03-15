@@ -7,7 +7,7 @@
     <div id="group-area">
         <h2>分组区</h2>
         <div class="groups">
-            <!-- 每一档的球队 -->
+            <!-- 每个组 -->
             <div 
                 :class="['group', {'current-group': drawPosFlag && gIndex == curGroupNum - 1}]" 
                 v-for="(group,gIndex) in positionContainer">
@@ -20,6 +20,7 @@
                 </button>
                 <div class="position">
                     <transition-group class="pos-box" tag="ul" name="flip-list">
+                        <!-- 每个位次 -->
                         <li class="pos" v-for="(pos,pIndex) in group" :key="pos.num">
                             <div>{{ pos.num }}</div>
                             <transition> 
@@ -30,9 +31,11 @@
                                 </div>
                             </transition>
                         </li>
+                        <!-- 每个位次结束 -->
                     </transition-group>
                 </div>
             </div>
+            <!-- 每个组结束 -->
         </div>
     </div>
 </template>
@@ -99,7 +102,6 @@ export default {
         },
 
         shuffleGroup(idx) {
-            // TODO: setInterval自动多次打乱            
             if(!this.curGroupNum || idx === this.curGroupNum - 1) {
                 this.$set(this.positionContainer, idx, 
                         this.randomSort(this.positionContainer[idx]));
@@ -140,7 +142,8 @@ export default {
     padding: 5px;
     position: relative;
     border: 1px solid #0020c2;
-    transition: background-color .5s; /* 切换当前小组的过渡*/
+    /* 切换当前小组的过渡*/
+    transition: background-color .5s; 
 }
 .current-group {
     background-color: #ffebcd;

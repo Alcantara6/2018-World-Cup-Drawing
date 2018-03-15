@@ -3,13 +3,7 @@
     http://localhost:8000/draw
     component: draw-show
 -->
-<!-- 如何使用非响应式数据？定义局部变量，使其等于data（props）中的数据 -->
-<!-- 
-    增加不同档切换时的进入离开过渡、增加抽中球队的点亮和变暗状态效果，
-    主要运用transform: scaleX和z-index，ES6的扩展运运算符...
-    增加开始抽签之前的显示内容
-    XXX: 调试bug，过渡元素必须设为定位元素，否则会撑开容器破坏页面结构
--->
+
 <template>
     <div id="draw-show">
         <transition-group name="pot" tag="div" class="teamsContainer" v-if="curPot">
@@ -34,10 +28,12 @@
                             </div>
                         </transition>
                     </li>
+                    <!-- 每只球队结束 -->
                 </ul>
             </div>
+            <!-- 每一档结束 -->
         </transition-group>
-        <!-- 开始抽签之前显示 -->
+        <!-- 开始抽签之前的显示 -->
         <div class="pre-draw" v-else>
             <h2 v-for='n in 4'>{{ `第${n}档` }}</h2>
         </div>
@@ -69,7 +65,6 @@ export default {
             let places = [].concat(...this.groupContainer);
             // apply(),ES5
             // [].concat.apply([],this.groupContainer); 
-            // XXX: 注意是length - 1
             for(let i = places.length - 1; i >= 0; i--) {
                 if(typeof places[i].team !== 'undefined') {
                     results.push(places[i].team.teamName);
@@ -77,17 +72,7 @@ export default {
             }
             return results;
         }
-        // 之前是监听curTeamName,加入一个新数组
-        // selectedTeam() {
-        //    return this.curTeamName;
-        // }
     }
-    // 多次操作计算属性，用watch。目前来看计算属性setter不能侦听。
-    // watch: {
-    //     selectedTeam(val) {
-    //         this.drewTeams.push(val);
-    //     }
-    // }
 }
 </script>
 
@@ -147,9 +132,11 @@ export default {
 }
 .team {
     display: flex;
-    align-items: center;  /*国旗与国名垂直对齐*/
+    /*国旗与国名垂直对齐*/
+    align-items: center;  
     padding: 10px 40px;
-    position: relative;  /*用于.frame的100%大小*/
+    /*用于.frame的100%大小*/
+    position: relative;  
 }
 
 /*img和.teamName需要设置positon：relative和index最上，用于高亮scale()过渡*/

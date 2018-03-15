@@ -3,9 +3,6 @@
     http://localhost:8000/draw
     component: grouping-result
 -->
-<!-- 3.2 优化样式 
-     当前落位的小组高亮，层叠上下文和z-index的运用
--->
 
 <template>
     <div id="grouping-result">
@@ -14,7 +11,7 @@
         </div>
         <div class="main">
             <h2>分组结果</h2>
-            <!-- 每一档的球队 -->
+            <!-- 每个组 -->
             <div class="group" v-for="(group,gIndex) in groupContainer">
                 <h3>{{ group[0].groupChar }}</h3>
                 <div class="group-teams">    
@@ -29,6 +26,7 @@
                     </transition>
                 </div>
             </div>
+            <!-- 每个组 结束 -->
         </div>
     </div>
 </template>
@@ -51,7 +49,8 @@ export default {
 .logo {
     flex: 0 0 200px;
     border-right: 3px solid #ede275;
-    box-sizing: border-box;  /*图片宽度与父容器相等*/
+    /*图片宽度与父容器相等*/
+    box-sizing: border-box;  
 }
 .logo img {
     width: 100%;
