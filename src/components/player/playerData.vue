@@ -19,7 +19,7 @@
                 <dt>{{ infoRefer.nation }}</dt>
                 <dd>{{ team.teamName }}</dd>
             </dl>
-            <!-- v-if和v-for的优先级，v-if在前作为整个列表的前提条件 这里从后台获取数据不存在异步，所以不需要template的if-->
+            <!-- v-if和v-for的优先级，v-if在前作为整个列表的前提条件-->
             <template v-if="team.keyPlayers">
                 <dl 
                     v-for="(value,key) in player"
