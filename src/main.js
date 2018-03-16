@@ -20,8 +20,8 @@ const router = new Router({
 	routes: [
 		{
             path: '/',
-            component: teamsPage
-            redirect: '/teams/teamTable/0',  // 重定向
+            component: teamsPage,
+            redirect: '/teams/teamTable/0'  // 重定向
 		},
 		{
 			path: '/teams',
