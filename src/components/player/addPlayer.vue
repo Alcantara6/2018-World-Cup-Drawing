@@ -66,7 +66,7 @@
 					<label for="intro">简介</label>
 				    <textarea id="intro" rows="10" cols="50" v-model="addedPlayer.intro"></textarea>
 				</div>
-				<div class="info-row">
+				<div class="info-row"> 
 					<label for="button"></label>
 				  	<button type="submit">提交</button>
 				    <button type="reset">重置</button>

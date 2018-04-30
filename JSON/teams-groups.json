@@ -26,7 +26,7 @@
           "club": "克拉斯诺达尔",
           "height": "187",
           "playerId": 1
-        },        
+        },
         {
           "name": "扎戈耶夫",
           "number": 10,
@@ -35,7 +35,7 @@
           "club": "圣彼得堡泽尼特",
           "height": "179",
           "playerId": 2
-        },        
+        },
         {
           "name": "阿金费耶夫",
           "number": 1,
@@ -86,7 +86,7 @@
         {
           "name": "穆勒",
           "number": 13,
-          "age": 28,
+          "age": "29",
           "role": "前锋",
           "club": "拜仁慕尼黑",
           "height": "186",
@@ -173,7 +173,8 @@
           "number": 10,
           "age": 30,
           "role": "前锋",
-          "club": "巴塞罗那"
+          "club": "巴塞罗那",
+          "height": "169"
         },
         {
           "playerId": 1,

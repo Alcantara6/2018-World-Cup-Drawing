@@ -249,6 +249,7 @@ export default {
         },
         // 针对非欧洲球队的回避方法
         avoidNonEuro(selectedTeam) {
+            // 1. 一般情况下的同大洲回避
             // 从顺位的当前小组开始检查
             while(this.curGroupNum <= 8) {
                 // 该小组
@@ -267,7 +268,53 @@ export default {
                     this.curGroupNum++;
                 }
             }
+
+            // 2.针对不同大洲的球队，查询当前剩余小组，提前避免同大洲相遇
+            let continentList = ['南美洲','中北美及加勒比海地区','非洲','亚洲'];
+            for(let c = continentList.length - 1; c >=0 ; c--) {
+                // (1)本档剩余的小组
+				let leftGroupNum = 8 - (this.curRound % 8) + 1;
+				// (2)剩余小组已抽选同大洲球队的小组
+				let containedContinentArr = [];
+				// 从正常顺序下待落位小组开始遍历）
+				let counter = this.orderGroupNum;
+				while(counter <= 8) {
+	                // 该小组
+	                let group = this.groupContainer[counter - 1];
+	                // 是否与该小组球队同一大洲
+	                let isEncounter = group.some(item => item.team 
+	                    && item.team.continent === continentList[c]);
+	                // 如果同大洲，含同大洲的球队+1
+	                if(isEncounter) {
+	                   containedContinentArr.push(counter);
+	                }
+	                counter ++;
+				}
+
+				// 本档该大洲的球队的个数
+				let curPotTotal = this.teamList.filter(team => team.pot === this.curPot
+				 && team.continent === continentList[c]).length;
+				// 本档已抽取的该大洲的球队
+		        let curPotSelected = 0;
+				for(let i = 0; i < 8; i++) {
+					let team = this.groupContainer[i][this.curPot - 1];
+					if(team && team.continent === continentList[c]) {
+	                    curPotSelected ++;
+					} 
+				}
+	            
+	            // 如果待抽的某大洲球队个数>=空余的席位
+	            // 并且当前抽中球队的大洲与查询计算的大洲不同
+	            // 将当前抽中的球队放入那个大洲
+				if((curPotTotal - curPotSelected) 
+					>= (leftGroupNum - containedContinentArr.length) 
+					&& selectedTeam.continent !== continentList[c])
+				{
+                  this.curGroupNum = containedContinentArr[0];
+				}
+            }
         },
+
         // 针对欧洲球队的回避方法
         avoidEuro(selectedTeam) {
             // 从顺位的当前小组开始检查
@@ -408,6 +455,7 @@ export default {
 /*#notice*/
 #draw-notice {
     width: 100%;     /*绝对定位后，宽度等于内容实际宽度*/
+    height: 30px;
     padding: 5px 0;
     border-top: 2px solid #0020c2;
     text-align: center;
@@ -447,7 +495,6 @@ export default {
     background: #ccfb5d;
     font-size: 16px;
     font-weight: 700;
-    align-self: center;
 }
 
 /*从父组件drawPage.vue向drawDialog.vue分发的图片*/
