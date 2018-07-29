@@ -4,7 +4,8 @@
 [项目在线浏览](https://alcantara6.github.io/2018-World-Cup-Drawing/dist/index.html '世界杯')  
 **克隆至本地浏览**：  
 1. $ git clone git@github.com:Alcantara6/2018-World-Cup-Drawing.git
-2. npm start启动项目
+2. npm install安装依赖包
+3. npm start启动项目
 
 简介
 ---
