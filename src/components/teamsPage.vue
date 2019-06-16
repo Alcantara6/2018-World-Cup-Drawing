@@ -16,10 +16,8 @@
                         <!-- 跳转到某只球队，由于是32支球队各一个路由，所以不用v-for的index -->
                         <router-link :to="'/teams/teamTable/' + team.id">
                             <img :src="team.flagUrl">
+                            <div>{{ team.teamName }}({{ team.pot }})</div>
                         </router-link>
-                        <router-link :to="'/teams/teamTable/' + team.id">
-                            {{ team.teamName }}({{ team.pot }})
-                        </router-link>   
                     </li>
                 </ul>
             </div>
@@ -75,7 +73,7 @@ export default {
         }
     },
     mounted() {
-        // 获取json数据,使用$nextTick先渲染DOM        this.$nextTick(function () {
+        // 获取json数据,使用$nextTick先渲染DOM        this.$nextTick(function () {})
             this.fetchTeams();
     },
     // 每次添加或删除球员数据后，跳转回teamTable页面，需要从后台获取新的数据，因此在父组件teamsPage中加入beforeRouteUpdate，由于是复用该组件，所以用beforeRouteUpdate而不是beforeRouteEnter
@@ -122,7 +120,7 @@ header:after {
     position: absolute;
     top: 50%;
     left: 0;
-    border: .5px solid #ccc;
+    border-top: 1px solid #ccc;
 }
 /*左侧区域*/
 #teams-wrap {
@@ -130,10 +128,12 @@ header:after {
     float: left;
 }
 .continent {
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 .continent>h2 {
-    font: 16px/2 'Hiragino GB' bold;
+    font: 16px/2 'Hiragino GB';
+    font-weight: 700;
+    margin-bottom: 8px;
 }
 .team {
     margin: 0 10px 5px 0;

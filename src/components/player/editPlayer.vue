@@ -71,6 +71,7 @@
 </template>
 
 <script>
+import {methods as util} from '../../utils/methods';
 export default {
 	name: 'editPlayer',
 	data() {
@@ -85,10 +86,10 @@ export default {
 	},
 	computed: {
         heightError() {
-            let item = this.currentTeam.keyPlayers[this.currentPlayerId].height;
+            let item = this.playerInfo.height || '';
             let reg = /^\d{3}$/;
             let text = '输入格式错误，必须是三位数字';
-            return this.inputError(item,reg,text);
+            return util.inputError(item,reg,text);
         }
     },	
 	methods: {
@@ -97,7 +98,7 @@ export default {
             .then(res => {
                 this.currentTeam = res.data;
                 this.playerInfo
-                = res.data.keyPlayers[this.currentPlayerId];
+                = {...res.data.keyPlayers[this.currentPlayerId]};
             });
 		},		
 
@@ -113,23 +114,7 @@ export default {
 	        	// 如果html不加required
 	        	this.errorText = '球员信息不完整或不正确';
 	        }    
-        },
-        inputError(item,reg,text) {
-            let status =false;
-            let errorText = '';
-            if(!reg.test(item)) {
-            	status = false;
-            	errorText = text;
-            }
-            else {
-                status = true;
-                errorText = '';
-            }
-            return {
-            	status,
-            	errorText
-            }
-		}        
+        }       
 	},
 
 	mounted() {

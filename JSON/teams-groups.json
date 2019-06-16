@@ -26,7 +26,7 @@
           "club": "克拉斯诺达尔",
           "height": "187",
           "playerId": 1
-        },        
+        },
         {
           "name": "扎戈耶夫",
           "number": 10,
@@ -35,7 +35,7 @@
           "club": "圣彼得堡泽尼特",
           "height": "179",
           "playerId": 2
-        },        
+        },
         {
           "name": "阿金费耶夫",
           "number": 1,
@@ -100,6 +100,17 @@
           "club": "巴黎圣日耳曼",
           "height": "187",
           "playerId": 3
+        },
+        {
+          "name": "严靖",
+          "number": 88,
+          "age": 30,
+          "role": "前锋",
+          "club": "四川全兴",
+          "birthDate": "1988-10-26",
+          "height": "170",
+          "intro": "牛逼",
+          "playerId": 4
         }
       ]
     },

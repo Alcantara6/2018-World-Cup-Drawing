@@ -79,6 +79,7 @@
 </template>
 
 <script>
+import {methods as util} from '../../utils/methods';
 export default {
 	name: 'addPlayer',
 	props: ['teams'],
@@ -100,15 +101,15 @@ export default {
         	// 如果没有输入，则为空字符串
         	let item = this.addedPlayer.name?this.addedPlayer.name:'';  
         	let reg = /^[a-zA-Z\u4e00-\u9fa5]+((·[a-zA-Z\u4e00-\u9fa5]+)?)$/;
-        	let text = '输入格式错误，样例：Lionel Messi, Messi, 里奥.梅西，梅西';
-        	return this.inputError(item,reg,text);
+        	let text = '输入格式错误，样例：Lionel Messi, Messi, 里奥·梅西，梅西';
+        	return util.inputError(item,reg,text);
         },
         heightError() {
             // 如果没有输入，则为空字符串
             let item = this.addedPlayer.height?this.addedPlayer.height:'';
             let reg = /^\d{3}$/;
             let text = '输入格式错误，必须是三位数字';
-            return this.inputError(item,reg,text);
+            return util.inputError(item,reg,text);
         }
     },
 
@@ -134,23 +135,6 @@ export default {
 	        	// 如果html不加required才显示errorText
 	        	this.errorText = '球员信息不完整或不正确';
 	        }
-		},
-		// 封装错误提示函数
-		inputError(item,reg,text) {
-            let status =false;
-            let errorText = '';
-            if(!reg.test(item)) {
-            	status = false;
-            	errorText = text;
-            }
-            else {
-                status = true;
-                errorText = '';
-            }
-            return {
-            	status,
-            	errorText
-            }
 		}
 	}
 } 

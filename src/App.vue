@@ -3,16 +3,11 @@
         <header id="app-header">
         <!-- 导航栏 -->
             <nav id="nav">
-                <router-link to="/teams" :class="{'curPage': $route.path.indexOf('teams') !== -1}">
-                    <h1>球队球员一览</h1>
-                </router-link>
-                <router-link to="/draw" :class="{'curPage': $route.path.indexOf('draw') !== -1}">
-                    <h1>模拟抽签</h1>
-                </router-link>
+                <router-link to="/teams"><h1>球队球员一览</h1></router-link>
+                <router-link to="/draw"><h1>模拟抽签</h1></router-link>
             </nav>
         </header>
         <!-- 导航栏结束 -->
-
         <!-- 主内容 -->
         <router-view></router-view>
         <!-- 主内容结束 -->
@@ -47,7 +42,7 @@ export default {
     color: #fff;
 }
 #nav a:hover,
-.curPage {
+#nav .router-link-active {
     background-color: #9f000f;
 }
 #nav h1 {

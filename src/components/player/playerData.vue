@@ -79,9 +79,6 @@ export default {
             this.$axios.get('http://localhost:3000/teams/' + id)
             .then(res => {
               this.team = res.data;
-            })
-            .catch(error => {
-              console.log(error);
             });
         },
         // 删除该球员
@@ -113,7 +110,8 @@ dl {
 dt,dd {
     margin: 5px 10px 5px 0;
     width: 100px;
-    font: 14px/1.5 'FangSong' bold;
+    font: 14px/1.5 'FangSong';
+    font-weight: 500;
     cursor: pointer;
 }
 dd {

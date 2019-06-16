@@ -9,7 +9,7 @@
                 <div class="search-content">
                     <div class="searchRow">
                         <label for="name">姓名：</label> 
-                        <input type="text" placeholder="搜索球员名" v-model="searchName">
+                        <input type="text" id="name" placeholder="搜索球员名" v-model="searchName">
                     </div>
                     <div class="searchRow">
                         <label for="role">场上位置：</label>
@@ -33,7 +33,7 @@
             <h3 class="table-caption" v-if="currentTeam">
                 <p>{{ currentTeam.teamName }}队关键球员</p>
                 <!-- 跳转到查看球员页面 -->
-                <router-link class="add-player playerBtn" to="addPlayer" append tag="button">      添加球员
+                <router-link class="add-player playerBtn" to="addPlayer" append tag="button">添加球员
                 </router-link>
             </h3>
             <!-- title -->
@@ -68,7 +68,6 @@ export default {
     props: {
         teams: Array,
         teamId: String,
-        playerId: String
     },
     data() {
         return {
@@ -90,24 +89,14 @@ export default {
             if(this.currentTeam && Array.isArray(this.currentTeam.keyPlayers)) {
                 let keyPlayers = this.currentTeam.keyPlayers;
                 let result = [];
-                for(let i = keyPlayers.length - 1; i>=0; i--) {
-                    // 匹配姓名的搜索
-                    let nameFlag = this.searchName === ''
-                    ?true
-                    :(keyPlayers[i].name.indexOf(this.searchName) !== -1
-                      ?true:false);
-                    // 匹配场上位置的搜索
-                    let roleFlag = this.searchRole === ''
-                    ?true
-                    :(keyPlayers[i].role.indexOf(this.searchRole) !== -1
-                      ?true:false);
-                    // 匹配俱乐部的搜索
-                    let clubFlag = this.searchClub === ''
-                    ?true
-                    :(keyPlayers[i].club.indexOf(this.searchClub) !== -1
-                      ?true:false);
-                    if(nameFlag && (roleFlag && clubFlag)) {
-                        result.push(keyPlayers[i]);
+                for(let player of keyPlayers) {
+                    const searchMap = new Map([
+                        [player.name, this.searchName],
+                        [player.role, this.searchRole],
+                        [player.club, this.searchClub],
+                    ]);
+                    if([...searchMap].every(([p, s]) => s === '' || p.includes(s))) {
+                        result.push(player);
                     }
                 }
                 return result;
@@ -117,8 +106,8 @@ export default {
 
     mounted() {
         this.$nextTick(function () {
+            // 从addPlayer和editPalyer跳转后，路由发生了改变（不是routeUpdate）
             // mounted中监控$route.query
-            // 获取更新后的球员数据写在父组件teamsPage.vue中
             this.alert = this.$route.query.alert;
         });
     },
@@ -139,6 +128,11 @@ export default {
 </script>
 
 <style>
+.search>h2 {
+    font: 16px/2 'Hiragino GB';
+    font-weight: 700;
+    margin-bottom: 8px;
+}
 /*搜索球员*/
 .search-content {
     display: flex;
@@ -158,12 +152,10 @@ export default {
     text-align: center;
     border: 1px solid #0041c2;
 }
-.table-team>h3 {
+.table-caption {
     display: table-caption;
     text-align: center;
     font-size: 16px;
-}
-.table-caption {
     position: relative;
 }
 .table-title,

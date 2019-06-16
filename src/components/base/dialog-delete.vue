@@ -2,8 +2,7 @@
 <transition name="dialog">
 	<div id="dialog-delete" v-if="isShow">
 	    <!-- 遮罩 注意top和left -->
-		<div id="shade" @click="cancel">
-		</div>
+		<div id="shade" @click="cancel"></div>
 	    <!-- 对话框 -->	
 		<div id="dialog-delete-box">
 			<!-- 	关闭按钮 -->
